@@ -1,0 +1,64 @@
+import React, { useEffect } from 'react';
+import useSlider from '../useSlider';
+import { Props } from './types';
+
+const SliderTrack: React.FC<Props> = (props) => {
+  const {
+    htmlElement = 'div',
+    children,
+    htmlAttributes = {},
+  } = props;
+
+  const {
+    sliderTrackRef,
+    setScrollRatio,
+  } = useSlider();
+
+  useEffect(() => {
+    let eventListener;
+
+    const track = sliderTrackRef.current;
+
+    if (sliderTrackRef) {
+      let timeout;
+
+      eventListener = () => {
+        if (timeout) {
+          window.cancelAnimationFrame(timeout);
+        }
+
+        timeout = window.requestAnimationFrame(() => {
+          const newScrollRatio = track.scrollLeft / (track.scrollWidth - track.clientWidth);
+          setScrollRatio(newScrollRatio);
+        });
+      };
+
+      track.addEventListener('scroll', eventListener, false);
+    }
+
+    return () => {
+      if (track) {
+        track.removeEventListener('scroll', eventListener);
+      }
+    };
+  }, [setScrollRatio, sliderTrackRef]);
+
+  const Tag = htmlElement as React.ElementType;
+
+  return (
+    <Tag
+      {...{
+        ...htmlAttributes,
+        style: {
+          ...htmlAttributes.style || {},
+          overflow: 'auto',
+        },
+        ref: sliderTrackRef,
+      }}
+    >
+      {children && children}
+    </Tag>
+  );
+};
+
+export default SliderTrack;
