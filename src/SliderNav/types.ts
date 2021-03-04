@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { ElementType } from 'react';
 
 export type Props = {
   Prev: React.ReactNode,
   Next: React.ReactNode,
-  htmlElement?: string,
-  htmlAttributes?: Record<string, unknown>,
+  id?: string,
+  className?: string,
+  htmlElement?: ElementType,
+  htmlAttributes?: {
+    [key: string]: unknown
+  },
   showCounter?: boolean
 }

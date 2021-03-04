@@ -4,6 +4,8 @@ import { Props } from './types';
 
 const SliderNav: React.FC<Props> = (props) => {
   const {
+    id,
+    className,
     htmlElement = 'div',
     htmlAttributes = {},
     Prev,
@@ -32,8 +34,10 @@ const SliderNav: React.FC<Props> = (props) => {
 
   return (
     <Tag
-      {...htmlAttributes}
+      id={id}
+      className={className}
       ref={slideRef}
+      {...htmlAttributes}
     >
       <button
         onClick={prevSlide}

@@ -1,4 +1,4 @@
-import { IDispatchSlide, Props } from '../Slider/types';
+import { IDispatchSlide, Props } from '../SliderProvider/types';
 import { ISlide } from '../Slide/types';
 
 export interface ISliderContext extends Props {

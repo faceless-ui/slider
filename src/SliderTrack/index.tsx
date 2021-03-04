@@ -4,6 +4,8 @@ import { Props } from './types';
 
 const SliderTrack: React.FC<Props> = (props) => {
   const {
+    id,
+    className,
     htmlElement = 'div',
     children,
     htmlAttributes = {},
@@ -48,6 +50,8 @@ const SliderTrack: React.FC<Props> = (props) => {
   return (
     <Tag
       {...{
+        id,
+        className,
         ...htmlAttributes,
         style: {
           ...htmlAttributes.style || {},

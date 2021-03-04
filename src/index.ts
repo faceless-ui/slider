@@ -1,5 +1,5 @@
 export { default as Slide } from './Slide';
-export { default as Slider } from './Slider';
+export { default as SliderProvider } from './SliderProvider';
 export { default as SliderContext } from './SliderContext';
 export { default as SliderNav } from './SliderNav';
 export { default as SliderProgress } from './SliderProgress';

@@ -8,6 +8,8 @@ import { Props } from './types';
 const Slide: React.FC<Props> = (props) => {
   const {
     index,
+    id,
+    className,
     htmlElement = 'div',
     htmlAttributes = {},
     children,
@@ -66,6 +68,8 @@ const Slide: React.FC<Props> = (props) => {
 
   return (
     <Tag
+      id={id}
+      className={className}
       {...htmlAttributes}
       ref={slideRef}
     >

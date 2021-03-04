@@ -1,10 +1,17 @@
+import { CSSProperties, ElementType } from 'react';
+
 export type Props = {
-  htmlElement?: string,
+  id?: string,
+  className?: string,
+  style?: CSSProperties,
+  htmlElement?: ElementType,
   htmlAttributes?: {
-    style?: Record<string, unknown>
+    [key: string]: unknown,
+    style?: CSSProperties
   }
-  nestedHTMLElement?: string,
+  nestedHTMLElement?: ElementType,
   nestedHTMLAttributes?: {
-    style?: Record<string, unknown>
+    [key: string]: unknown,
+    style?: CSSProperties
   }
 }

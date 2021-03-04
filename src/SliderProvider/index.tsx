@@ -8,7 +8,7 @@ import { Props } from './types';
 import SliderContext from '../SliderContext';
 import reducer from './reducer';
 
-const Slider: React.FC<Props> = (props) => {
+const SliderProvider: React.FC<Props> = (props) => {
   const {
     children,
   } = props;
@@ -76,4 +76,4 @@ const Slider: React.FC<Props> = (props) => {
   );
 };
 
-export default Slider;
+export default SliderProvider;

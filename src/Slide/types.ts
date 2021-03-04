@@ -1,3 +1,5 @@
+import { CSSProperties, ElementType } from 'react';
+
 export interface ISlide {
   isIntersecting: boolean,
   width: number,
@@ -6,7 +8,11 @@ export interface ISlide {
 
 export type Props = {
   index: number,
-  htmlElement?: string,
-  htmlAttributes?: Record<string, unknown>
-  style?: Record<string, unknown>
+  id?: string,
+  className?: string,
+  style?: CSSProperties,
+  htmlElement?: ElementType,
+  htmlAttributes?: {
+    [key: string]: unknown
+  }
 }

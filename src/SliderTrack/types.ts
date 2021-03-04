@@ -1,7 +1,12 @@
+import { CSSProperties, ElementType } from 'react';
+
 export type Props = {
-  htmlElement?: string,
-  style?: Record<string, unknown>,
+  id?: string,
+  className?: string,
+  htmlElement?: ElementType,
+  style?: CSSProperties,
   htmlAttributes?: {
-    style?: Record<string, unknown>
+    [key: string]: unknown,
+    style?: CSSProperties
   }
 }

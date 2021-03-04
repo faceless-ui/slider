@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Slider,
+  SliderProvider,
   Slide,
   SliderNav,
   SliderProgress,
@@ -8,7 +8,7 @@ import {
 } from '../../src'; // swap '../src' for '../dist/build.bundle' to demo production build
 
 const App: React.FC = () => (
-  <Slider>
+  <SliderProvider>
     <SliderNav
       Prev={(<div>prev</div>)}
       Next={(<div>next</div>)}
@@ -74,7 +74,7 @@ const App: React.FC = () => (
       </Slide>
     </SliderTrack>
     <SliderProgress />
-  </Slider>
+  </SliderProvider>
 );
 
 export default App;
