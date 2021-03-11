@@ -9,9 +9,14 @@ export type Props = {
     [key: string]: unknown,
     style?: CSSProperties
   }
-  nestedHTMLElement?: ElementType,
-  nestedHTMLAttributes?: {
-    [key: string]: unknown,
-    style?: CSSProperties
-  }
+  indicator?: {
+    id?: string,
+    className?: string,
+    htmlElement?: ElementType,
+    htmlAttributes?: {
+      [key: string]: unknown,
+      style?: CSSProperties
+    },
+  },
+  indicatorType?: 'width' | 'position'
 }
