@@ -54,8 +54,9 @@ const SliderTrack: React.FC<Props> = (props) => {
         className,
         ...htmlAttributes,
         style: {
-          ...htmlAttributes.style || {},
-          overflow: 'auto',
+          overflowX: 'scroll', // 'overflow: touch' does not work when 'auto'
+          WebkitOverflowScrolling: 'touch',
+          ...htmlAttributes.style,
         },
         ref: sliderTrackRef,
       }}

@@ -56,6 +56,7 @@ export default App;
 
   - [Slide](./src/Slide/README.md)
   - [Slider](./src/Slider/README.md)
+  - [SliderButton](./src/SliderButton/README.md)
   - [SliderNav](./src/SliderNav/README.md)
   - [SliderProgress](./src/SliderProgress/README.md)
   - [SliderTrack](./src/SliderTrack/README.md)

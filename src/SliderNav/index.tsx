@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import useSlider from '../useSlider';
+import SliderButton from '../SliderButton';
 import { Props } from './types';
 
 const SliderNav: React.FC<Props> = (props) => {
@@ -8,29 +9,27 @@ const SliderNav: React.FC<Props> = (props) => {
     className,
     htmlElement = 'div',
     htmlAttributes = {},
-    Prev,
-    Next,
-    showCounter = true,
+    prevButtonProps,
+    nextButtonProps,
+    showCounter = false,
+    counter: {
+      htmlElement: counterHTMLElement = 'div',
+      htmlAttributes: counterHTMLAttributes,
+      id: counterID,
+      className: counterClassName,
+    } = {},
   } = props;
 
   const slider = useSlider();
   const slideRef = useRef(null);
 
   const {
-    prevSlide,
-    nextSlide,
     currentSlideIndex,
-    scrollRatio,
     slides,
   } = slider;
 
-  const hasNext = currentSlideIndex + 1 < slides.length;
-  const hasPrev = currentSlideIndex - 1 >= 0 || scrollRatio > 0;
-
-  const disablePrev = !hasPrev || scrollRatio <= 0;
-  const disableNext = !hasNext || scrollRatio >= 1;
-
   const Tag = htmlElement as React.ElementType;
+  const CounterTag = counterHTMLElement as React.ElementType;
 
   return (
     <Tag
@@ -39,27 +38,23 @@ const SliderNav: React.FC<Props> = (props) => {
       ref={slideRef}
       {...htmlAttributes}
     >
-      <button
-        onClick={prevSlide}
-        type="button"
-        disabled={disablePrev}
-      >
-        {Prev}
-      </button>
+      <SliderButton
+        direction="prev"
+        {...prevButtonProps}
+      />
       {showCounter && (
-        <div>
-          <b>
-            {`${currentSlideIndex + 1} / ${slides.length}`}
-          </b>
-        </div>
+        <CounterTag
+          id={counterID}
+          className={counterClassName}
+          {...counterHTMLAttributes}
+        >
+          {`${currentSlideIndex + 1} / ${slides.length}`}
+        </CounterTag>
       )}
-      <button
-        onClick={nextSlide}
-        type="button"
-        disabled={disableNext}
-      >
-        {Next}
-      </button>
+      <SliderButton
+        direction="next"
+        {...nextButtonProps}
+      />
     </Tag>
   );
 };

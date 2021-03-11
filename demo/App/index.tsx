@@ -10,8 +10,12 @@ import {
 const App: React.FC = () => (
   <SliderProvider>
     <SliderNav
-      Prev={(<div>prev</div>)}
-      Next={(<div>next</div>)}
+      prevButtonProps={{
+        children: (<div>prev</div>),
+      }}
+      nextButtonProps={{
+        children: (<div>next</div>),
+      }}
       htmlAttributes={{
         style: {
           display: 'flex',
