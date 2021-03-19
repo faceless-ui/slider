@@ -39,8 +39,10 @@ const SliderProgress: React.FC<Props> = (props) => {
       left: '',
     };
 
+    const segmentWidth = (1 / slides.length) * 100;
+
     if (indicatorType === 'position') {
-      newSegmentStyle.width = `${(1 / slides.length) * 100}%`;
+      newSegmentStyle.width = `${segmentWidth}%`;
       newSegmentStyle.left = `${(scrollRatio - (scrollRatio * (1 / slides.length))) * 100}%`;
     }
 

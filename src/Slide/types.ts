@@ -10,9 +10,10 @@ export type Props = {
   index: number,
   id?: string,
   className?: string,
-  style?: CSSProperties,
   htmlElement?: ElementType,
   htmlAttributes?: {
-    [key: string]: unknown
-  }
+    [key: string]: unknown,
+    style?: CSSProperties
+  },
+  slideToSelfOnClick?: boolean
 }

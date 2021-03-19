@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import useSlider from '../useSlider';
 import { Props } from './types';
 
@@ -14,36 +14,57 @@ const SliderTrack: React.FC<Props> = (props) => {
   const {
     sliderTrackRef,
     setScrollRatio,
+    slides,
+    setCurrentSlideIndex,
+    slideWidth,
+    slidesToShow,
   } = useSlider();
 
-  useEffect(() => {
-    let eventListener;
+  const hasAddedScrollListener = useRef(false);
+  const animationFrameID = useRef<number | undefined>();
 
+  const onAnimationFrame = useCallback(() => {
+    const track = sliderTrackRef.current;
+    const newScrollRatio = track.scrollLeft / (track.scrollWidth - track.clientWidth);
+    setScrollRatio(newScrollRatio);
+    const currentIntersecting = slides.findIndex((slide) => slide && slide.isIntersecting); // the first slide that is intersecting
+    setCurrentSlideIndex(currentIntersecting);
+  }, [
+    sliderTrackRef,
+    setScrollRatio,
+    slides,
+    setCurrentSlideIndex,
+  ]);
+
+  const handleScroll = useCallback(() => {
     const track = sliderTrackRef.current;
 
-    if (sliderTrackRef) {
-      let timeout;
+    if (track) {
+      // prevent compounding events
+      if (animationFrameID) cancelAnimationFrame(animationFrameID.current);
+      const requestID = requestAnimationFrame(onAnimationFrame);
+      animationFrameID.current = requestID;
+    }
+  }, [
+    sliderTrackRef,
+    onAnimationFrame,
+  ]);
 
-      eventListener = () => {
-        if (timeout) {
-          window.cancelAnimationFrame(timeout);
-        }
+  useEffect(() => {
+    const track = sliderTrackRef.current;
 
-        timeout = window.requestAnimationFrame(() => {
-          const newScrollRatio = track.scrollLeft / (track.scrollWidth - track.clientWidth);
-          setScrollRatio(newScrollRatio);
-        });
-      };
-
-      track.addEventListener('scroll', eventListener, false);
+    if (track && hasAddedScrollListener.current === false) {
+      track.addEventListener('scroll', handleScroll, false);
+      hasAddedScrollListener.current = true;
     }
 
     return () => {
+      hasAddedScrollListener.current = false;
       if (track) {
-        track.removeEventListener('scroll', eventListener);
+        track.removeEventListener('scroll', handleScroll);
       }
     };
-  }, [setScrollRatio, sliderTrackRef]);
+  }, [sliderTrackRef, handleScroll]);
 
   const Tag = htmlElement as React.ElementType;
 
@@ -54,6 +75,7 @@ const SliderTrack: React.FC<Props> = (props) => {
         className,
         ...htmlAttributes,
         style: {
+          display: 'flex',
           overflowX: 'scroll', // 'overflow: touch' does not work when 'auto'
           WebkitOverflowScrolling: 'touch',
           ...htmlAttributes.style,
@@ -62,6 +84,14 @@ const SliderTrack: React.FC<Props> = (props) => {
       }}
     >
       {children && children}
+      <div
+        style={{
+          flexShrink: 0,
+          width: `calc(${slideWidth} * ${slidesToShow - 1})`,
+        }}
+      >
+        &nbsp;
+      </div>
     </Tag>
   );
 };

@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  useEffect,
   useReducer,
   useRef,
   useState,
@@ -11,18 +12,25 @@ import reducer from './reducer';
 const SliderProvider: React.FC<Props> = (props) => {
   const {
     children,
+    currentSlideIndex: slideIndexFromProps, // allow force update via prop
+    onSlide,
+    slidesToShow = 3,
+    slideOnSelect,
   } = props;
 
+  const prevSlideIndexFromProps = useRef<number | undefined>();
   const sliderTrackRef = useRef(null);
   const [scrollRatio, setScrollRatio] = useState(0);
   const [slides, dispatchSlide] = useReducer(reducer, []);
-  const currentSlideIndex = slides.findIndex((slide) => slide && slide.isIntersecting); // the first slide that is intersecting
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [selectedSlideIndex, setSelectedSlideIndex] = useState<number | undefined>();
+  const [slideWidth, setSlideWidth] = useState<string | undefined>();
 
-  const handleNext = useCallback(() => {
-    const hasNext = currentSlideIndex + 1 < slides.length;
+  const scrollToIndex = useCallback((incomingSlideIndex) => {
+    const hasIndex = slides[incomingSlideIndex];
 
-    if (hasNext && sliderTrackRef.current) {
-      const passedSlides = slides.slice(0, currentSlideIndex + 1); // all up to the next one
+    if (hasIndex && sliderTrackRef.current) {
+      const passedSlides = slides.slice(0, incomingSlideIndex); // all up to this one
 
       const scrollPos = passedSlides.reduce((pos, slide) => pos + slide.width, 0);
 
@@ -31,47 +39,91 @@ const SliderProvider: React.FC<Props> = (props) => {
         left: scrollPos,
         behavior: 'smooth',
       });
+
+      if (typeof onSlide === 'function') onSlide(incomingSlideIndex);
     }
   }, [
     slides,
     sliderTrackRef,
-    currentSlideIndex,
+    onSlide,
   ]);
+
+  const goToSlideIndex = useCallback((incomingIndex) => {
+    scrollToIndex(incomingIndex);
+  }, [scrollToIndex]);
 
   const handlePrev = useCallback(() => {
-    const hasPrev = currentSlideIndex - 1 >= 0;
+    const indexToUse = selectedSlideIndex || currentSlideIndex;
+    const hasPrev = indexToUse - 1 >= 0;
 
-    if (hasPrev && sliderTrackRef.current) {
-      const passedSlides = slides.slice(0, currentSlideIndex - 1); // all up to the previous one
-
-      const scrollPos = passedSlides.reduce((pos, slide) => pos + slide.width, 0);
-
-      sliderTrackRef.current.scrollTo({
-        top: 0,
-        left: scrollPos,
-        behavior: 'smooth',
-      });
+    if (hasPrev) {
+      const prevIndex = currentSlideIndex - 1;
+      scrollToIndex(prevIndex);
     }
   }, [
-    slides,
+    currentSlideIndex,
+    scrollToIndex,
+    selectedSlideIndex,
+  ]);
+
+  const handleNext = useCallback(() => {
+    const indexToUse = selectedSlideIndex || currentSlideIndex;
+    const nextIndex = indexToUse + 1;
+    const hasNext = nextIndex < slides.length;
+
+    if (hasNext) {
+      scrollToIndex(nextIndex);
+    }
+  }, [
+    currentSlideIndex,
+    scrollToIndex,
+    slides.length,
+    selectedSlideIndex,
+  ]);
+
+  useEffect(() => {
+    if (typeof slideIndexFromProps === 'number') {
+      const hasChanged = prevSlideIndexFromProps.current !== slideIndexFromProps; // this is needed because 'slides' is a dependent of 'goToSlideIndex'
+      if (hasChanged) {
+        setSelectedSlideIndex(slideIndexFromProps);
+        scrollToIndex(slideIndexFromProps);
+      }
+      prevSlideIndexFromProps.current = slideIndexFromProps;
+    }
+  }, [
+    slideIndexFromProps,
+    setCurrentSlideIndex,
+    scrollToIndex,
+  ]);
+
+  useEffect(() => {
+    const newSlideWidth = `${(1 / slidesToShow) * 100}%`;
+    setSlideWidth(newSlideWidth);
+  }, [
+    slidesToShow,
+  ]);
+
+  const context = {
     sliderTrackRef,
     currentSlideIndex,
-  ]);
+    setCurrentSlideIndex,
+    scrollRatio,
+    setScrollRatio,
+    goToNextSlide: handleNext,
+    goToPrevSlide: handlePrev,
+    goToSlideIndex,
+    slides,
+    dispatchSlide,
+    slideWidth,
+    slidesToShow,
+    slideOnSelect,
+  };
 
   return (
     <SliderContext.Provider
-      value={{
-        sliderTrackRef,
-        currentSlideIndex,
-        scrollRatio,
-        setScrollRatio,
-        nextSlide: handleNext,
-        prevSlide: handlePrev,
-        slides,
-        dispatchSlide,
-      }}
+      value={context}
     >
-      {children && children}
+      {(children && (typeof children === 'function' ? children({ ...context }) : children))}
     </SliderContext.Provider>
   );
 };

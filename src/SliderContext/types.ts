@@ -6,10 +6,13 @@ export interface ISliderContext extends Props {
     current: Element
   },
   currentSlideIndex: number,
+  setCurrentSlideIndex?: (number) => void,
   scrollRatio: number,
   setScrollRatio: (number) => void,
-  nextSlide: () => void,
-  prevSlide: () => void,
+  goToNextSlide: () => void,
+  goToPrevSlide: () => void,
+  goToSlideIndex: (number) => void,
   slides: ISlide[],
-  dispatchSlide: (dispatch: IDispatchSlide) => void
+  dispatchSlide: (dispatch: IDispatchSlide) => void,
+  slideWidth?: string,
 }

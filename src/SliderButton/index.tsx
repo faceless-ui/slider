@@ -15,47 +15,47 @@ const SliderButton: React.FC<Props> = (props) => {
   const slider = useSlider();
 
   const {
-    prevSlide,
-    nextSlide,
-    currentSlideIndex,
-    scrollRatio,
-    slides,
+    goToPrevSlide,
+    goToNextSlide,
+    // intersectingSlideIndex,
+    // scrollRatio,
+    // slides,
   } = slider;
 
-  const [isDisabled, setIsDisabled] = useState();
+  // const [isDisabled, setIsDisabled] = useState();
 
-  useEffect(() => {
-    let newIsDisabled;
+  // useEffect(() => {
+  //   let newIsDisabled;
 
-    if (direction === 'prev') {
-      const hasPrevSlide = currentSlideIndex - 1 >= 0 || scrollRatio > 0;
-      newIsDisabled = !hasPrevSlide || scrollRatio <= 0;
-    }
+  //   if (direction === 'prev') {
+  //     const hasPrevSlide = currentSlideIndex - 1 >= 0 || scrollRatio > 0;
+  //     newIsDisabled = !hasPrevSlide || scrollRatio <= 0;
+  //   }
 
-    if (direction === 'next') {
-      const hasNextSlide = currentSlideIndex + 1 < slides.length;
-      newIsDisabled = !hasNextSlide || scrollRatio >= 1;
-    }
+  //   if (direction === 'next') {
+  //     const hasNextSlide = currentSlideIndex + 1 < slides.length;
+  //     newIsDisabled = !hasNextSlide || scrollRatio >= 1;
+  //   }
 
-    setIsDisabled(newIsDisabled);
-  }, [
-    slides.length,
-    currentSlideIndex,
-    direction,
-    scrollRatio,
-  ]);
+  //   // setIsDisabled(newIsDisabled);
+  // }, [
+  //   slides.length,
+  //   currentSlideIndex,
+  //   direction,
+  //   scrollRatio,
+  // ]);
 
   const handleClick = useCallback(() => {
     if (direction === 'prev') {
-      prevSlide();
+      goToPrevSlide();
     }
     if (direction === 'next') {
-      nextSlide();
+      goToNextSlide();
     }
   }, [
     direction,
-    prevSlide,
-    nextSlide,
+    goToPrevSlide,
+    goToNextSlide,
   ]);
 
   const Tag = htmlElement as React.ElementType;
@@ -64,7 +64,7 @@ const SliderButton: React.FC<Props> = (props) => {
     <Tag
       onClick={handleClick}
       type="button"
-      disabled={isDisabled}
+      // disabled={isDisabled}
       id={id}
       className={className}
       {...htmlAttributes}

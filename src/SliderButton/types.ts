@@ -8,5 +8,5 @@ export type Props = {
     [key: string]: unknown
   },
   children?: React.ReactNode,
-  direction?: 'prev' | 'next'
+  direction?: 'prev' | 'next',
 }

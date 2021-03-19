@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useEffect,
   useRef,
 } from 'react';
@@ -21,6 +22,9 @@ const Slide: React.FC<Props> = (props) => {
   const {
     dispatchSlide,
     sliderTrackRef,
+    goToSlideIndex,
+    slideWidth,
+    slideOnSelect,
   } = slider;
 
   useEffect(() => {
@@ -64,14 +68,32 @@ const Slide: React.FC<Props> = (props) => {
     index,
   ]);
 
+  const handleClick = useCallback(() => {
+    if (slideOnSelect) {
+      goToSlideIndex(index);
+    }
+  }, [
+    slideOnSelect,
+    index,
+    goToSlideIndex,
+  ]);
+
   const Tag = htmlElement as React.ElementType;
 
   return (
     <Tag
-      id={id}
-      className={className}
-      {...htmlAttributes}
-      ref={slideRef}
+      {...{
+        id,
+        className,
+        ref: slideRef,
+        onClick: handleClick,
+        ...htmlAttributes,
+        style: {
+          flexShrink: 0,
+          width: slideWidth,
+          ...htmlAttributes.style,
+        },
+      }}
     >
       {children && children}
     </Tag>
