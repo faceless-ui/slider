@@ -7,8 +7,10 @@ import {
   SliderTrack,
 } from '../../src'; // swap '../src' for '../dist/build.bundle' to demo production build
 
-const App: React.FC = () => (
-  <SliderProvider>
+const BasicSliderDemo: React.FC = () => (
+  <SliderProvider
+    slidesToShow={2}
+  >
     <SliderNav
       prevButtonProps={{
         children: (<div>prev</div>),
@@ -35,10 +37,9 @@ const App: React.FC = () => (
         index={0}
         htmlAttributes={{
           style: {
-            width: '66%',
             height: '100%',
             flexShrink: 0,
-            backgroundColor: 'lightgray',
+            backgroundColor: 'rgba(0, 0, 0, 0.05)',
           },
         }}
       >
@@ -50,10 +51,9 @@ const App: React.FC = () => (
         index={1}
         htmlAttributes={{
           style: {
-            width: '66%',
             height: '100%',
             flexShrink: 0,
-            backgroundColor: 'darkgray',
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
           },
         }}
       >
@@ -65,10 +65,9 @@ const App: React.FC = () => (
         index={2}
         htmlAttributes={{
           style: {
-            width: '66%',
             height: '100%',
             flexShrink: 0,
-            backgroundColor: 'gray',
+            backgroundColor: 'rgba(0, 0, 0, 0.05)',
           },
         }}
       >
@@ -77,8 +76,23 @@ const App: React.FC = () => (
         </div>
       </Slide>
     </SliderTrack>
-    <SliderProgress />
+    <SliderProgress
+      htmlAttributes={{
+        style: {
+          height: '8px',
+          marginTop: '8px',
+          backgroundColor: 'rgba(0, 0, 0, 0.05)',
+        },
+      }}
+      indicator={{
+        htmlAttributes: {
+          style: {
+            backgroundColor: 'black',
+          },
+        },
+      }}
+    />
   </SliderProvider>
 );
 
-export default App;
+export default BasicSliderDemo;
