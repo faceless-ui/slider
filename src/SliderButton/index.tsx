@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import useSlider from '../useSlider';
 import { Props } from './types';
 
