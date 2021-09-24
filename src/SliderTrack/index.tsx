@@ -14,8 +14,6 @@ const SliderTrack: React.FC<Props> = (props) => {
   const {
     sliderTrackRef,
     setScrollRatio,
-    slides,
-    setCurrentSlideIndex,
     slideWidth,
     slidesToShow,
     useScrollSnap,
@@ -28,13 +26,9 @@ const SliderTrack: React.FC<Props> = (props) => {
     const track = sliderTrackRef.current;
     const newScrollRatio = track.scrollLeft / (track.scrollWidth - track.clientWidth);
     setScrollRatio(newScrollRatio);
-    const currentIntersecting = slides.findIndex((slide) => slide && slide.isIntersecting); // the first slide that is intersecting
-    setCurrentSlideIndex(currentIntersecting);
   }, [
     sliderTrackRef,
     setScrollRatio,
-    slides,
-    setCurrentSlideIndex,
   ]);
 
   const handleScroll = useCallback(() => {
@@ -79,6 +73,7 @@ const SliderTrack: React.FC<Props> = (props) => {
         className,
         ...htmlAttributes,
         style: {
+          position: 'relative',
           display: 'flex',
           overflowX: 'scroll', // 'overflow: touch' does not work when 'auto'
           WebkitOverflowScrolling: 'touch',

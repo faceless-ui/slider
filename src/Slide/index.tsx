@@ -31,7 +31,7 @@ const Slide: React.FC<Props> = (props) => {
 
   const { isIntersecting } = useIntersection(slideRef, {
     root: sliderTrackRef,
-    rootMargin: '0px',
+    rootMargin: '-20px',
   });
 
   useEffect(() => {
