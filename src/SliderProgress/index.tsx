@@ -28,6 +28,7 @@ const SliderProgress: React.FC<Props> = (props) => {
   const {
     scrollRatio,
     slides,
+    slidesToShow,
   } = useSlider();
 
   const Tag = htmlElement as React.ElementType;
@@ -39,11 +40,12 @@ const SliderProgress: React.FC<Props> = (props) => {
       left: '',
     };
 
-    const segmentWidth = (1 / slides.length) * 100;
+
+    const segmentWidth = (1 / slides.length) / (1 / slidesToShow);
 
     if (indicatorType === 'position') {
-      newSegmentStyle.width = `${segmentWidth}%`;
-      newSegmentStyle.left = `${(scrollRatio - (scrollRatio * (1 / slides.length))) * 100}%`;
+      newSegmentStyle.width = `${segmentWidth * 100}%`;
+      newSegmentStyle.left = `${(scrollRatio - (scrollRatio * segmentWidth)) * 100}%`;
     }
 
     if (indicatorType === 'width') {
@@ -56,6 +58,7 @@ const SliderProgress: React.FC<Props> = (props) => {
     slides.length,
     indicatorType,
     scrollRatio,
+    slidesToShow,
   ]);
 
   return (
