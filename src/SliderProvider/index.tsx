@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import smoothscroll from 'smoothscroll-polyfill';
 import { Props } from './types';
 import SliderContext from '../SliderContext';
 import reducer from './reducer';
@@ -26,6 +27,10 @@ const SliderProvider: React.FC<Props> = (props) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [selectedSlideIndex, setSelectedSlideIndex] = useState<number | undefined>();
   const [slideWidth, setSlideWidth] = useState<string | undefined>();
+
+  useEffect(() => {
+    smoothscroll.polyfill(); // enables scrollTo.behavior: 'smooth' on Safari
+  }, []);
 
   const scrollToIndex = useCallback((incomingSlideIndex) => {
     const hasIndex = slides[incomingSlideIndex];
@@ -94,7 +99,6 @@ const SliderProvider: React.FC<Props> = (props) => {
     }
   }, [
     slideIndexFromProps,
-    setCurrentSlideIndex,
     scrollToIndex,
   ]);
 
@@ -104,6 +108,14 @@ const SliderProvider: React.FC<Props> = (props) => {
   }, [
     slidesToShow,
   ]);
+
+  useEffect(() => {
+    if (slides) {
+      const allIntersections = slides.map(({ isIntersecting }) => isIntersecting);
+      const newSlideIndex = allIntersections.indexOf(true); // first one
+      setCurrentSlideIndex(newSlideIndex);
+    }
+  }, [slides]);
 
   const context = {
     sliderTrackRef,
