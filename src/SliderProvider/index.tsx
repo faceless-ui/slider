@@ -16,10 +16,11 @@ const SliderProvider: React.FC<Props> = (props) => {
     onSlide,
     slidesToShow = 3,
     slideOnSelect,
+    useScrollSnap,
   } = props;
 
   const prevSlideIndexFromProps = useRef<number | undefined>();
-  const sliderTrackRef = useRef(null);
+  const sliderTrackRef = useRef<HTMLElement>(null);
   const [scrollRatio, setScrollRatio] = useState(0);
   const [slides, dispatchSlide] = useReducer(reducer, []);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -30,15 +31,16 @@ const SliderProvider: React.FC<Props> = (props) => {
     const hasIndex = slides[incomingSlideIndex];
 
     if (hasIndex && sliderTrackRef.current) {
-      const passedSlides = slides.slice(0, incomingSlideIndex); // all up to this one
+      const targetSlide = slides[incomingSlideIndex];
+      if (targetSlide) {
+        const { ref: { current: { offsetLeft } } } = targetSlide;
 
-      const scrollPos = passedSlides.reduce((pos, slide) => pos + slide.width, 0);
-
-      sliderTrackRef.current.scrollTo({
-        top: 0,
-        left: scrollPos,
-        behavior: 'smooth',
-      });
+        sliderTrackRef.current.scrollTo({
+          top: 0,
+          left: offsetLeft,
+          behavior: 'smooth',
+        });
+      }
 
       if (typeof onSlide === 'function') onSlide(incomingSlideIndex);
     }
@@ -117,6 +119,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     slideWidth,
     slidesToShow,
     slideOnSelect,
+    useScrollSnap,
   };
 
   return (

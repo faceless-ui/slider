@@ -1,16 +1,9 @@
-import { ISlide } from '../Slide/types';
-import { IDispatchSlide } from './types';
+import { Slide } from '../Slide/types';
 
-const reducer = (state: ISlide[], payload: IDispatchSlide): ISlide[] => {
+const reducer = (state: Slide[], payload: Slide): Slide[] => {
   const newState = [...state];
-
-  const {
-    index,
-    slide,
-  } = payload;
-
-  newState[index] = slide;
-
+  const { index } = payload;
+  newState[index] = payload;
   return newState;
 };
 

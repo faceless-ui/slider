@@ -7,14 +7,19 @@ import {
   SliderTrack,
 } from '../../src'; // swap '../src' for '../dist/build.bundle' to demo production build
 
-const BasicSliderDemo: React.FC = () => (
+const ScrollSnapSliderDemo: React.FC = () => (
   <Fragment>
     <code>
       <pre>
-        slidesToShow: 2
+        slidesToShow: 1
+        <br />
+        useScrollSnap: true
       </pre>
     </code>
-    <SliderProvider slidesToShow={2}>
+    <SliderProvider
+      slidesToShow={1}
+      useScrollSnap
+    >
       <SliderNav
         prevButtonProps={{
           children: (<div>prev</div>),
@@ -100,4 +105,4 @@ const BasicSliderDemo: React.FC = () => (
   </Fragment>
 );
 
-export default BasicSliderDemo;
+export default ScrollSnapSliderDemo;

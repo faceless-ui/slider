@@ -18,6 +18,7 @@ const SliderTrack: React.FC<Props> = (props) => {
     setCurrentSlideIndex,
     slideWidth,
     slidesToShow,
+    useScrollSnap,
   } = useSlider();
 
   const hasAddedScrollListener = useRef(false);
@@ -68,6 +69,9 @@ const SliderTrack: React.FC<Props> = (props) => {
 
   const Tag = htmlElement as React.ElementType;
 
+  // TODO: use this to support scrolling the last slide fully into position (flush left)
+  const renderGhostSlide = false; // slidesToShow > 1;
+
   return (
     <Tag
       {...{
@@ -78,20 +82,23 @@ const SliderTrack: React.FC<Props> = (props) => {
           display: 'flex',
           overflowX: 'scroll', // 'overflow: touch' does not work when 'auto'
           WebkitOverflowScrolling: 'touch',
+          scrollSnapType: (slideWidth && useScrollSnap) ? 'x mandatory' : undefined, // only apply after slide width has populated
           ...htmlAttributes.style,
         },
         ref: sliderTrackRef,
       }}
     >
       {children && children}
-      <div
-        style={{
-          flexShrink: 0,
-          width: `calc(${slideWidth} * ${slidesToShow - 1})`,
-        }}
-      >
-        &nbsp;
-      </div>
+      {renderGhostSlide && (
+        <div
+          style={{
+            flexShrink: 0,
+            width: `calc(${slideWidth} * ${slidesToShow - 1})`,
+          }}
+        >
+          &nbsp;
+        </div>
+      )}
     </Tag>
   );
 };

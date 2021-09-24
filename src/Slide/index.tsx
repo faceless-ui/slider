@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 import useSlider from '../useSlider';
 import { Props } from './types';
+import useIntersection from './useIntersection';
 
 const Slide: React.FC<Props> = (props) => {
   const {
@@ -17,7 +18,7 @@ const Slide: React.FC<Props> = (props) => {
   } = props;
 
   const slider = useSlider();
-  const slideRef = useRef(null);
+  const slideRef = useRef<HTMLElement>(null);
 
   const {
     dispatchSlide,
@@ -25,47 +26,24 @@ const Slide: React.FC<Props> = (props) => {
     goToSlideIndex,
     slideWidth,
     slideOnSelect,
+    useScrollSnap,
   } = slider;
 
+  const { isIntersecting } = useIntersection(slideRef, {
+    root: sliderTrackRef,
+    rootMargin: '0px',
+  });
+
   useEffect(() => {
-    let observer;
-    const slideRefCopy = slideRef.current;
-
-    if (slideRefCopy && sliderTrackRef?.current) {
-      observer = new IntersectionObserver((entries) => {
-        const {
-          offsetWidth,
-          offsetHeight,
-        } = slideRefCopy;
-
-        entries.forEach((entry) => {
-          dispatchSlide({
-            index,
-            slide: {
-              isIntersecting: entry.isIntersecting,
-              width: offsetWidth,
-              height: offsetHeight,
-            },
-          });
-        });
-      }, {
-        root: sliderTrackRef.current,
-        rootMargin: '0px',
-        threshold: 0.5,
-      });
-
-      observer.observe(slideRefCopy);
-    }
-
-    return () => {
-      if (observer) {
-        observer.unobserve(slideRefCopy);
-      }
-    };
+    dispatchSlide({
+      index,
+      ref: slideRef,
+      isIntersecting,
+    });
   }, [
-    dispatchSlide,
-    sliderTrackRef,
     index,
+    isIntersecting,
+    dispatchSlide,
   ]);
 
   const handleClick = useCallback(() => {
@@ -91,6 +69,8 @@ const Slide: React.FC<Props> = (props) => {
         style: {
           flexShrink: 0,
           width: slideWidth,
+          scrollSnapAlign: useScrollSnap ? 'start' : undefined,
+          scrollSnapStop: 'always',
           ...htmlAttributes.style,
         },
       }}

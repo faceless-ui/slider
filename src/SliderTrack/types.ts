@@ -7,5 +7,5 @@ export type Props = {
   htmlAttributes?: {
     [key: string]: unknown,
     style?: CSSProperties
-  }
+  },
 }

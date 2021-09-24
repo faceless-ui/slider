@@ -1,9 +1,13 @@
-import { CSSProperties, ElementType } from 'react';
+import {
+  CSSProperties,
+  ElementType,
+  MutableRefObject,
+} from 'react';
 
-export interface ISlide {
-  isIntersecting: boolean,
-  width: number,
-  height: number
+export interface Slide {
+  index: number
+  ref: MutableRefObject<HTMLElement>
+  isIntersecting: boolean
 }
 
 export type Props = {
