@@ -103,7 +103,7 @@ const SliderProvider: React.FC<Props> = (props) => {
   ]);
 
   useEffect(() => {
-    const newSlideWidth = `${(1 / slidesToShow) * 100}%`;
+    const newSlideWidth = `${(slidesToShow > 1 ? 1 / slidesToShow : slidesToShow) * 100}%`;
     setSlideWidth(newSlideWidth);
   }, [
     slidesToShow,
