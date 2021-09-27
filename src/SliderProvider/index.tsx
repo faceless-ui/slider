@@ -18,6 +18,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     slidesToShow = 3,
     slideOnSelect,
     useScrollSnap,
+    scrollOffset = 0,
   } = props;
 
   const prevSlideIndexFromProps = useRef<number | undefined>();
@@ -42,7 +43,7 @@ const SliderProvider: React.FC<Props> = (props) => {
 
         sliderTrackRef.current.scrollTo({
           top: 0,
-          left: offsetLeft,
+          left: (offsetLeft - scrollOffset),
           behavior: 'smooth',
         });
       }
@@ -53,6 +54,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     slides,
     sliderTrackRef,
     onSlide,
+    scrollOffset,
   ]);
 
   const goToSlideIndex = useCallback((incomingIndex) => {
@@ -112,7 +114,8 @@ const SliderProvider: React.FC<Props> = (props) => {
   useEffect(() => {
     if (slides) {
       const allIntersections = slides.map(({ isIntersecting }) => isIntersecting);
-      const newSlideIndex = allIntersections.indexOf(true); // first one
+      let newSlideIndex = allIntersections.indexOf(true); // first one
+      if (newSlideIndex === -1) newSlideIndex = 0;
       setCurrentSlideIndex(newSlideIndex);
     }
   }, [slides]);
@@ -132,6 +135,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     slidesToShow,
     slideOnSelect,
     useScrollSnap,
+    scrollOffset,
   };
 
   return (

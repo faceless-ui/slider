@@ -27,11 +27,12 @@ const Slide: React.FC<Props> = (props) => {
     slideWidth,
     slideOnSelect,
     useScrollSnap,
+    scrollOffset,
   } = slider;
 
   const { isIntersecting } = useIntersection(slideRef, {
     root: sliderTrackRef,
-    rootMargin: '-20px',
+    rootMargin: scrollOffset ? `0px -${scrollOffset}px 0px -${scrollOffset}px` : '-1px',
   });
 
   useEffect(() => {

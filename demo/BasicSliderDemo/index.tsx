@@ -14,7 +14,10 @@ const BasicSliderDemo: React.FC = () => (
         slidesToShow: 2
       </pre>
     </code>
-    <SliderProvider slidesToShow={2}>
+    <SliderProvider
+      slidesToShow={2}
+      scrollOffset={50}
+    >
       <div
         style={{
           margin: 'auto',
@@ -78,6 +81,19 @@ const BasicSliderDemo: React.FC = () => (
           >
             <div>
               Slide 3
+            </div>
+          </Slide>
+          <Slide
+            index={3}
+            htmlAttributes={{
+              style: {
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, .1)',
+              },
+            }}
+          >
+            <div>
+              Slide 4
             </div>
           </Slide>
         </SliderTrack>
