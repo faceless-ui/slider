@@ -16,7 +16,9 @@ const SliderTrack: React.FC<Props> = (props) => {
     setScrollRatio,
     slideWidth,
     slidesToShow,
-    useScrollSnap,
+    useFreeScroll,
+    setIsPaused,
+    pauseOnHover,
   } = useSlider();
 
   const hasAddedScrollListener = useRef(false);
@@ -77,10 +79,16 @@ const SliderTrack: React.FC<Props> = (props) => {
           display: 'flex',
           overflowX: 'scroll', // 'overflow: touch' does not work when 'auto'
           WebkitOverflowScrolling: 'touch',
-          scrollSnapType: (slideWidth && useScrollSnap) ? 'x mandatory' : undefined, // only apply after slide width has populated
+          scrollSnapType: (slideWidth && !useFreeScroll) ? 'x mandatory' : undefined, // only apply after slide width has populated
           ...htmlAttributes.style,
         },
         ref: sliderTrackRef,
+        onMouseEnter: () => {
+          if (pauseOnHover) setIsPaused(true);
+        },
+        onMouseLeave: () => {
+          if (pauseOnHover) setIsPaused(false);
+        },
       }}
     >
       {children && children}

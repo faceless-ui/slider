@@ -13,31 +13,41 @@ import reducer from './reducer';
 const SliderProvider: React.FC<Props> = (props) => {
   const {
     children,
-    currentSlideIndex: slideIndexFromProps, // allow force update via prop
     onSlide,
     slidesToShow = 3,
     slideOnSelect,
-    useScrollSnap,
+    useFreeScroll,
     scrollOffset = 0,
+    autoPlay,
+    autoplaySpeed = 2000,
+    pauseOnHover = true,
+    pause,
   } = props;
 
-  const prevSlideIndexFromProps = useRef<number | undefined>();
   const sliderTrackRef = useRef<HTMLElement>(null);
   const [scrollRatio, setScrollRatio] = useState(0);
-  const [slides, dispatchSlide] = useReducer(reducer, []);
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [selectedSlideIndex, setSelectedSlideIndex] = useState<number | undefined>();
   const [slideWidth, setSlideWidth] = useState<string | undefined>();
+  const [isPaused, setIsPaused] = useState(false);
+
+  const [sliderState, dispatchSliderState] = useReducer(reducer, {
+    currentSlideIndex: 0,
+    selectedSlideIndex: undefined,
+    slides: [],
+  });
+
+  const prevScrollIndex = useRef<number | undefined>();
+  const autoplayTimer = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     smoothscroll.polyfill(); // enables scrollTo.behavior: 'smooth' on Safari
   }, []);
 
+
   const scrollToIndex = useCallback((incomingSlideIndex) => {
-    const hasIndex = slides[incomingSlideIndex];
+    const hasIndex = sliderState.slides[incomingSlideIndex];
 
     if (hasIndex && sliderTrackRef.current) {
-      const targetSlide = slides[incomingSlideIndex];
+      const targetSlide = sliderState.slides[incomingSlideIndex];
       if (targetSlide) {
         const { ref: { current: { offsetLeft } } } = targetSlide;
 
@@ -51,57 +61,10 @@ const SliderProvider: React.FC<Props> = (props) => {
       if (typeof onSlide === 'function') onSlide(incomingSlideIndex);
     }
   }, [
-    slides,
+    sliderState.slides,
     sliderTrackRef,
     onSlide,
     scrollOffset,
-  ]);
-
-  const goToSlideIndex = useCallback((incomingIndex) => {
-    scrollToIndex(incomingIndex);
-  }, [scrollToIndex]);
-
-  const handlePrev = useCallback(() => {
-    const indexToUse = selectedSlideIndex || currentSlideIndex;
-    const hasPrev = indexToUse - 1 >= 0;
-
-    if (hasPrev) {
-      const prevIndex = currentSlideIndex - 1;
-      scrollToIndex(prevIndex);
-    }
-  }, [
-    currentSlideIndex,
-    scrollToIndex,
-    selectedSlideIndex,
-  ]);
-
-  const handleNext = useCallback(() => {
-    const indexToUse = selectedSlideIndex || currentSlideIndex;
-    const nextIndex = indexToUse + 1;
-    const hasNext = nextIndex < slides.length;
-
-    if (hasNext) {
-      scrollToIndex(nextIndex);
-    }
-  }, [
-    currentSlideIndex,
-    scrollToIndex,
-    slides.length,
-    selectedSlideIndex,
-  ]);
-
-  useEffect(() => {
-    if (typeof slideIndexFromProps === 'number') {
-      const hasChanged = prevSlideIndexFromProps.current !== slideIndexFromProps; // this is needed because 'slides' is a dependent of 'goToSlideIndex'
-      if (hasChanged) {
-        setSelectedSlideIndex(slideIndexFromProps);
-        scrollToIndex(slideIndexFromProps);
-      }
-      prevSlideIndexFromProps.current = slideIndexFromProps;
-    }
-  }, [
-    slideIndexFromProps,
-    scrollToIndex,
   ]);
 
   useEffect(() => {
@@ -111,31 +74,107 @@ const SliderProvider: React.FC<Props> = (props) => {
     slidesToShow,
   ]);
 
+  // auto-scroll to target index only on changes to scrollIndex
   useEffect(() => {
-    if (slides) {
-      const allIntersections = slides.map(({ isIntersecting }) => isIntersecting);
-      let newSlideIndex = allIntersections.indexOf(true); // first one
-      if (newSlideIndex === -1) newSlideIndex = 0;
-      setCurrentSlideIndex(newSlideIndex);
+    if (prevScrollIndex.current !== sliderState.scrollIndex) {
+      scrollToIndex(sliderState.scrollIndex);
+      prevScrollIndex.current = sliderState.scrollIndex;
     }
-  }, [slides]);
+  }, [
+    sliderState.scrollIndex,
+    scrollToIndex,
+  ]);
+
+  const startAutoplay = useCallback(() => {
+    const { current: timerID } = autoplayTimer;
+
+    autoplayTimer.current = setInterval(() => {
+      dispatchSliderState({
+        type: 'GO_TO_NEXT_SLIDE',
+        payload: {
+          loop: true,
+        },
+      });
+    }, autoplaySpeed);
+
+    return () => {
+      if (timerID) clearInterval(timerID);
+    };
+  }, [autoplaySpeed]);
+
+  useEffect(() => {
+    if (!isPaused && autoPlay) {
+      startAutoplay();
+    }
+  }, [
+    isPaused,
+    autoPlay,
+    startAutoplay,
+  ]);
+
+  // clear on pause
+  useEffect(() => {
+    const { current: autoPlayTimerID } = autoplayTimer;
+    if (isPaused) {
+      if (autoPlayTimerID) clearInterval(autoPlayTimerID);
+    }
+  }, [isPaused]);
+
+  // let user control pause, if they need to
+  useEffect(() => {
+    if (typeof pause !== 'undefined') {
+      setIsPaused(pause);
+    }
+  }, [pause]);
+
+  // clear on unmount
+  useEffect(() => () => {
+    const { current: autoPlayTimerID } = autoplayTimer;
+    if (autoPlayTimerID) clearInterval(autoPlayTimerID);
+  }, []);
 
   const context = {
     sliderTrackRef,
-    currentSlideIndex,
-    setCurrentSlideIndex,
     scrollRatio,
+    ...sliderState,
     setScrollRatio,
-    goToNextSlide: handleNext,
-    goToPrevSlide: handlePrev,
-    goToSlideIndex,
-    slides,
-    dispatchSlide,
+    goToNextSlide: () => {
+      dispatchSliderState({
+        type: 'GO_TO_NEXT_SLIDE',
+        payload: {
+          loop: !useFreeScroll,
+        },
+      });
+    },
+    goToPrevSlide: () => {
+      dispatchSliderState({
+        type: 'GO_TO_PREV_SLIDE',
+        payload: {
+          loop: !useFreeScroll,
+        },
+      });
+    },
+    goToSlideIndex: () => {
+      dispatchSliderState({
+        type: 'GO_TO_NEXT_SLIDE',
+      });
+    },
+    dispatchSlide: (slide) => {
+      dispatchSliderState({
+        type: 'UPDATE_SLIDE',
+        payload: {
+          slide,
+        },
+      });
+    },
     slideWidth,
     slidesToShow,
     slideOnSelect,
-    useScrollSnap,
+    useFreeScroll,
     scrollOffset,
+    setIsPaused,
+    isPaused,
+    pauseOnHover,
   };
 
   return (

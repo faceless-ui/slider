@@ -7,16 +7,18 @@ import {
   SliderTrack,
 } from '../../src'; // swap '../src' for '../dist/build.bundle' to demo production build
 
-const BasicSliderDemo: React.FC = () => (
+const FreeScrollSliderDemo: React.FC = () => (
   <Fragment>
     <code>
       <pre>
         slidesToShow: 2
+        <br />
+        useFreeScroll: true
       </pre>
     </code>
     <SliderProvider
       slidesToShow={2}
-      scrollOffset={50}
+      useFreeScroll
     >
       <div
         style={{
@@ -118,4 +120,4 @@ const BasicSliderDemo: React.FC = () => (
   </Fragment>
 );
 
-export default BasicSliderDemo;
+export default FreeScrollSliderDemo;

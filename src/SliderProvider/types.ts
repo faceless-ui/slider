@@ -1,8 +1,11 @@
 export type Props = {
-  currentSlideIndex?: number
   onSlide?: (number) => void
   slidesToShow?: number
   slideOnSelect?: boolean
-  useScrollSnap?: boolean
+  useFreeScroll?: boolean
   scrollOffset?: number
+  autoPlay?: boolean
+  autoplaySpeed?: number
+  pauseOnHover?: boolean
+  pause?: boolean
 }

@@ -13,12 +13,12 @@ const ScrollSnapSliderDemo: React.FC = () => (
       <pre>
         slidesToShow: 1
         <br />
-        useScrollSnap: true
+        autoPlay: true
       </pre>
     </code>
     <SliderProvider
       slidesToShow={1}
-      useScrollSnap
+      autoPlay
     >
       <div
         style={{

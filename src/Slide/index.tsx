@@ -26,9 +26,11 @@ const Slide: React.FC<Props> = (props) => {
     goToSlideIndex,
     slideWidth,
     slideOnSelect,
-    useScrollSnap,
+    useFreeScroll,
     scrollOffset,
   } = slider;
+
+  const prevIntersection = useRef<boolean | undefined>();
 
   const { isIntersecting } = useIntersection(slideRef, {
     root: sliderTrackRef,
@@ -36,15 +38,21 @@ const Slide: React.FC<Props> = (props) => {
   });
 
   useEffect(() => {
-    dispatchSlide({
-      index,
-      ref: slideRef,
-      isIntersecting,
-    });
+    const intersectionChange = prevIntersection.current !== isIntersecting;
+
+    if (intersectionChange) {
+      dispatchSlide({
+        index,
+        ref: slideRef,
+        isIntersecting,
+      });
+
+      prevIntersection.current = isIntersecting;
+    }
   }, [
-    index,
-    isIntersecting,
     dispatchSlide,
+    isIntersecting,
+    index,
   ]);
 
   const handleClick = useCallback(() => {
@@ -70,7 +78,7 @@ const Slide: React.FC<Props> = (props) => {
         style: {
           flexShrink: 0,
           width: slideWidth,
-          scrollSnapAlign: useScrollSnap ? 'start' : undefined,
+          scrollSnapAlign: !useFreeScroll ? 'start' : undefined,
           scrollSnapStop: 'always',
           ...htmlAttributes.style,
         },

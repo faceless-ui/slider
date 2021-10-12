@@ -20,13 +20,14 @@ const SliderNav: React.FC<Props> = (props) => {
     } = {},
   } = props;
 
-  const slider = useSlider();
-  const slideRef = useRef(null);
-
   const {
     currentSlideIndex,
     slides,
-  } = slider;
+    setIsPaused,
+    pauseOnHover,
+  } = useSlider();
+
+  const slideRef = useRef(null);
 
   const Tag = htmlElement as React.ElementType;
   const CounterTag = counterHTMLElement as React.ElementType;
@@ -37,6 +38,12 @@ const SliderNav: React.FC<Props> = (props) => {
       className={className}
       ref={slideRef}
       {...htmlAttributes}
+      onMouseEnter={() => {
+        if (pauseOnHover) setIsPaused(true);
+      }}
+      onMouseLeave={() => {
+        if (pauseOnHover) setIsPaused(false);
+      }}
     >
       <SliderButton
         direction="prev"

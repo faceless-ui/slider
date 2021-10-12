@@ -29,6 +29,8 @@ const SliderProgress: React.FC<Props> = (props) => {
     scrollRatio,
     slides,
     slidesToShow,
+    setIsPaused,
+    pauseOnHover,
   } = useSlider();
 
   const Tag = htmlElement as React.ElementType;
@@ -39,7 +41,6 @@ const SliderProgress: React.FC<Props> = (props) => {
       width: '',
       left: '',
     };
-
 
     const segmentWidth = (1 / slides.length) / (1 / slidesToShow);
 
@@ -69,6 +70,12 @@ const SliderProgress: React.FC<Props> = (props) => {
       style={{
         position: 'relative',
         ...htmlAttributes.style || {},
+      }}
+      onMouseEnter={() => {
+        if (pauseOnHover) setIsPaused(true);
+      }}
+      onMouseLeave={() => {
+        if (pauseOnHover) setIsPaused(false);
       }}
     >
       <IndicatorTag

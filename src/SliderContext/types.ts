@@ -14,4 +14,6 @@ export interface ISliderContext extends Props {
   slides: Slide[]
   dispatchSlide: (slide: Slide) => void
   slideWidth?: string
+  isPaused?: boolean
+  setIsPaused: (boolean) => void
 }
