@@ -31,6 +31,8 @@ const SliderProgress: React.FC<Props> = (props) => {
     slidesToShow,
     setIsPaused,
     pauseOnHover,
+    scrollOffset,
+    sliderTrackRef,
   } = useSlider();
 
   const Tag = htmlElement as React.ElementType;
@@ -42,7 +44,11 @@ const SliderProgress: React.FC<Props> = (props) => {
       left: '',
     };
 
-    const segmentWidth = (1 / slides.length) / (1 / slidesToShow);
+    const { current: track } = sliderTrackRef;
+    const trackWidth = track.offsetWidth;
+    const scrollOffsetRatio = scrollOffset > 0 ? ((trackWidth / scrollOffset) / 100) : 0;
+
+    const segmentWidth = (1 / slides.length) / (1 / slidesToShow) - scrollOffsetRatio;
 
     if (indicatorType === 'position') {
       newSegmentStyle.width = `${segmentWidth * 100}%`;
@@ -60,6 +66,8 @@ const SliderProgress: React.FC<Props> = (props) => {
     indicatorType,
     scrollRatio,
     slidesToShow,
+    sliderTrackRef,
+    scrollOffset,
   ]);
 
   return (
