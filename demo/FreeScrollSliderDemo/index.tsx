@@ -70,6 +70,15 @@ const FreeScrollSliderDemo: React.FC = () => (
           >
             <div>
               Slide 2
+              <div>
+                <a
+                  href="https://google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  This is a link
+                </a>
+              </div>
             </div>
           </Slide>
           <Slide

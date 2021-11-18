@@ -33,7 +33,7 @@ const SliderTrack: React.FC<Props> = (props) => {
     setScrollRatio,
   ]);
 
-  const handleScroll = useCallback(() => {
+  const onScroll = useCallback(() => {
     const track = sliderTrackRef.current;
 
     if (track) {
@@ -51,17 +51,20 @@ const SliderTrack: React.FC<Props> = (props) => {
     const track = sliderTrackRef.current;
 
     if (track && hasAddedScrollListener.current === false) {
-      track.addEventListener('scroll', handleScroll, false);
+      track.addEventListener('scroll', onScroll, false);
       hasAddedScrollListener.current = true;
     }
 
     return () => {
       hasAddedScrollListener.current = false;
       if (track) {
-        track.removeEventListener('scroll', handleScroll);
+        track.removeEventListener('scroll', onScroll);
       }
     };
-  }, [sliderTrackRef, handleScroll]);
+  }, [
+    sliderTrackRef,
+    onScroll,
+  ]);
 
   const Tag = htmlElement as React.ElementType;
 

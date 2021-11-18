@@ -9,6 +9,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 import { Props } from './types';
 import SliderContext from '../SliderContext';
 import reducer from './reducer';
+import useDragScroll from './useDragScroll';
 
 const SliderProvider: React.FC<Props> = (props) => {
   const {
@@ -24,7 +25,10 @@ const SliderProvider: React.FC<Props> = (props) => {
     pause,
   } = props;
 
-  const sliderTrackRef = useRef<HTMLElement>(null);
+  const sliderTrackRef = useDragScroll({
+    scrollYAxis: false,
+  });
+
   const [scrollRatio, setScrollRatio] = useState(0);
   const [slideWidth, setSlideWidth] = useState<string | undefined>();
   const [isPaused, setIsPaused] = useState(false);
