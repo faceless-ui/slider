@@ -28,26 +28,37 @@ export const useDraggable: UseDraggable = (options) => {
   const [startScrollTop, setStartScrollTop] = useState(0);
 
   useEffect(() => {
-    function handleDown(e: MouseEvent) {
+    const handleDown = (e: MouseEvent) => {
       if (ref.current) {
         // Only allow dragging inside of target element
         if (!ref.current.contains(e.target as Node)) {
           return;
         }
+
         // Set initial positions of mouse element scroll
         setStartX(e.pageX - ref.current.offsetLeft);
         setStartY(e.pageY - ref.current.offsetTop);
         setStartScrollLeft(ref.current.scrollLeft);
         setStartScrollTop(ref.current.scrollTop);
       }
-    }
+    };
 
-    function handleMove(e: MouseEvent) {
+    const handleMove = (e: MouseEvent) => {
       if (ref.current) {
         // Don't fire if other buttons are pressed
         if (!buttons.includes(e.buttons) || !ref.current.contains(e.target as Node)) {
           return;
         }
+
+        if (ref.current.children) {
+          // disable nested anchor links from navigating while dragging
+          const childrenAsArray = Array.from(ref.current.children);
+          childrenAsArray.forEach((child) => {
+            const childAsElement = child as HTMLElement;
+            childAsElement.style.pointerEvents = 'none';
+          });
+        }
+
         e.preventDefault();
         // Position of mouse on the page
         const mouseX = e.pageX - ref.current.offsetLeft;
@@ -62,15 +73,28 @@ export const useDraggable: UseDraggable = (options) => {
           ref.current.scrollTop = newScrollTop;
         }
       }
-    }
+    };
+
+    const handleUp = () => {
+      // reenable nested anchor links after dragging
+      if (ref.current.children) {
+        const childrenAsArray = Array.from(ref.current.children);
+        childrenAsArray.forEach((child) => {
+          const childAsElement = child as HTMLElement;
+          childAsElement.style.removeProperty('pointer-events');
+        });
+      }
+    };
 
     // Add and clean up listeners
     document.addEventListener('mousedown', handleDown);
     document.addEventListener('mousemove', handleMove);
+    document.addEventListener('mouseup', handleUp);
 
     return () => {
       document.removeEventListener('mousedown', handleDown);
       document.removeEventListener('mousemove', handleMove);
+      document.removeEventListener('mouseup', handleUp);
     };
   }, [
     buttons,

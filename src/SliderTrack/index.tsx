@@ -24,7 +24,7 @@ const SliderTrack: React.FC<Props> = (props) => {
   const hasAddedScrollListener = useRef(false);
   const animationFrameID = useRef<number | undefined>();
 
-  const onAnimationFrame = useCallback(() => {
+  const getScrollRatio = useCallback(() => {
     const track = sliderTrackRef.current;
     const newScrollRatio = track.scrollLeft / (track.scrollWidth - track.clientWidth);
     setScrollRatio(newScrollRatio);
@@ -39,12 +39,12 @@ const SliderTrack: React.FC<Props> = (props) => {
     if (track) {
       // prevent compounding events
       if (animationFrameID) cancelAnimationFrame(animationFrameID.current);
-      const requestID = requestAnimationFrame(onAnimationFrame);
+      const requestID = requestAnimationFrame(getScrollRatio);
       animationFrameID.current = requestID;
     }
   }, [
     sliderTrackRef,
-    onAnimationFrame,
+    getScrollRatio,
   ]);
 
   useEffect(() => {
