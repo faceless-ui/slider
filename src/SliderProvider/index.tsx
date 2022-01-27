@@ -106,23 +106,29 @@ const SliderProvider: React.FC<Props> = (props) => {
     };
   }, [autoplaySpeed]);
 
+  const stopAutoplay = useCallback(() => {
+    const { current: autoPlayTimerID } = autoplayTimer;
+    if (autoPlayTimerID) clearInterval(autoPlayTimerID);
+  }, []);
+
   useEffect(() => {
     if (!isPaused && autoPlay) {
       startAutoplay();
     }
+
+    if (isPaused || !autoPlay) {
+      stopAutoplay();
+    }
+
+    return () => {
+      stopAutoplay();
+    };
   }, [
     isPaused,
     autoPlay,
     startAutoplay,
+    stopAutoplay,
   ]);
-
-  // clear on pause
-  useEffect(() => {
-    const { current: autoPlayTimerID } = autoplayTimer;
-    if (isPaused) {
-      if (autoPlayTimerID) clearInterval(autoPlayTimerID);
-    }
-  }, [isPaused]);
 
   // let user control pause, if they need to
   useEffect(() => {
@@ -130,12 +136,6 @@ const SliderProvider: React.FC<Props> = (props) => {
       setIsPaused(pause);
     }
   }, [pause]);
-
-  // clear on unmount
-  useEffect(() => () => {
-    const { current: autoPlayTimerID } = autoplayTimer;
-    if (autoPlayTimerID) clearInterval(autoPlayTimerID);
-  }, []);
 
   const context = {
     sliderTrackRef,
