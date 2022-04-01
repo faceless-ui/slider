@@ -1,5 +1,7 @@
 import React, {
+  useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { Props } from './types';
@@ -38,6 +40,8 @@ const SliderProgress: React.FC<Props> = (props) => {
   const Tag = htmlElement as React.ElementType;
   const IndicatorTag = indicatorHTMLElement as React.ElementType;
 
+  const indicatorRef = useRef(null);
+
   useEffect(() => {
     const newSegmentStyle = {
       width: '',
@@ -70,6 +74,48 @@ const SliderProgress: React.FC<Props> = (props) => {
     scrollOffset,
   ]);
 
+  const [state, setState] = useState({
+    prevClientX: 0,
+    isDragging: false,
+  });
+
+  const onMouseDown = useCallback((event) => {
+    const indicator = indicatorRef.current;
+    if (indicator) {
+      setState({
+        prevClientX: event.clientX,
+        isDragging: true,
+      });
+    }
+  }, []);
+
+  const onMouseMove = useCallback((event) => {
+    const {
+      prevClientX,
+      isDragging,
+    } = state;
+
+    if (isDragging) {
+      const sliderTrack = sliderTrackRef.current;
+      const xDistance = prevClientX + event.clientX;
+      const ratioDragged = xDistance / sliderTrack.scrollWidth;
+      console.log(ratioDragged);
+      const pixelsDragged = sliderTrack.scrollWidth * ratioDragged;
+      console.log(pixelsDragged);
+      sliderTrackRef.current.scrollLeft = sliderTrack.scrollLeft + (sliderTrack.scrollWidth * ratioDragged);
+    }
+  }, [
+    state,
+    sliderTrackRef,
+  ]);
+
+  const clearState = useCallback(() => {
+    setState({
+      prevClientX: 0,
+      isDragging: false,
+    });
+  }, []);
+
   return (
     <Tag
       id={id}
@@ -88,8 +134,13 @@ const SliderProgress: React.FC<Props> = (props) => {
     >
       <IndicatorTag
         id={indicatorID}
+        ref={indicatorRef}
         className={indicatorClassName}
         {...indicatorHTMLAttributes}
+        onMouseMove={onMouseMove}
+        onMouseDown={onMouseDown}
+        onMouseUp={clearState}
+        onMouseLeave={clearState}
         style={{
           position: 'absolute',
           top: 0,
