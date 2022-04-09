@@ -1,5 +1,5 @@
 export type Props = {
-  onSlide?: (number) => void
+  onSlide?: (number) => void // eslint-disable-line no-unused-vars
   slidesToShow?: number
   slideOnSelect?: boolean
   useFreeScroll?: boolean
