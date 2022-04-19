@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import SliderContext from '../SliderContext';
-import { ISliderContext } from '../SliderContext/types';
+import { ISliderContext } from '../SliderContext';
 
 const useSlider = (): ISliderContext => useContext(SliderContext);
 

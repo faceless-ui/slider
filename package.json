@@ -25,8 +25,8 @@
     "test": "jest"
   },
   "peerDependencies": {
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "dependencies": {
     "smoothscroll-polyfill": "^0.4.4"
@@ -35,7 +35,9 @@
     "@trbl/eslint-config": "^2.0.3",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.22",
-    "@types/react": "^17.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@types/smoothscroll-polyfill": "^0.3.1",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "enzyme": "^3.11.0",
@@ -53,8 +55,8 @@
     "husky": "^4.2.1",
     "jest": "^25.1.0",
     "lint-staged": "^10.0.6",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-hot-loader": "^4.12.19",
     "ts-loader": "^8.0.14",
     "typescript": "^4.6.3",

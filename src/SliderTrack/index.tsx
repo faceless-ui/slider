@@ -1,6 +1,16 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import useSlider from '../useSlider';
-import { Props } from './types';
+
+export type Props = {
+  id?: string
+  className?: string
+  htmlElement?: React.ElementType
+  htmlAttributes?: {
+    [key: string]: unknown,
+    style?: React.CSSProperties
+  }
+  children?: React.ReactNode
+}
 
 const SliderTrack: React.FC<Props> = (props) => {
   const {
@@ -26,8 +36,10 @@ const SliderTrack: React.FC<Props> = (props) => {
 
   const getScrollRatio = useCallback(() => {
     const track = sliderTrackRef.current;
-    const newScrollRatio = track.scrollLeft / (track.scrollWidth - track.clientWidth);
-    setScrollRatio(newScrollRatio);
+    if (track) {
+      const newScrollRatio = track.scrollLeft / (track.scrollWidth - track.clientWidth);
+      setScrollRatio(newScrollRatio);
+    }
   }, [
     sliderTrackRef,
     setScrollRatio,
@@ -38,7 +50,7 @@ const SliderTrack: React.FC<Props> = (props) => {
 
     if (track) {
       // prevent compounding events
-      if (animationFrameID) cancelAnimationFrame(animationFrameID.current);
+      if (animationFrameID.current) cancelAnimationFrame(animationFrameID.current);
       const requestID = requestAnimationFrame(getScrollRatio);
       animationFrameID.current = requestID;
     }

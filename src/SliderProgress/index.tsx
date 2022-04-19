@@ -2,8 +2,27 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { Props } from './types';
 import useSlider from '../useSlider';
+
+export type Props = {
+  id?: string,
+  className?: string,
+  htmlElement?: React.ElementType,
+  htmlAttributes?: {
+    [key: string]: unknown,
+    style?: React.CSSProperties
+  }
+  indicator?: {
+    id?: string,
+    className?: string,
+    htmlElement?: React.ElementType,
+    htmlAttributes?: {
+      [key: string]: unknown,
+      style?: React.CSSProperties
+    },
+  },
+  indicatorType?: 'width' | 'position'
+}
 
 const SliderProgress: React.FC<Props> = (props) => {
   const {
@@ -45,22 +64,25 @@ const SliderProgress: React.FC<Props> = (props) => {
     };
 
     const { current: track } = sliderTrackRef;
-    const trackWidth = track.offsetWidth;
-    const scrollOffsetRatio = scrollOffset > 0 ? ((trackWidth / scrollOffset) / 100) : 0;
 
-    const segmentWidth = (1 / slides.length) / (1 / slidesToShow) - scrollOffsetRatio;
+    if (track) {
+      const trackWidth = track.offsetWidth;
+      const scrollOffsetRatio = scrollOffset > 0 ? ((trackWidth / scrollOffset) / 100) : 0;
 
-    if (indicatorType === 'position') {
-      newSegmentStyle.width = `${segmentWidth * 100}%`;
-      newSegmentStyle.left = `${(scrollRatio - (scrollRatio * segmentWidth)) * 100}%`;
+      const segmentWidth = (1 / slides.length) / (1 / slidesToShow) - scrollOffsetRatio;
+
+      if (indicatorType === 'position') {
+        newSegmentStyle.width = `${segmentWidth * 100}%`;
+        newSegmentStyle.left = `${(scrollRatio - (scrollRatio * segmentWidth)) * 100}%`;
+      }
+
+      if (indicatorType === 'width') {
+        newSegmentStyle.width = `${scrollRatio * 100}%`;
+        newSegmentStyle.left = '0px';
+      }
+
+      setSegmentStyle(newSegmentStyle);
     }
-
-    if (indicatorType === 'width') {
-      newSegmentStyle.width = `${scrollRatio * 100}%`;
-      newSegmentStyle.left = '0px';
-    }
-
-    setSegmentStyle(newSegmentStyle);
   }, [
     slides.length,
     indicatorType,

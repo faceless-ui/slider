@@ -1,6 +1,16 @@
 import React, { useCallback } from 'react';
 import useSlider from '../useSlider';
-import { Props } from './types';
+
+export type Props = {
+  id?: string,
+  className?: string,
+  htmlElement?: React.ElementType,
+  htmlAttributes?: {
+    [key: string]: unknown
+  },
+  children?: React.ReactNode,
+  direction?: 'prev' | 'next',
+};
 
 const SliderButton: React.FC<Props> = (props) => {
   const {

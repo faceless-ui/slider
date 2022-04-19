@@ -4,8 +4,26 @@ import React, {
   useRef,
 } from 'react';
 import useSlider from '../useSlider';
-import { Props } from './types';
 import useIntersection from './useIntersection';
+
+export interface ISlide {
+  index: number
+  ref: React.MutableRefObject<HTMLElement | null>
+  isIntersecting: boolean
+}
+
+export type Props = {
+  index: number
+  id?: string
+  className?: string
+  htmlElement?: React.ElementType
+  htmlAttributes?: {
+    [key: string]: unknown
+    style?: React.CSSProperties
+  }
+  slideToSelfOnClick?: boolean
+  children?: React.ReactNode
+}
 
 const Slide: React.FC<Props> = (props) => {
   const {
@@ -18,7 +36,7 @@ const Slide: React.FC<Props> = (props) => {
   } = props;
 
   const slider = useSlider();
-  const slideRef = useRef<HTMLElement>(null);
+  const slideRef = useRef<HTMLElement | null>(null);
 
   const {
     dispatchSlide,

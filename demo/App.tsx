@@ -17,7 +17,7 @@ const App: React.FC = () => (
     <h1>
       Scroll Snap Slider:
     </h1>
-    <ScrollSnapSliderDemo />
+    {/* <ScrollSnapSliderDemo /> */}
     <h1>
       Thumbnail Slider Demo:
     </h1>

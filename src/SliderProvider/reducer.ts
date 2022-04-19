@@ -1,9 +1,9 @@
-import { Slide } from '../Slide/types';
+import { ISlide } from '../Slide';
 
 type SliderState = {
   currentSlideIndex: number
   selectedSlideIndex?: number
-  slides: Slide[]
+  slides: ISlide[]
   scrollIndex?: number
 }
 
@@ -12,7 +12,7 @@ const reducer = (
   action: {
     type: string,
     payload?: {
-      slide?: Slide
+      slide?: ISlide
       [key: string]: unknown
     },
   },
@@ -34,12 +34,13 @@ const reducer = (
     case 'UPDATE_SLIDE': {
       const {
         slide,
-        slide: {
-          index: slideIndex,
-        },
       } = payload;
-
-      newState.slides[slideIndex] = slide;
+      if (slide) {
+        const {
+          index: slideIndex,
+        } = slide;
+        newState.slides[slideIndex] = slide;
+      }
       break;
     }
 

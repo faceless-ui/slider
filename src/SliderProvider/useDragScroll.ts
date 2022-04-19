@@ -16,7 +16,7 @@ export const useDraggable: UseDraggable = (options) => {
   const {
     buttons = [1, 4, 5],
     scrollYAxis,
-  } = options;
+  } = options || {};
 
   // Ref to be attached to the element we want to drag
   const ref = useRef<HTMLDivElement>(null);
@@ -77,7 +77,7 @@ export const useDraggable: UseDraggable = (options) => {
 
     const handleUp = () => {
       // reenable nested anchor links after dragging
-      if (ref.current.children) {
+      if (ref.current?.children) {
         const childrenAsArray = Array.from(ref.current.children);
         childrenAsArray.forEach((child) => {
           const childAsElement = child as HTMLElement;

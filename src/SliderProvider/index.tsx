@@ -1,4 +1,5 @@
 import React, {
+  Fragment,
   useCallback,
   useEffect,
   useReducer,
@@ -6,10 +7,24 @@ import React, {
   useState,
 } from 'react';
 import smoothscroll from 'smoothscroll-polyfill';
-import { Props } from './types';
-import SliderContext from '../SliderContext';
+import SliderContext, { ISliderContext } from '../SliderContext';
 import reducer from './reducer';
 import useDragScroll from './useDragScroll';
+
+export type ChildFunction = (context: ISliderContext) => React.ReactNode; // eslint-disable-line no-unused-vars
+
+export type Props = {
+  onSlide?: (index: number) => void // eslint-disable-line no-unused-vars
+  slidesToShow?: number
+  slideOnSelect?: boolean
+  useFreeScroll?: boolean
+  scrollOffset?: number
+  autoPlay?: boolean
+  autoplaySpeed?: number
+  pauseOnHover?: boolean
+  pause?: boolean
+  children: React.ReactNode | ChildFunction
+}
 
 const SliderProvider: React.FC<Props> = (props) => {
   const {
@@ -47,13 +62,14 @@ const SliderProvider: React.FC<Props> = (props) => {
   }, []);
 
 
-  const scrollToIndex = useCallback((incomingSlideIndex) => {
+  const scrollToIndex = useCallback((incomingSlideIndex: number) => {
     const hasIndex = sliderState.slides[incomingSlideIndex];
 
     if (hasIndex && sliderTrackRef.current) {
       const targetSlide = sliderState.slides[incomingSlideIndex];
-      if (targetSlide) {
-        const { ref: { current: { offsetLeft } } } = targetSlide;
+      const targetSlideRef = targetSlide.ref.current;
+      if (targetSlideRef) {
+        const { offsetLeft } = targetSlideRef;
 
         sliderTrackRef.current.scrollTo({
           top: 0,
@@ -80,7 +96,7 @@ const SliderProvider: React.FC<Props> = (props) => {
 
   // auto-scroll to target index only on changes to scrollIndex
   useEffect(() => {
-    if (prevScrollIndex.current !== sliderState.scrollIndex) {
+    if (sliderState.scrollIndex !== undefined && prevScrollIndex.current !== sliderState.scrollIndex) {
       scrollToIndex(sliderState.scrollIndex);
       prevScrollIndex.current = sliderState.scrollIndex;
     }
@@ -179,13 +195,21 @@ const SliderProvider: React.FC<Props> = (props) => {
     setIsPaused,
     isPaused,
     pauseOnHover,
-  };
+  } as ISliderContext;
 
   return (
     <SliderContext.Provider
       value={context}
     >
-      {(children && (typeof children === 'function' ? children({ ...context }) : children))}
+      {(children && typeof children === 'function' ? (
+        <Fragment>
+          {children({ ...context })}
+        </Fragment>
+      ) : (
+        <Fragment>
+          {children}
+        </Fragment>
+      ))}
     </SliderContext.Provider>
   );
 };

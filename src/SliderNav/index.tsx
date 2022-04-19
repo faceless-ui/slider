@@ -1,7 +1,27 @@
 import React, { useRef } from 'react';
 import useSlider from '../useSlider';
-import SliderButton from '../SliderButton';
-import { Props } from './types';
+import SliderButton, { Props as SliderButtonProps } from '../SliderButton';
+
+export type Props = {
+  id?: string,
+  className?: string,
+  htmlElement?: React.ElementType,
+  htmlAttributes?: {
+    [key: string]: unknown
+  },
+  prevButtonProps?: SliderButtonProps,
+  nextButtonProps?: SliderButtonProps,
+  counter?: {
+    Component?: React.ReactNode
+    id?: string,
+    className?: string,
+    htmlElement?: React.ElementType,
+    htmlAttributes?: {
+      [key: string]: unknown
+    },
+  },
+  showCounter?: boolean
+}
 
 const SliderNav: React.FC<Props> = (props) => {
   const {
