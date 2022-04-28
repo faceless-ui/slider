@@ -1,5 +1,4 @@
 import React, {
-  Fragment,
   useCallback,
   useEffect,
   useReducer,
@@ -153,7 +152,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     }
   }, [pause]);
 
-  const context = {
+  const context: ISliderContext = {
     sliderTrackRef,
     scrollRatio,
     ...sliderState,
@@ -195,21 +194,13 @@ const SliderProvider: React.FC<Props> = (props) => {
     setIsPaused,
     isPaused,
     pauseOnHover,
-  } as ISliderContext;
+  };
 
   return (
     <SliderContext.Provider
       value={context}
     >
-      {(children && typeof children === 'function' ? (
-        <Fragment>
-          {children({ ...context })}
-        </Fragment>
-      ) : (
-        <Fragment>
-          {children}
-        </Fragment>
-      ))}
+      {(children && (typeof children === 'function' ? children({ ...context }) : children))}
     </SliderContext.Provider>
   );
 };
