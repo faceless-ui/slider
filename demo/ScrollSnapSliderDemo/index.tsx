@@ -49,20 +49,16 @@ const ScrollSnapSliderDemo: React.FC = () => {
             }}
           />
           <SliderTrack
-            htmlAttributes={{
-              style: {
-                alignItems: 'center',
-                flexGrow: 1,
-              },
+            style={{
+              alignItems: 'center',
+              flexGrow: 1,
             }}
           >
             <Slide
               index={0}
-              htmlAttributes={{
-                style: {
-                  height: '100%',
-                  backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                },
+              style={{
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.05)',
               }}
             >
               <div>
@@ -71,11 +67,9 @@ const ScrollSnapSliderDemo: React.FC = () => {
             </Slide>
             <Slide
               index={1}
-              htmlAttributes={{
-                style: {
-                  height: '100%',
-                  backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                },
+              style={{
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.1)',
               }}
             >
               <div>
@@ -84,11 +78,9 @@ const ScrollSnapSliderDemo: React.FC = () => {
             </Slide>
             <Slide
               index={2}
-              htmlAttributes={{
-                style: {
-                  height: '100%',
-                  backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                },
+              style={{
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.05)',
               }}
             >
               <div>
@@ -97,18 +89,14 @@ const ScrollSnapSliderDemo: React.FC = () => {
             </Slide>
           </SliderTrack>
           <SliderProgress
-            htmlAttributes={{
-              style: {
-                height: '8px',
-                marginTop: '8px',
-                backgroundColor: 'rgba(0, 0, 0, 0.05)',
-              },
+            style={{
+              height: '8px',
+              marginTop: '8px',
+              backgroundColor: 'rgba(0, 0, 0, 0.05)',
             }}
             indicator={{
-              htmlAttributes: {
-                style: {
-                  backgroundColor: 'black',
-                },
+              style: {
+                backgroundColor: 'black',
               },
             }}
           />

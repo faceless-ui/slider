@@ -1,25 +1,19 @@
-import React, { useCallback } from 'react';
+import React, { HTMLProps, MouseEvent, useCallback } from 'react';
 import useSlider from '../useSlider';
 
-export type Props = {
-  id?: string,
-  className?: string,
-  htmlElement?: React.ElementType,
-  htmlAttributes?: {
-    [key: string]: unknown
-  },
-  children?: React.ReactNode,
-  direction?: 'prev' | 'next',
-};
+export interface SliderButtonProps extends HTMLProps<HTMLElement> {
+  htmlElement?: React.ElementType
+  children?: React.ReactNode
+  direction?: 'prev' | 'next'
+}
 
-const SliderButton: React.FC<Props> = (props) => {
+const SliderButton: React.FC<SliderButtonProps> = (props) => {
   const {
-    id,
-    className,
-    htmlElement = 'button',
-    htmlAttributes = {},
+    htmlElement: Tag = 'button',
     children,
     direction,
+    onClick,
+    ...rest
   } = props;
 
   const {
@@ -29,28 +23,29 @@ const SliderButton: React.FC<Props> = (props) => {
     pauseOnHover,
   } = useSlider();
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback((e: MouseEvent<HTMLElement>) => {
     if (direction === 'prev') {
       goToPrevSlide();
     }
     if (direction === 'next') {
       goToNextSlide();
     }
+
+    if (typeof onClick === 'function') {
+      onClick(e);
+    }
   }, [
     direction,
     goToPrevSlide,
     goToNextSlide,
+    onClick
   ]);
-
-  const Tag = htmlElement as React.ElementType;
 
   return (
     <Tag
-      onClick={handleClick}
       type="button"
-      id={id}
-      className={className}
-      {...htmlAttributes}
+      {...rest}
+      onClick={handleClick}
       onMouseEnter={() => {
         if (pauseOnHover) setIsPaused(true);
       }}

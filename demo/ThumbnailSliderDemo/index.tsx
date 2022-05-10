@@ -17,24 +17,22 @@ const ThumbnailSliderDemo: React.FC = () => null;
 //       slidesToShow={1}
 //     >
 //       <SliderTrack
-//         htmlAttributes={{
-//           style: {
+//         style={{
+//
 //             display: 'flex',
 //             alignItems: 'center',
 //             height: '400px',
 //             overflow: 'hidden',
 //             marginBottom: '10px',
-//           },
 //         }}
 //       >
 //         <Slide
 //           index={0}
-//           htmlAttributes={{
-//             style: {
+//           style={{
+//
 //               height: '100%',
 //               flexShrink: 0,
 //               backgroundColor: 'rgba(0, 0, 0, 0.1)',
-//             },
 //           }}
 //         >
 //           <div>
@@ -43,12 +41,11 @@ const ThumbnailSliderDemo: React.FC = () => null;
 //         </Slide>
 //         <Slide
 //           index={1}
-//           htmlAttributes={{
-//             style: {
+//           style={{
+//
 //               height: '100%',
 //               flexShrink: 0,
 //               backgroundColor: 'rgba(0, 0, 0, 0.5)',
-//             },
 //           }}
 //         >
 //           <div>
@@ -57,12 +54,11 @@ const ThumbnailSliderDemo: React.FC = () => null;
 //         </Slide>
 //         <Slide
 //           index={2}
-//           htmlAttributes={{
-//             style: {
+//           style={{
+//
 //               height: '100%',
 //               flexShrink: 0,
 //               backgroundColor: 'rgba(0, 0, 0, 0.1)',
-//             },
 //           }}
 //         >
 //           <div>
@@ -71,12 +67,11 @@ const ThumbnailSliderDemo: React.FC = () => null;
 //         </Slide>
 //         <Slide
 //           index={3}
-//           htmlAttributes={{
-//             style: {
+//           style={{
+//
 //               height: '100%',
 //               flexShrink: 0,
 //               backgroundColor: 'rgba(0, 0, 0, 0.05)',
-//             },
 //           }}
 //         >
 //           <div>
@@ -85,12 +80,11 @@ const ThumbnailSliderDemo: React.FC = () => null;
 //         </Slide>
 //         <Slide
 //           index={4}
-//           htmlAttributes={{
-//             style: {
+//           style={{
+//
 //               height: '100%',
 //               flexShrink: 0,
 //               backgroundColor: 'rgba(0, 0, 0, 0.1)',
-//             },
 //           }}
 //         >
 //           <div>
@@ -113,30 +107,27 @@ const ThumbnailSliderDemo: React.FC = () => null;
 //         nextButtonProps={{
 //           children: (<div>next</div>),
 //         }}
-//         htmlAttributes={{
-//           style: {
+//         style={{
+//
 //             display: 'flex',
-//           },
 //         }}
 //       />
 //       <SliderTrack
-//         htmlAttributes={{
-//           style: {
+//         style={{
+//
 //             display: 'flex',
 //             alignItems: 'center',
 //             height: '100px',
 //             margin: '10px 0',
-//           },
 //         }}
 //       >
 //         <Slide
 //           index={0}
-//           htmlAttributes={{
-//             style: {
+//           style={{
+//
 //               height: '100%',
 //               flexShrink: 0,
 //               backgroundColor: 'rgba(0, 0, 0, 0.1)',
-//             },
 //           }}
 //         >
 //           <div>
@@ -145,12 +136,11 @@ const ThumbnailSliderDemo: React.FC = () => null;
 //         </Slide>
 //         <Slide
 //           index={1}
-//           htmlAttributes={{
-//             style: {
+//           style={{
+//
 //               height: '100%',
 //               flexShrink: 0,
 //               backgroundColor: 'rgba(0, 0, 0, 0.05)',
-//             },
 //           }}
 //         >
 //           <div>
@@ -159,12 +149,11 @@ const ThumbnailSliderDemo: React.FC = () => null;
 //         </Slide>
 //         <Slide
 //           index={2}
-//           htmlAttributes={{
-//             style: {
+//           style={{
+//
 //               height: '100%',
 //               flexShrink: 0,
 //               backgroundColor: 'rgba(0, 0, 0, 0.1)',
-//             },
 //           }}
 //         >
 //           <div>
@@ -173,12 +162,11 @@ const ThumbnailSliderDemo: React.FC = () => null;
 //         </Slide>
 //         <Slide
 //           index={3}
-//           htmlAttributes={{
-//             style: {
+//           style={{
+//
 //               height: '100%',
 //               flexShrink: 0,
 //               backgroundColor: 'rgba(0, 0, 0, 0.05)',
-//             },
 //           }}
 //         >
 //           <div>
@@ -187,12 +175,11 @@ const ThumbnailSliderDemo: React.FC = () => null;
 //         </Slide>
 //         <Slide
 //           index={4}
-//           htmlAttributes={{
-//             style: {
+//           style={{
+//
 //               height: '100%',
 //               flexShrink: 0,
 //               backgroundColor: 'rgba(0, 0, 0, 0.1)',
-//             },
 //           }}
 //         >
 //           <div>
@@ -202,19 +189,17 @@ const ThumbnailSliderDemo: React.FC = () => null;
 //       </SliderTrack>
 //       <SliderProgress
 //         indicatorType="width"
-//         htmlAttributes={{
-//           style: {
+//         style={{
+//
 //             height: '8px',
 //             marginTop: '8px',
 //             backgroundColor: 'rgba(0, 0, 0, 0.05)',
-//           },
 //         }}
 //         indicator={{
-//           htmlAttributes: {
-//             style: {
+//           style: {
+//
 //               backgroundColor: 'black',
 //             },
-//           },
 //         }}
 //       />
 //     </SliderProvider>

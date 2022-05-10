@@ -1,42 +1,32 @@
 import React, {
+  HTMLProps,
   useEffect,
   useState,
 } from 'react';
 import useSlider from '../useSlider';
 
-export type Props = {
-  id?: string,
-  className?: string,
-  htmlElement?: React.ElementType,
-  htmlAttributes?: {
-    [key: string]: unknown,
-    style?: React.CSSProperties
-  }
-  indicator?: {
-    id?: string,
-    className?: string,
-    htmlElement?: React.ElementType,
-    htmlAttributes?: {
-      [key: string]: unknown,
-      style?: React.CSSProperties
-    },
-  },
+export interface ProgressIndicatorProps extends HTMLProps<HTMLDivElement> {
+  htmlElement?: React.ElementType
+}
+
+export interface SliderProgressProps extends HTMLProps<HTMLElement> {
+  htmlElement?: React.ElementType
+  indicator?: ProgressIndicatorProps
   indicatorType?: 'width' | 'position'
 }
 
-const SliderProgress: React.FC<Props> = (props) => {
+const SliderProgress: React.FC<SliderProgressProps> = (props) => {
   const {
-    htmlElement = 'div',
-    htmlAttributes = {},
-    id,
-    className,
+    htmlElement: Tag = 'div',
+    style,
     indicator: {
-      htmlElement: indicatorHTMLElement = 'div',
-      htmlAttributes: indicatorHTMLAttributes = {},
       id: indicatorID,
-      className: indicatorClassName,
+      style: indicatorStyle,
+      htmlElement: IndicatorTag = 'div',
+      ...indicatorRest
     } = {},
     indicatorType = 'position',
+    ...rest
   } = props;
 
   const [segmentStyle, setSegmentStyle] = useState({
@@ -53,9 +43,6 @@ const SliderProgress: React.FC<Props> = (props) => {
     scrollOffset,
     sliderTrackRef,
   } = useSlider();
-
-  const Tag = htmlElement as React.ElementType;
-  const IndicatorTag = indicatorHTMLElement as React.ElementType;
 
   useEffect(() => {
     const newSegmentStyle = {
@@ -94,12 +81,10 @@ const SliderProgress: React.FC<Props> = (props) => {
 
   return (
     <Tag
-      id={id}
-      className={className}
-      {...htmlAttributes}
+      {...rest}
       style={{
         position: 'relative',
-        ...htmlAttributes.style || {},
+        ...style || {},
       }}
       onMouseEnter={() => {
         if (pauseOnHover) setIsPaused(true);
@@ -110,14 +95,13 @@ const SliderProgress: React.FC<Props> = (props) => {
     >
       <IndicatorTag
         id={indicatorID}
-        className={indicatorClassName}
-        {...indicatorHTMLAttributes}
+        {...indicatorRest}
         style={{
           position: 'absolute',
           top: 0,
           height: '100%',
           ...segmentStyle,
-          ...indicatorHTMLAttributes.style || {},
+          ...indicatorStyle || {},
         }}
       />
     </Tag>

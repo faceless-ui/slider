@@ -1,24 +1,17 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { HTMLProps, useCallback, useEffect, useRef } from 'react';
 import useSlider from '../useSlider';
 
-export type Props = {
-  id?: string
-  className?: string
+export interface SliderTrackProps extends HTMLProps<HTMLElement> {
   htmlElement?: React.ElementType
-  htmlAttributes?: {
-    [key: string]: unknown,
-    style?: React.CSSProperties
-  }
   children?: React.ReactNode
 }
 
-const SliderTrack: React.FC<Props> = (props) => {
+const SliderTrack: React.FC<SliderTrackProps> = (props) => {
   const {
-    id,
-    className,
-    htmlElement = 'div',
+    htmlElement: Tag = 'div',
     children,
-    htmlAttributes = {},
+    style,
+    ...rest
   } = props;
 
   const {
@@ -78,24 +71,20 @@ const SliderTrack: React.FC<Props> = (props) => {
     onScroll,
   ]);
 
-  const Tag = htmlElement as React.ElementType;
-
   // TODO: use this to support scrolling the last slide fully into position (flush left)
   const renderGhostSlide = false; // slidesToShow > 1;
 
   return (
     <Tag
       {...{
-        id,
-        className,
-        ...htmlAttributes,
+        ...rest,
         style: {
           position: 'relative',
           display: 'flex',
           overflowX: 'scroll', // 'overflow: touch' does not work when 'auto'
           WebkitOverflowScrolling: 'touch',
           scrollSnapType: (slideWidth && !useFreeScroll) ? 'x mandatory' : undefined, // only apply after slide width has populated
-          ...htmlAttributes.style,
+          ...style,
         },
         ref: sliderTrackRef,
         onMouseEnter: () => {

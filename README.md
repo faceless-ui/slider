@@ -18,7 +18,6 @@ $ yarn add @faceless-ui/slider
 
 For working examples, spin up the [demo app](./demo/App.demo.js):
 
-
 ```bash
 $ git clone git@github.com:faceless-ui/slider.git
 $ yarn
@@ -32,4 +31,4 @@ $ open http://localhost:3000
 
 ## License
 
-[MIT](https://github.com/faceless-ui/slider/blob/master/LICENSE) Copyright (c) TRBL, LLC
+[MIT](https://github.com/faceless-ui/slider/blob/master/LICENSE) Copyright (c) Faceless UI

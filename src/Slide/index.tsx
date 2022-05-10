@@ -1,4 +1,6 @@
 import React, {
+  HTMLProps,
+  MouseEvent,
   useCallback,
   useEffect,
   useRef,
@@ -12,15 +14,9 @@ export interface ISlide {
   isIntersecting: boolean
 }
 
-export type Props = {
+export interface Props extends HTMLProps<HTMLElement> {
   index: number
-  id?: string
-  className?: string
   htmlElement?: React.ElementType
-  htmlAttributes?: {
-    [key: string]: unknown
-    style?: React.CSSProperties
-  }
   slideToSelfOnClick?: boolean
   children?: React.ReactNode
 }
@@ -28,11 +24,11 @@ export type Props = {
 const Slide: React.FC<Props> = (props) => {
   const {
     index,
-    id,
-    className,
     htmlElement = 'div',
-    htmlAttributes = {},
     children,
+    style,
+    onClick: onClickFromProps,
+    ...rest
   } = props;
 
   const slider = useSlider();
@@ -73,14 +69,19 @@ const Slide: React.FC<Props> = (props) => {
     index,
   ]);
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback((e: MouseEvent<HTMLElement>) => {
     if (slideOnSelect) {
       goToSlideIndex(index);
+    }
+
+    if (typeof onClickFromProps === 'function') {
+      onClickFromProps(e);
     }
   }, [
     slideOnSelect,
     index,
     goToSlideIndex,
+    onClickFromProps
   ]);
 
   const Tag = htmlElement as React.ElementType;
@@ -88,17 +89,15 @@ const Slide: React.FC<Props> = (props) => {
   return (
     <Tag
       {...{
-        id,
-        className,
         ref: slideRef,
         onClick: handleClick,
-        ...htmlAttributes,
+        ...rest,
         style: {
           flexShrink: 0,
           width: slideWidth,
           scrollSnapAlign: !useFreeScroll ? 'start' : undefined,
           scrollSnapStop: 'always',
-          ...htmlAttributes.style,
+          ...style,
         },
       }}
     >

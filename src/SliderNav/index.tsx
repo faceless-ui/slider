@@ -1,43 +1,31 @@
-import React, { useRef } from 'react';
+import React, { HTMLProps, useRef } from 'react';
 import useSlider from '../useSlider';
-import SliderButton, { Props as SliderButtonProps } from '../SliderButton';
+import SliderButton, { SliderButtonProps } from '../SliderButton';
 
-export type Props = {
-  id?: string,
-  className?: string,
-  htmlElement?: React.ElementType,
-  htmlAttributes?: {
-    [key: string]: unknown
-  },
-  prevButtonProps?: SliderButtonProps,
-  nextButtonProps?: SliderButtonProps,
-  counter?: {
-    Component?: React.ReactNode
-    id?: string,
-    className?: string,
-    htmlElement?: React.ElementType,
-    htmlAttributes?: {
-      [key: string]: unknown
-    },
-  },
+export interface CounterProps extends HTMLProps<HTMLElement> {
+  htmlElement?: React.ElementType
+}
+
+export interface SliderNavProps extends HTMLProps<HTMLElement> {
+  htmlElement?: React.ElementType
+  prevButtonProps?: SliderButtonProps
+  nextButtonProps?: SliderButtonProps
+  counter?: CounterProps
   showCounter?: boolean
 }
 
-const SliderNav: React.FC<Props> = (props) => {
+const SliderNav: React.FC<SliderNavProps> = (props) => {
   const {
-    id,
-    className,
-    htmlElement = 'div',
-    htmlAttributes = {},
+    htmlElement: Tag = 'div',
     prevButtonProps,
     nextButtonProps,
     showCounter = false,
     counter: {
-      htmlElement: counterHTMLElement = 'div',
-      htmlAttributes: counterHTMLAttributes,
+      htmlElement: CounterTag = 'div',
       id: counterID,
-      className: counterClassName,
+      ...counterRest
     } = {},
+    ...rest
   } = props;
 
   const {
@@ -49,15 +37,10 @@ const SliderNav: React.FC<Props> = (props) => {
 
   const slideRef = useRef(null);
 
-  const Tag = htmlElement as React.ElementType;
-  const CounterTag = counterHTMLElement as React.ElementType;
-
   return (
     <Tag
-      id={id}
-      className={className}
       ref={slideRef}
-      {...htmlAttributes}
+      {...rest}
       onMouseEnter={() => {
         if (pauseOnHover) setIsPaused(true);
       }}
@@ -72,8 +55,7 @@ const SliderNav: React.FC<Props> = (props) => {
       {showCounter && (
         <CounterTag
           id={counterID}
-          className={counterClassName}
-          {...counterHTMLAttributes}
+          {...counterRest}
         >
           {`${currentSlideIndex + 1} / ${slides.length}`}
         </CounterTag>
