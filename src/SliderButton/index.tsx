@@ -44,6 +44,7 @@ const SliderButton: React.FC<SliderButtonProps> = (props) => {
   return (
     <Tag
       type="button"
+      aria-label={direction === 'prev' ? 'Go to previous slide' : 'Go to next slide'}
       {...rest}
       onClick={handleClick}
       onMouseEnter={() => {
