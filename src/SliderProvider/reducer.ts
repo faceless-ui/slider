@@ -13,6 +13,7 @@ const reducer = (
     type: string,
     payload?: {
       slide?: ISlide
+      scrollToIndex?: (index: number) => void // eslint-disable-line no-unused-vars
       [key: string]: unknown
     },
   },
@@ -45,37 +46,36 @@ const reducer = (
     }
 
     case 'GO_TO_NEXT_SLIDE': {
-      const { loop } = payload;
+      const {
+        loop,
+        scrollToIndex
+      } = payload;
 
       const indexToUse = selectedSlideIndex || currentSlideIndex;
-      const hasNextIndex = indexToUse + 1 < slides.length;
-      const nextIndex = hasNextIndex ? indexToUse + 1 : undefined;
+      const hasNext = indexToUse + 1 < slides.length;
+      const lastIndex = slides.length - 1;
+      const nextIndex = hasNext ? indexToUse + 1 : lastIndex;
+      const newSlideIndex = loop ? 0 : nextIndex;
 
-      let newSlideIndex;
-      if (typeof nextIndex === 'number') {
-        newSlideIndex = nextIndex;
-      } else if (loop) {
-        newSlideIndex = 0; // to first
-      }
-
+      if (typeof scrollToIndex === 'function') scrollToIndex(newSlideIndex);
       newState.scrollIndex = newSlideIndex;
 
       break;
     }
 
     case 'GO_TO_PREV_SLIDE': {
-      const { loop } = payload;
+      const {
+        loop,
+        scrollToIndex
+      } = payload;
+
       const indexToUse = selectedSlideIndex || currentSlideIndex;
       const hasPrev = indexToUse - 1 >= 0;
-      const prevIndex = hasPrev ? currentSlideIndex - 1 : undefined;
+      const prevIndex = hasPrev ? currentSlideIndex - 1 : 0;
+      const lastIndex = slides.length - 1;
+      const newSlideIndex = loop ? lastIndex : prevIndex;
 
-      let newSlideIndex;
-      if (typeof prevIndex === 'number') {
-        newSlideIndex = prevIndex;
-      } else if (loop) {
-        newSlideIndex = slides.length - 1; // to last
-      }
-
+      if (typeof scrollToIndex === 'function') scrollToIndex(newSlideIndex);
       newState.scrollIndex = newSlideIndex;
 
       break;

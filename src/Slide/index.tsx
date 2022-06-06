@@ -17,7 +17,6 @@ export interface ISlide {
 export interface Props extends HTMLProps<HTMLElement> {
   index: number
   htmlElement?: React.ElementType
-  slideToSelfOnClick?: boolean
   children?: React.ReactNode
 }
 

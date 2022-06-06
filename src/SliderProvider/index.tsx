@@ -60,7 +60,6 @@ const SliderProvider: React.FC<Props> = (props) => {
     smoothscroll.polyfill(); // enables scrollTo.behavior: 'smooth' on Safari
   }, []);
 
-
   const scrollToIndex = useCallback((incomingSlideIndex: number) => {
     const hasIndex = sliderState.slides[incomingSlideIndex];
 
@@ -93,7 +92,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     slidesToShow,
   ]);
 
-  // auto-scroll to target index only on changes to scrollIndex
+  // auto-scroll to the target index only when "scrollIndex" changes
   useEffect(() => {
     if (sliderState.scrollIndex !== undefined && prevScrollIndex.current !== sliderState.scrollIndex) {
       scrollToIndex(sliderState.scrollIndex);
@@ -162,6 +161,7 @@ const SliderProvider: React.FC<Props> = (props) => {
         type: 'GO_TO_NEXT_SLIDE',
         payload: {
           loop: !useFreeScroll,
+          scrollToIndex
         },
       });
     },
@@ -170,6 +170,7 @@ const SliderProvider: React.FC<Props> = (props) => {
         type: 'GO_TO_PREV_SLIDE',
         payload: {
           loop: !useFreeScroll,
+          scrollToIndex
         },
       });
     },
