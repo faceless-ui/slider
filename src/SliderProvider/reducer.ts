@@ -56,7 +56,11 @@ const reducer = (
       const nextIndex = currentIndex + 1;
       const hasNext = nextIndex < slides.length;
       let indexToUse = nextIndex;
-      if (!hasNext && loop) indexToUse = 0;
+
+      if (!hasNext) {
+        if (loop) indexToUse = 0;
+        else indexToUse = slides.length - 1;
+      }
 
       if (typeof scrollToIndex === 'function') scrollToIndex(indexToUse);
       newState.scrollIndex = indexToUse;
@@ -75,7 +79,11 @@ const reducer = (
       const prevIndex = currentIndex - 1;
       const hasPrev = prevIndex >= 0;
       let indexToUse = prevIndex;
-      if (!hasPrev && loop) indexToUse = slides.length - 1;
+
+      if (!hasPrev) {
+        if (loop) indexToUse = slides.length - 1;
+        else indexToUse = 0;
+      }
 
       if (typeof scrollToIndex === 'function') scrollToIndex(indexToUse);
       newState.scrollIndex = indexToUse;
