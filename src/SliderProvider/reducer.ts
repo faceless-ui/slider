@@ -51,14 +51,15 @@ const reducer = (
         scrollToIndex
       } = payload;
 
-      const indexToUse = selectedSlideIndex || currentSlideIndex;
-      const hasNext = indexToUse + 1 < slides.length;
-      const lastIndex = slides.length - 1;
-      const nextIndex = hasNext ? indexToUse + 1 : lastIndex;
-      const newSlideIndex = loop ? 0 : nextIndex;
+      const currentIndex = selectedSlideIndex || currentSlideIndex;
 
-      if (typeof scrollToIndex === 'function') scrollToIndex(newSlideIndex);
-      newState.scrollIndex = newSlideIndex;
+      const nextIndex = currentIndex + 1;
+      const hasNext = nextIndex < slides.length;
+      let indexToUse = nextIndex;
+      if (!hasNext && loop) indexToUse = 0;
+
+      if (typeof scrollToIndex === 'function') scrollToIndex(indexToUse);
+      newState.scrollIndex = indexToUse;
 
       break;
     }
@@ -69,14 +70,15 @@ const reducer = (
         scrollToIndex
       } = payload;
 
-      const indexToUse = selectedSlideIndex || currentSlideIndex;
-      const hasPrev = indexToUse - 1 >= 0;
-      const prevIndex = hasPrev ? currentSlideIndex - 1 : 0;
-      const lastIndex = slides.length - 1;
-      const newSlideIndex = loop ? lastIndex : prevIndex;
+      const currentIndex = selectedSlideIndex || currentSlideIndex;
 
-      if (typeof scrollToIndex === 'function') scrollToIndex(newSlideIndex);
-      newState.scrollIndex = newSlideIndex;
+      const prevIndex = currentIndex - 1;
+      const hasPrev = prevIndex >= 0;
+      let indexToUse = prevIndex;
+      if (!hasPrev && loop) indexToUse = slides.length - 1;
+
+      if (typeof scrollToIndex === 'function') scrollToIndex(indexToUse);
+      newState.scrollIndex = indexToUse;
 
       break;
     }
