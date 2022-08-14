@@ -46,6 +46,7 @@ const SliderProvider: React.FC<Props> = (props) => {
   const [scrollRatio, setScrollRatio] = useState(0);
   const [slideWidth, setSlideWidth] = useState<string | undefined>();
   const [isPaused, setIsPaused] = useState(false);
+  const [isFullyScrolled, setIsFullyScrolled] = useState(false);
 
   const [sliderState, dispatchSliderState] = useReducer(reducer, {
     currentSlideIndex: 0,
@@ -111,6 +112,7 @@ const SliderProvider: React.FC<Props> = (props) => {
         type: 'GO_TO_NEXT_SLIDE',
         payload: {
           loop: true,
+          isFullyScrolled
         },
       });
     }, autoplaySpeed);
@@ -118,7 +120,10 @@ const SliderProvider: React.FC<Props> = (props) => {
     return () => {
       if (timerID) clearInterval(timerID);
     };
-  }, [autoplaySpeed]);
+  }, [
+    isFullyScrolled,
+    autoplaySpeed
+  ]);
 
   const stopAutoplay = useCallback(() => {
     const { current: autoPlayTimerID } = autoplayTimer;
@@ -150,6 +155,12 @@ const SliderProvider: React.FC<Props> = (props) => {
       setIsPaused(pause);
     }
   }, [pause]);
+
+  // NOTE: for performance we set another state for 'isFullyScrolled' to avoid using `scrollRatio` directly as callback dependency
+  useEffect(() => {
+    if (scrollRatio === 1) setIsFullyScrolled(true);
+    else setIsFullyScrolled(false);
+  }, [scrollRatio])
 
   const context: ISliderContext = {
     sliderTrackRef,

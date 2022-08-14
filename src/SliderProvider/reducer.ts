@@ -14,6 +14,7 @@ const reducer = (
     payload?: {
       slide?: ISlide
       scrollToIndex?: (index: number) => void // eslint-disable-line no-unused-vars
+      isFullyScrolled?: boolean
       [key: string]: unknown
     },
   },
@@ -48,7 +49,8 @@ const reducer = (
     case 'GO_TO_NEXT_SLIDE': {
       const {
         loop,
-        scrollToIndex
+        scrollToIndex,
+        isFullyScrolled
       } = payload;
 
       const currentIndex = selectedSlideIndex || currentSlideIndex;
@@ -57,9 +59,9 @@ const reducer = (
       const hasNext = nextIndex < slides.length;
       let indexToUse = nextIndex;
 
-      if (!hasNext) {
-        if (loop) indexToUse = 0;
-        else indexToUse = slides.length - 1;
+      if (!hasNext || isFullyScrolled) {
+        if (loop) indexToUse = 0; // first slide
+        else indexToUse = slides.length - 1; // last slide
       }
 
       if (typeof scrollToIndex === 'function') scrollToIndex(indexToUse);
