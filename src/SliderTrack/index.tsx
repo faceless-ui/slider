@@ -22,6 +22,7 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
     useFreeScroll,
     setIsPaused,
     pauseOnHover,
+    useGhostSlide
   } = useSlider();
 
   const hasAddedScrollListener = useRef(false);
@@ -71,9 +72,6 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
     onScroll,
   ]);
 
-  // TODO: use this to support scrolling the last slide fully into position (flush left)
-  const renderGhostSlide = false; // slidesToShow > 1;
-
   return (
     <Tag
       {...{
@@ -96,11 +94,12 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
       }}
     >
       {children && children}
-      {renderGhostSlide && (
+      {useGhostSlide && (
         <div
           style={{
             flexShrink: 0,
             width: `calc(${slideWidth} * ${slidesToShow - 1})`,
+            pointerEvents: 'none'
           }}
         >
           &nbsp;

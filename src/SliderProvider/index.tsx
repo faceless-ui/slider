@@ -23,6 +23,7 @@ export type Props = {
   pauseOnHover?: boolean
   pause?: boolean
   children: React.ReactNode | ChildFunction
+  useGhostSlide?: boolean
 }
 
 const SliderProvider: React.FC<Props> = (props) => {
@@ -37,6 +38,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     autoplaySpeed = 2000,
     pauseOnHover = true,
     pause,
+    useGhostSlide
   } = props;
 
   const sliderTrackRef = useDragScroll({
@@ -206,6 +208,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     setIsPaused,
     isPaused,
     pauseOnHover,
+    useGhostSlide
   };
 
   return (
