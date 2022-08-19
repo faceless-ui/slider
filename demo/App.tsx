@@ -1,6 +1,6 @@
 import React from 'react';
 import FreeScrollSliderDemo from './FreeScrollSliderDemo';
-// import ThumbnailSliderDemo from './ThumbnailSliderDemo';
+import ThumbnailSliderDemo from './ThumbnailSliderDemo';
 // import ScrollSnapSliderDemo from './ScrollSnapSliderDemo';
 
 const App: React.FC = () => (
@@ -21,7 +21,7 @@ const App: React.FC = () => (
     <h1>
       Thumbnail Slider Demo:
     </h1>
-    {/* <ThumbnailSliderDemo /> */}
+    <ThumbnailSliderDemo />
   </div>
 );
 

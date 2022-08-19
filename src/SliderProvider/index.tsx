@@ -24,6 +24,7 @@ export type Props = {
   pause?: boolean
   children: React.ReactNode | ChildFunction
   useGhostSlide?: boolean
+  currentSlideIndex?: number
 }
 
 const SliderProvider: React.FC<Props> = (props) => {
@@ -38,7 +39,8 @@ const SliderProvider: React.FC<Props> = (props) => {
     autoplaySpeed = 2000,
     pauseOnHover = true,
     pause,
-    useGhostSlide
+    useGhostSlide,
+    currentSlideIndex: slideIndexFromProps = 0
   } = props;
 
   const sliderTrackRef = useDragScroll({
@@ -50,8 +52,10 @@ const SliderProvider: React.FC<Props> = (props) => {
   const [isPaused, setIsPaused] = useState(false);
   const [isFullyScrolled, setIsFullyScrolled] = useState(false);
 
+  const indexFromPropsRef = useRef(slideIndexFromProps);
+
   const [sliderState, dispatchSliderState] = useReducer(reducer, {
-    currentSlideIndex: 0,
+    currentSlideIndex: slideIndexFromProps,
     selectedSlideIndex: undefined,
     slides: [],
   });
@@ -163,6 +167,21 @@ const SliderProvider: React.FC<Props> = (props) => {
     if (scrollRatio === 1) setIsFullyScrolled(true);
     else setIsFullyScrolled(false);
   }, [scrollRatio])
+
+  // NOTE: let props control the slider using 'currentSlideIndex', if desired
+  useEffect(() => {
+    if (typeof slideIndexFromProps !== 'undefined' && slideIndexFromProps !== indexFromPropsRef.current && slideIndexFromProps !== sliderState.currentSlideIndex) {
+      dispatchSliderState({
+        type: 'GO_TO_SLIDE_INDEX',
+        payload: {
+          index: slideIndexFromProps,
+          scrollToIndex
+        },
+      });
+    }
+
+    indexFromPropsRef.current = slideIndexFromProps;
+  }, [slideIndexFromProps])
 
   const context: ISliderContext = {
     sliderTrackRef,
