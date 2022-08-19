@@ -187,9 +187,13 @@ const SliderProvider: React.FC<Props> = (props) => {
         },
       });
     },
-    goToSlideIndex: () => {
+    goToSlideIndex: (index: number) => {
       dispatchSliderState({
-        type: 'GO_TO_NEXT_SLIDE',
+        type: 'GO_TO_SLIDE_INDEX',
+        payload: {
+          index,
+          scrollToIndex
+        }
       });
     },
     dispatchSlide: (slide) => {

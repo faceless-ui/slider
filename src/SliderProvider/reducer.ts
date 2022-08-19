@@ -15,6 +15,7 @@ const reducer = (
       slide?: ISlide
       scrollToIndex?: (index: number) => void // eslint-disable-line no-unused-vars
       isFullyScrolled?: boolean
+      index?: number
       [key: string]: unknown
     },
   },
@@ -37,12 +38,27 @@ const reducer = (
       const {
         slide,
       } = payload;
+
       if (slide) {
         const {
           index: slideIndex,
         } = slide;
         newState.slides[slideIndex] = slide;
       }
+      break;
+    }
+
+    case 'GO_TO_SLIDE_INDEX': {
+      const {
+        index,
+        scrollToIndex
+      } = payload;
+
+      if (typeof index === 'number') {
+        if (typeof scrollToIndex === 'function') scrollToIndex(index);
+        newState.scrollIndex = index;
+      }
+
       break;
     }
 
