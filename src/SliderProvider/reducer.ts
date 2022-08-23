@@ -7,18 +7,41 @@ type SliderState = {
   scrollIndex?: number
 }
 
+type UPDATE_SLIDE = {
+  type: 'UPDATE_SLIDE'
+  payload: {
+    slide?: ISlide
+  }
+}
+
+type GO_TO_SLIDE_INDEX = {
+  type: 'GO_TO_SLIDE_INDEX'
+  payload: {
+    index?: number
+  }
+}
+
+type GO_TO_PREV_SLIDE = {
+  type: 'GO_TO_PREV_SLIDE'
+  payload: {
+    loop?: boolean
+  }
+}
+
+type GO_TO_NEXT_SLIDE = {
+  type: 'GO_TO_NEXT_SLIDE'
+  payload: {
+    loop?: boolean
+    isFullyScrolled?: boolean
+  }
+}
+
 const reducer = (
   state: SliderState,
-  action: {
-    type: string,
-    payload?: {
-      slide?: ISlide
-      scrollToIndex?: (index: number) => void // eslint-disable-line no-unused-vars
-      isFullyScrolled?: boolean
-      index?: number
-      [key: string]: unknown
-    },
-  },
+  action: GO_TO_PREV_SLIDE
+    | UPDATE_SLIDE
+    | GO_TO_SLIDE_INDEX
+    | GO_TO_NEXT_SLIDE,
 ): SliderState => {
   const newState = { ...state };
 
@@ -30,7 +53,7 @@ const reducer = (
 
   const {
     type,
-    payload = {},
+    payload,
   } = action;
 
   switch (type) {
@@ -43,6 +66,7 @@ const reducer = (
         const {
           index: slideIndex,
         } = slide;
+
         newState.slides[slideIndex] = slide;
       }
       break;
@@ -51,11 +75,9 @@ const reducer = (
     case 'GO_TO_SLIDE_INDEX': {
       const {
         index,
-        scrollToIndex
       } = payload;
 
       if (typeof index === 'number') {
-        if (typeof scrollToIndex === 'function') scrollToIndex(index);
         newState.scrollIndex = index;
       }
 
@@ -65,7 +87,6 @@ const reducer = (
     case 'GO_TO_NEXT_SLIDE': {
       const {
         loop,
-        scrollToIndex,
         isFullyScrolled
       } = payload;
 
@@ -80,7 +101,6 @@ const reducer = (
         else indexToUse = slides.length - 1; // last slide
       }
 
-      if (typeof scrollToIndex === 'function') scrollToIndex(indexToUse);
       newState.scrollIndex = indexToUse;
 
       break;
@@ -89,7 +109,6 @@ const reducer = (
     case 'GO_TO_PREV_SLIDE': {
       const {
         loop,
-        scrollToIndex
       } = payload;
 
       const currentIndex = selectedSlideIndex || currentSlideIndex;
@@ -103,7 +122,6 @@ const reducer = (
         else indexToUse = 0;
       }
 
-      if (typeof scrollToIndex === 'function') scrollToIndex(indexToUse);
       newState.scrollIndex = indexToUse;
 
       break;
