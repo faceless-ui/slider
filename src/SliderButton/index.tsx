@@ -3,6 +3,7 @@ import useSlider from '../useSlider';
 
 export interface SliderButtonProps extends HTMLProps<HTMLElement> {
   htmlElement?: React.ElementType
+  index?: number
   children?: React.ReactNode
   direction?: 'prev' | 'next'
 }
@@ -12,6 +13,7 @@ const SliderButton: React.FC<SliderButtonProps> = (props) => {
     htmlElement: Tag = 'button',
     children,
     direction,
+    index,
     onClick,
     ...rest
   } = props;
@@ -21,14 +23,20 @@ const SliderButton: React.FC<SliderButtonProps> = (props) => {
     goToNextSlide,
     setIsPaused,
     pauseOnHover,
+    goToSlideIndex
   } = useSlider();
 
   const handleClick = useCallback((e: MouseEvent<HTMLElement>) => {
     if (direction === 'prev') {
       goToPrevSlide();
     }
+
     if (direction === 'next') {
       goToNextSlide();
+    }
+
+    if (!direction && index) {
+      goToSlideIndex(index);
     }
 
     if (typeof onClick === 'function') {
