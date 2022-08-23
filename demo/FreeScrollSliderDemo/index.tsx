@@ -5,6 +5,7 @@ import {
   SliderNav,
   SliderProgress,
   SliderTrack,
+  DotsNav
 } from '../../src'; // swap '../src' for '../dist/build.bundle' to demo production build
 
 const FreeScrollSliderDemo: React.FC = () => (
@@ -114,6 +115,15 @@ const FreeScrollSliderDemo: React.FC = () => (
           }}
         />
       </div>
+      <DotsNav
+        buttonProps={{
+          style: {
+            width: '5px',
+            height: '5px',
+            backgroundColor: 'gray',
+          }
+        }}
+      />
     </SliderProvider>
   </Fragment>
 );
