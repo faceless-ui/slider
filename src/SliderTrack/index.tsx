@@ -1,5 +1,6 @@
 import React, { HTMLProps, useCallback, useEffect, useRef } from 'react';
 import useSlider from '../useSlider';
+import { getGhostSlideWidth } from './getGhostSlideWidth';
 
 export interface SliderTrackProps extends HTMLProps<HTMLElement> {
   htmlElement?: React.ElementType
@@ -14,17 +15,18 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
     ...rest
   } = props;
 
+  const sliderContext = useSlider();
+
   const {
     sliderTrackRef,
     setScrollRatio,
     slideWidth,
-    slidesToShow,
     scrollable,
     scrollSnap,
     setIsPaused,
     pauseOnHover,
-    useGhostSlide
-  } = useSlider();
+    alignLastSlide
+  } = sliderContext;
 
   const hasAddedScrollListener = useRef(false);
   const animationFrameID = useRef<number | undefined>();
@@ -90,6 +92,8 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
     }
   }, [scrollable])
 
+  const ghostSlideWidth = getGhostSlideWidth(sliderContext);
+
   return (
     <Tag
       {...{
@@ -112,11 +116,11 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
       }}
     >
       {children && children}
-      {useGhostSlide && (
+      {alignLastSlide !== undefined && (
         <div
           style={{
             flexShrink: 0,
-            width: `calc(${slideWidth} * ${slidesToShow - 1})`,
+            width: ghostSlideWidth,
             pointerEvents: 'none'
           }}
         >

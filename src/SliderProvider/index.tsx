@@ -26,7 +26,7 @@ export type Props = {
   pauseOnHover?: boolean
   pause?: boolean
   children: React.ReactNode | ChildFunction
-  useGhostSlide?: boolean
+  alignLastSlide?: 'trackLeft' | 'offsetLeft' | string | number
   currentSlideIndex?: number
 }
 
@@ -45,7 +45,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     autoplaySpeed = 2000,
     pauseOnHover = true,
     pause,
-    useGhostSlide,
+    alignLastSlide,
     currentSlideIndex: slideIndexFromProps = 0,
   } = props;
 
@@ -246,7 +246,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     setIsPaused,
     isPaused,
     pauseOnHover,
-    useGhostSlide
+    alignLastSlide
   };
 
   return (

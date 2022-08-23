@@ -18,10 +18,10 @@ const FreeScrollSliderDemo: React.FC = () => (
     </code>
     <SliderProvider
       slidesToShow={2}
-      // scrollable
       dragScroll
       autoPlay
       pauseOnHover={false}
+    // alignLastSlide={"50px"}
     >
       <div
         style={{
