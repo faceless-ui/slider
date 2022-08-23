@@ -19,7 +19,8 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
     setScrollRatio,
     slideWidth,
     slidesToShow,
-    useFreeScroll,
+    scrollable,
+    scrollSnap,
     setIsPaused,
     pauseOnHover,
     useGhostSlide
@@ -53,6 +54,7 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
     getScrollRatio,
   ]);
 
+  // NOTE: handle updates to the track's current scroll, which could originate from either the user or the program
   useEffect(() => {
     const track = sliderTrackRef.current;
 
@@ -72,6 +74,22 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
     onScroll,
   ]);
 
+  // NOTE: if the user does not want scroll enabled, we need to remove the event listener without canceling programmatic scroll
+  useEffect(() => {
+    const track = sliderTrackRef.current;
+
+    if (track) {
+      if (!scrollable) {
+        track.addEventListener('wheel', (e) => { e.preventDefault() })
+      }
+    }
+    return () => {
+      if (track) {
+        track.removeEventListener('scroll', onScroll);
+      }
+    }
+  }, [scrollable])
+
   return (
     <Tag
       {...{
@@ -79,9 +97,9 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
         style: {
           position: 'relative',
           display: 'flex',
-          overflowX: 'scroll', // 'overflow: touch' does not work when 'auto'
+          overflowX: 'scroll', // NOTE: 'WebkitOverflowScrolling: touch' does not work when 'auto'
           WebkitOverflowScrolling: 'touch',
-          scrollSnapType: (slideWidth && !useFreeScroll) ? 'x mandatory' : undefined, // only apply after slide width has populated
+          scrollSnapType: (scrollSnap && slideWidth) ? 'x mandatory' : undefined, // NOTE: only apply after slide width has populated
           ...style,
         },
         ref: sliderTrackRef,

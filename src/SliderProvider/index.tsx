@@ -16,7 +16,10 @@ export type Props = {
   onSlide?: (index: number) => void // eslint-disable-line no-unused-vars
   slidesToShow?: number
   slideOnSelect?: boolean
-  useFreeScroll?: boolean
+  scrollable?: boolean
+  useFreeScroll?: boolean // IMPORTANT: being deprecated, use `scrollable` instead
+  dragScroll?: boolean
+  scrollSnap?: boolean
   scrollOffset?: number
   autoPlay?: boolean
   autoplaySpeed?: number
@@ -33,18 +36,32 @@ const SliderProvider: React.FC<Props> = (props) => {
     onSlide,
     slidesToShow = 3,
     slideOnSelect,
+    scrollable: scrollableFromProps = true,
     useFreeScroll,
+    dragScroll,
+    scrollSnap,
     scrollOffset = 0,
     autoPlay,
     autoplaySpeed = 2000,
     pauseOnHover = true,
     pause,
     useGhostSlide,
-    currentSlideIndex: slideIndexFromProps = 0
+    currentSlideIndex: slideIndexFromProps = 0,
   } = props;
 
-  const sliderTrackRef = useDragScroll({
+  if (useFreeScroll !== undefined) {
+    console.warn('`useFreeScroll` prop will be deprecated in the next major release, use `scrollable` instead (`true` by default)');
+  }
+
+  // NOTE: this this only while `useFreeScroll` is still supported, see warning above
+  const scrollable = scrollableFromProps === undefined ? useFreeScroll : scrollableFromProps;
+
+  const sliderTrackRef = useRef<HTMLDivElement>(null);
+
+  useDragScroll({
+    ref: sliderTrackRef,
     scrollYAxis: false,
+    enable: dragScroll || (scrollable && dragScroll !== false)
   });
 
   const [scrollRatio, setScrollRatio] = useState(0);
@@ -118,7 +135,7 @@ const SliderProvider: React.FC<Props> = (props) => {
         type: 'GO_TO_NEXT_SLIDE',
         payload: {
           loop: true,
-          isFullyScrolled
+          isFullyScrolled,
         },
       });
     }, autoplaySpeed);
@@ -175,7 +192,6 @@ const SliderProvider: React.FC<Props> = (props) => {
         type: 'GO_TO_SLIDE_INDEX',
         payload: {
           index: slideIndexFromProps,
-          scrollToIndex
         },
       });
     }
@@ -192,8 +208,7 @@ const SliderProvider: React.FC<Props> = (props) => {
       dispatchSliderState({
         type: 'GO_TO_NEXT_SLIDE',
         payload: {
-          loop: !useFreeScroll,
-          scrollToIndex
+          loop: !scrollable,
         },
       });
     },
@@ -201,8 +216,7 @@ const SliderProvider: React.FC<Props> = (props) => {
       dispatchSliderState({
         type: 'GO_TO_PREV_SLIDE',
         payload: {
-          loop: !useFreeScroll,
-          scrollToIndex
+          loop: !scrollable,
         },
       });
     },
@@ -211,7 +225,6 @@ const SliderProvider: React.FC<Props> = (props) => {
         type: 'GO_TO_SLIDE_INDEX',
         payload: {
           index,
-          scrollToIndex
         }
       });
     },
@@ -226,7 +239,9 @@ const SliderProvider: React.FC<Props> = (props) => {
     slideWidth,
     slidesToShow,
     slideOnSelect,
-    useFreeScroll,
+    scrollable,
+    dragScroll,
+    scrollSnap,
     scrollOffset,
     setIsPaused,
     isPaused,

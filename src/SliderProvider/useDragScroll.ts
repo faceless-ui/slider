@@ -1,11 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Options = {
   buttons?: number[]
   scrollYAxis?: boolean
+  enable?: boolean
+  ref: React.MutableRefObject<HTMLDivElement | null>
 }
 
-type UseDraggable = (options?: Options) => React.MutableRefObject<HTMLDivElement | null> // eslint-disable-line no-unused-vars
+type UseDraggable = (options?: Options) => null // eslint-disable-line no-unused-vars
 
 /**
   * Make an element scrollable by dragging
@@ -16,10 +18,10 @@ export const useDraggable: UseDraggable = (options) => {
   const {
     buttons = [1, 4, 5],
     scrollYAxis,
+    enable,
+    ref
   } = options || {};
 
-  // Ref to be attached to the element we want to drag
-  const ref = useRef<HTMLDivElement>(null);
   // Position of the mouse on the page on mousedown
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
@@ -29,7 +31,7 @@ export const useDraggable: UseDraggable = (options) => {
 
   useEffect(() => {
     const handleDown = (e: MouseEvent) => {
-      if (ref.current) {
+      if (ref?.current && enable) {
         // Only allow dragging inside of target element
         if (!ref.current.contains(e.target as Node)) {
           return;
@@ -44,7 +46,7 @@ export const useDraggable: UseDraggable = (options) => {
     };
 
     const handleMove = (e: MouseEvent) => {
-      if (ref.current) {
+      if (ref?.current && enable) {
         // Don't fire if other buttons are pressed
         if (!buttons.includes(e.buttons) || !ref.current.contains(e.target as Node)) {
           return;
@@ -77,7 +79,7 @@ export const useDraggable: UseDraggable = (options) => {
 
     const handleUp = () => {
       // reenable nested anchor links after dragging
-      if (ref.current?.children) {
+      if (ref?.current?.children && enable) {
         const childrenAsArray = Array.from(ref.current.children);
         childrenAsArray.forEach((child) => {
           const childAsElement = child as HTMLElement;
@@ -103,9 +105,10 @@ export const useDraggable: UseDraggable = (options) => {
     startX,
     startY,
     scrollYAxis,
+    enable
   ]);
 
-  return ref;
+  return null;
 };
 
 export default useDraggable;

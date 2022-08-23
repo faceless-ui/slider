@@ -13,12 +13,15 @@ const FreeScrollSliderDemo: React.FC = () => (
       <pre>
         slidesToShow: 2
         <br />
-        useFreeScroll: true
+        scrollable: true
       </pre>
     </code>
     <SliderProvider
       slidesToShow={2}
-      useFreeScroll
+      // scrollable
+      dragScroll
+      autoPlay
+      pauseOnHover={false}
     >
       <div
         style={{
