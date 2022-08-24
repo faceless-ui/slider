@@ -22,6 +22,11 @@ const FreeScrollSliderDemo: React.FC = () => (
       dragScroll
       autoPlay
       pauseOnHover={false}
+      breakpoints={{
+        '(max-width: 576px)': {
+          slidesToShow: 1
+        },
+      }}
     // alignLastSlide={"50px"}
     >
       <div

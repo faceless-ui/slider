@@ -9,6 +9,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 import SliderContext, { ISliderContext } from '../SliderContext';
 import reducer from './reducer';
 import useDragScroll from './useDragScroll';
+import { useBreakpoints } from './useBreakpoints';
 
 export type ChildFunction = (context: ISliderContext) => React.ReactNode; // eslint-disable-line no-unused-vars
 
@@ -28,11 +29,19 @@ export type Props = {
   children: React.ReactNode | ChildFunction
   alignLastSlide?: 'trackLeft' | 'offsetLeft' | string | number
   currentSlideIndex?: number
+  breakpoints?: {
+    [key: string]: Omit<Props, "children" | "breakpoints">
+  }
 }
 
 const SliderProvider: React.FC<Props> = (props) => {
   const {
     children,
+  } = props;
+
+  const propsToUse = useBreakpoints(props);
+
+  const {
     onSlide,
     slidesToShow = 3,
     slideOnSelect,
@@ -47,7 +56,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     pause,
     alignLastSlide,
     currentSlideIndex: slideIndexFromProps = 0,
-  } = props;
+  } = propsToUse;
 
   if (useFreeScroll !== undefined) {
     console.warn('`useFreeScroll` prop will be deprecated in the next major release, use `scrollable` instead (`true` by default)');
@@ -197,7 +206,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     }
 
     indexFromPropsRef.current = slideIndexFromProps;
-  }, [slideIndexFromProps])
+  }, [slideIndexFromProps]);
 
   const context: ISliderContext = {
     sliderTrackRef,
@@ -236,6 +245,7 @@ const SliderProvider: React.FC<Props> = (props) => {
         },
       });
     },
+    autoPlay,
     slideWidth,
     slidesToShow,
     slideOnSelect,

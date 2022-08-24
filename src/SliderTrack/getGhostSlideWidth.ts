@@ -48,7 +48,5 @@ export const getGhostSlideWidth = (sliderContext: ISliderContext): string => {
     }
   }
 
-  console.log(ghostSlideWidth)
-
   return ghostSlideWidth;
 }
