@@ -6,7 +6,7 @@ import {
   SliderProgress,
   SliderTrack,
   DotsNav
-} from '../../src'; // swap '../src' for '../dist/build.bundle' to demo production build
+} from '../../src'; // swap '../../src' for '../../dist' to demo production build
 
 const FreeScrollSliderDemo: React.FC = () => (
   <Fragment>
@@ -27,7 +27,7 @@ const FreeScrollSliderDemo: React.FC = () => (
           slidesToShow: 1
         },
       }}
-    // alignLastSlide={"50px"}
+      alignLastSlide={"50px"}
     >
       <div
         style={{

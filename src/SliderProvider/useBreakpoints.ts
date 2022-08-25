@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Props } from './';
 
-type PropsWithoutChildren = Omit<Props, "children" | "breakpoints">;
-
-export const useBreakpoints = (props: Props): PropsWithoutChildren => {
-  const [propsToUse, setPropsToShow] = useState<PropsWithoutChildren>(props);
+export const useBreakpoints = (props: Props): Props => {
+  const [propsToUse, setPropsToShow] = useState<Props>(props);
 
   const {
     breakpoints
@@ -62,11 +60,6 @@ export const useBreakpoints = (props: Props): PropsWithoutChildren => {
     requestThrottledAnimation,
     breakpoints
   ]);
-
-  // @ts-ignore
-  delete propsToUse.breakpoints;
-  // @ts-ignore
-  delete propsToUse.children;
 
   return propsToUse;
 }
