@@ -1,6 +1,6 @@
 import React from 'react';
-import FreeScrollSliderDemo from './FreeScrollSliderDemo';
-// import ThumbnailSliderDemo from './ThumbnailSliderDemo';
+// import FreeScrollSliderDemo from './FreeScrollSliderDemo';
+import ThumbnailSliderDemo from './ThumbnailSliderDemo';
 // import ScrollSnapSliderDemo from './ScrollSnapSliderDemo';
 
 const App: React.FC = () => (
@@ -10,18 +10,18 @@ const App: React.FC = () => (
       margin: 'auto',
     }}
   >
-    <h1>
+    {/* <h1>
       Free Scroll Slider:
-    </h1>
-    <FreeScrollSliderDemo />
+    </h1> */}
+    {/* <FreeScrollSliderDemo /> */}
     {/* <h1>
       Scroll Snap Slider:
     </h1> */}
     {/* <ScrollSnapSliderDemo /> */}
-    {/* <h1>
+    <h1>
       Thumbnail Slider Demo:
-    </h1> */}
-    {/* <ThumbnailSliderDemo /> */}
+    </h1>
+    <ThumbnailSliderDemo />
   </div>
 );
 

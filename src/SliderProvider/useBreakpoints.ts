@@ -1,16 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Props } from './';
+import { Props, Settings } from './';
 
-export const useBreakpoints = (props: Props): Props => {
+export const useBreakpoints = (props: Props): Settings => {
   const [propsToUse, setPropsToShow] = useState<Props>(props);
-
-  const {
-    breakpoints
-  } = props;
 
   const animationRef = useRef<number | null>(null);
 
   const requestAnimation = useCallback((): void => {
+    const { breakpoints } = props;
+
     if (breakpoints) {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       animationRef.current = requestAnimationFrame(
@@ -34,7 +32,7 @@ export const useBreakpoints = (props: Props): Props => {
         }
       );
     }
-  }, [breakpoints]);
+  }, [props]);
 
   const requestThrottledAnimation = useCallback((): void => {
     setTimeout(() => {
@@ -43,22 +41,17 @@ export const useBreakpoints = (props: Props): Props => {
   }, [requestAnimation]);
 
   useEffect(() => {
-    if (breakpoints) {
-      window.addEventListener('resize', requestAnimation);
-      window.addEventListener('orientationchange', requestThrottledAnimation);
-      requestAnimation();
-    }
+    window.addEventListener('resize', requestAnimation);
+    window.addEventListener('orientationchange', requestThrottledAnimation);
+    requestAnimation();
 
     return () => {
-      if (breakpoints) {
-        window.removeEventListener('resize', requestAnimation);
-        window.removeEventListener('orientationchange', requestThrottledAnimation);
-      }
+      window.removeEventListener('resize', requestAnimation);
+      window.removeEventListener('orientationchange', requestThrottledAnimation);
     };
   }, [
     requestAnimation,
     requestThrottledAnimation,
-    breakpoints
   ]);
 
   return propsToUse;

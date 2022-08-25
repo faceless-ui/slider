@@ -13,8 +13,7 @@ import { useBreakpoints } from './useBreakpoints';
 
 export type ChildFunction = (context: ISliderContext) => React.ReactNode; // eslint-disable-line no-unused-vars
 
-export type Props = {
-  onSlide?: (index: number) => void // eslint-disable-line no-unused-vars
+export type Settings = {
   slidesToShow?: number
   slideOnSelect?: boolean
   scrollable?: boolean
@@ -25,10 +24,14 @@ export type Props = {
   autoPlay?: boolean
   autoplaySpeed?: number
   pauseOnHover?: boolean
-  pause?: boolean
-  children: React.ReactNode | ChildFunction
   alignLastSlide?: 'trackLeft' | 'offsetLeft' | string | number
+}
+
+export type Props = Settings & {
+  children: React.ReactNode | ChildFunction
   currentSlideIndex?: number
+  onSlide?: (index: number) => void // eslint-disable-line no-unused-vars
+  pause?: boolean
   breakpoints?: {
     [key: string]: Omit<Props, "children" | "breakpoints">
   }
@@ -37,12 +40,14 @@ export type Props = {
 const SliderProvider: React.FC<Props> = (props) => {
   const {
     children,
+    currentSlideIndex: slideIndexFromProps = 0,
+    onSlide,
+    pause,
   } = props;
 
-  const propsToUse = useBreakpoints(props);
+  const settings = useBreakpoints(props);
 
   const {
-    onSlide,
     slidesToShow = 3,
     slideOnSelect,
     scrollable: scrollableFromProps = true,
@@ -53,10 +58,8 @@ const SliderProvider: React.FC<Props> = (props) => {
     autoPlay,
     autoplaySpeed = 2000,
     pauseOnHover = true,
-    pause,
     alignLastSlide,
-    currentSlideIndex: slideIndexFromProps = 0,
-  } = propsToUse;
+  } = settings;
 
   if (useFreeScroll !== undefined) {
     console.warn('`useFreeScroll` prop will be deprecated in the next major release, use `scrollable` instead (`true` by default)');
