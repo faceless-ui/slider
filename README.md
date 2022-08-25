@@ -1,6 +1,5 @@
 [![NPM](https://img.shields.io/npm/v/@faceless-ui/slider)](https://www.npmjs.com/@faceless-ui/slider)
 ![Bundle Size](https://img.shields.io/bundlephobia/minzip/@faceless-ui/slider?label=zipped)
-[![Supported by TRBL](https://img.shields.io/badge/supported_by-TRBL-black)](https://github.com/trouble)
 
 # React Slider
 
