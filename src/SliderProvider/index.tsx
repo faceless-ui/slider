@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useEffect,
   useReducer,
   useRef,
@@ -12,6 +11,7 @@ import useDragScroll from './useDragScroll';
 import { useBreakpoints } from './useBreakpoints';
 import { useMarquee } from './useMarquee';
 import { useAutoplay } from './useAutoplay';
+import { useScrollToIndex } from './useScrollToIndex';
 
 export type ChildFunction = (context: ISliderContext) => React.ReactNode; // eslint-disable-line no-unused-vars
 
@@ -109,54 +109,25 @@ const SliderProvider: React.FC<Props> = (props) => {
     dispatchSliderState
   })
 
-  const indexFromPropsRef = useRef(slideIndexFromProps);
+  useScrollToIndex({
+    sliderTrackRef,
+    dispatchSliderState,
+    onSlide,
+    scrollOffset,
+    sliderState
+  })
 
-  const prevScrollIndex = useRef<number | undefined>();
+  const indexFromPropsRef = useRef(slideIndexFromProps);
 
   useEffect(() => {
     smoothscroll.polyfill(); // enables scrollTo.behavior: 'smooth' on Safari
   }, []);
-
-  const scrollToIndex = useCallback((incomingSlideIndex: number) => {
-    const hasIndex = sliderState.slides[incomingSlideIndex];
-
-    if (hasIndex && sliderTrackRef.current) {
-      const targetSlide = sliderState.slides[incomingSlideIndex];
-      const targetSlideRef = targetSlide.ref.current;
-      if (targetSlideRef) {
-        const { offsetLeft } = targetSlideRef;
-
-        sliderTrackRef.current.scrollTo({
-          top: 0,
-          left: (offsetLeft - scrollOffset),
-          behavior: 'smooth',
-        });
-      }
-
-      if (typeof onSlide === 'function') onSlide(incomingSlideIndex);
-    }
-  }, [
-    sliderState.slides,
-    onSlide,
-    scrollOffset,
-  ]);
 
   useEffect(() => {
     const newSlideWidth = `${(slidesToShow > 1 ? 1 / slidesToShow : slidesToShow) * 100}%`;
     setSlideWidth(newSlideWidth);
   }, [
     slidesToShow,
-  ]);
-
-  // auto-scroll to the target index only when "scrollIndex" changes
-  useEffect(() => {
-    if (sliderState.scrollIndex !== undefined && prevScrollIndex.current !== sliderState.scrollIndex) {
-      scrollToIndex(sliderState.scrollIndex);
-      prevScrollIndex.current = sliderState.scrollIndex;
-    }
-  }, [
-    sliderState.scrollIndex,
-    scrollToIndex,
   ]);
 
   // let user control pause, if they need to
