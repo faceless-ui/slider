@@ -1,4 +1,5 @@
 import React from 'react';
+import MarqueeSliderDemo from './MarqueeSliderDemo';
 // import FreeScrollSliderDemo from './FreeScrollSliderDemo';
 import ThumbnailSliderDemo from './ThumbnailSliderDemo';
 // import ScrollSnapSliderDemo from './ScrollSnapSliderDemo';
@@ -22,6 +23,10 @@ const App: React.FC = () => (
       Thumbnail Slider Demo:
     </h1>
     <ThumbnailSliderDemo />
+    <h1>
+      Marquee Slider Demo
+    </h1>
+    <MarqueeSliderDemo />
   </div>
 );
 
