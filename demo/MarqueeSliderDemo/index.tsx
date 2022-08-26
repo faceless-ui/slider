@@ -17,6 +17,7 @@ const MarqueeSliderDemo: React.FC = () => (
     <SliderProvider
       slidesToShow={2}
       marquee
+    // marqueeSpeed={100}
     >
       <div
         style={{

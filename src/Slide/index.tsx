@@ -95,7 +95,7 @@ const Slide: React.FC<Props> = (props) => {
           flexShrink: 0,
           width: slideWidth,
           scrollSnapAlign: scrollSnap ? 'start' : undefined,
-          scrollSnapStop: 'always',
+          scrollSnapStop: scrollSnap ? 'always' : undefined,
           ...style,
         },
       }}

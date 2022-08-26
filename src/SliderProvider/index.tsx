@@ -62,7 +62,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     autoPlay,
     autoplaySpeed = 2000,
     marquee,
-    marqueeSpeed = 50,
+    marqueeSpeed,
     pauseOnHover = true,
     alignLastSlide,
   } = settings;
