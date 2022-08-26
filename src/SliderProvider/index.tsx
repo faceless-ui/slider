@@ -202,7 +202,7 @@ const SliderProvider: React.FC<Props> = (props) => {
     else setIsFullyScrolled(false);
   }, [scrollRatio])
 
-  // NOTE: let props control the slider using 'currentSlideIndex', if desired
+  // NOTE: let props control the slider using 'currentSlideIndex' (aliased as 'slideIndexFromProps')
   useEffect(() => {
     if (typeof slideIndexFromProps !== 'undefined' && slideIndexFromProps !== indexFromPropsRef.current && slideIndexFromProps !== sliderState.currentSlideIndex) {
       dispatchSliderState({
@@ -214,7 +214,10 @@ const SliderProvider: React.FC<Props> = (props) => {
     }
 
     indexFromPropsRef.current = slideIndexFromProps;
-  }, [slideIndexFromProps]);
+  }, [
+    slideIndexFromProps,
+    sliderState.currentSlideIndex
+  ]);
 
   const context: ISliderContext = {
     sliderTrackRef,

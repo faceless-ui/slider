@@ -38,6 +38,7 @@ export const useMarquee = (props: Props): null => {
   }, [
     isFullyScrolled,
     marqueeSpeed,
+    sliderTrackRef
   ]);
 
   const stopMarquee = useCallback(() => {
@@ -52,7 +53,8 @@ export const useMarquee = (props: Props): null => {
   }, [
     isPaused,
     startMarquee,
-    stopMarquee
+    stopMarquee,
+    enable
   ]);
 
   return null;

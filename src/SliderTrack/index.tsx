@@ -90,7 +90,11 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
         track.removeEventListener('scroll', onScroll);
       }
     }
-  }, [scrollable])
+  }, [
+    scrollable,
+    onScroll,
+    sliderTrackRef
+  ])
 
   const ghostSlideWidth = getGhostSlideWidth(sliderContext);
 

@@ -105,7 +105,8 @@ export const useDraggable: UseDraggable = (options) => {
     startX,
     startY,
     scrollYAxis,
-    enable
+    enable,
+    ref
   ]);
 
   return null;

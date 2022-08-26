@@ -46,7 +46,9 @@ const SliderButton: React.FC<SliderButtonProps> = (props) => {
     direction,
     goToPrevSlide,
     goToNextSlide,
-    onClick
+    onClick,
+    goToSlideIndex,
+    index
   ]);
 
   return (
