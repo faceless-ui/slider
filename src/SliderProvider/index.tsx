@@ -11,6 +11,7 @@ import reducer from './reducer';
 import useDragScroll from './useDragScroll';
 import { useBreakpoints } from './useBreakpoints';
 import { useMarquee } from './useMarquee';
+import { useAutoplay } from './useAutoplay';
 
 export type ChildFunction = (context: ISliderContext) => React.ReactNode; // eslint-disable-line no-unused-vars
 
@@ -79,6 +80,12 @@ const SliderProvider: React.FC<Props> = (props) => {
   const [isFullyScrolled, setIsFullyScrolled] = useState(false);
   const sliderTrackRef = useRef<HTMLDivElement>(null);
 
+  const [sliderState, dispatchSliderState] = useReducer(reducer, {
+    currentSlideIndex: slideIndexFromProps,
+    selectedSlideIndex: undefined,
+    slides: [],
+  });
+
   useDragScroll({
     ref: sliderTrackRef,
     scrollYAxis: false,
@@ -93,16 +100,18 @@ const SliderProvider: React.FC<Props> = (props) => {
     marqueeSpeed
   })
 
+  useAutoplay({
+    sliderTrackRef,
+    isFullyScrolled,
+    isPaused,
+    enable: autoPlay,
+    autoplaySpeed,
+    dispatchSliderState
+  })
+
   const indexFromPropsRef = useRef(slideIndexFromProps);
 
-  const [sliderState, dispatchSliderState] = useReducer(reducer, {
-    currentSlideIndex: slideIndexFromProps,
-    selectedSlideIndex: undefined,
-    slides: [],
-  });
-
   const prevScrollIndex = useRef<number | undefined>();
-  const autoplayTimer = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     smoothscroll.polyfill(); // enables scrollTo.behavior: 'smooth' on Safari
@@ -148,47 +157,6 @@ const SliderProvider: React.FC<Props> = (props) => {
   }, [
     sliderState.scrollIndex,
     scrollToIndex,
-  ]);
-
-  const startAutoplay = useCallback(() => {
-    const { current: timerID } = autoplayTimer;
-
-    autoplayTimer.current = setInterval(() => {
-      dispatchSliderState({
-        type: 'GO_TO_NEXT_SLIDE',
-        payload: {
-          loop: true,
-          isFullyScrolled,
-        },
-      });
-    }, autoplaySpeed);
-
-    return () => {
-      if (timerID) clearInterval(timerID);
-    };
-  }, [
-    isFullyScrolled,
-    autoplaySpeed
-  ]);
-
-  const stopAutoplay = useCallback(() => {
-    const { current: autoPlayTimerID } = autoplayTimer;
-    if (autoPlayTimerID) clearInterval(autoPlayTimerID);
-  }, []);
-
-  useEffect(() => {
-    if (!isPaused) {
-      if (autoPlay) startAutoplay();
-    }
-    if (isPaused || !autoPlay) {
-      stopAutoplay();
-    }
-    return () => stopAutoplay();
-  }, [
-    isPaused,
-    autoPlay,
-    startAutoplay,
-    stopAutoplay,
   ]);
 
   // let user control pause, if they need to

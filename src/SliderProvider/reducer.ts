@@ -1,34 +1,34 @@
 import { ISlide } from '../Slide';
 
-type SliderState = {
+export type SliderState = {
   currentSlideIndex: number
   selectedSlideIndex?: number
   slides: ISlide[]
   scrollIndex?: number
 }
 
-type UPDATE_SLIDE = {
+export type UPDATE_SLIDE = {
   type: 'UPDATE_SLIDE'
   payload: {
     slide?: ISlide
   }
 }
 
-type GO_TO_SLIDE_INDEX = {
+export type GO_TO_SLIDE_INDEX = {
   type: 'GO_TO_SLIDE_INDEX'
   payload: {
     index?: number
   }
 }
 
-type GO_TO_PREV_SLIDE = {
+export type GO_TO_PREV_SLIDE = {
   type: 'GO_TO_PREV_SLIDE'
   payload: {
     loop?: boolean
   }
 }
 
-type GO_TO_NEXT_SLIDE = {
+export type GO_TO_NEXT_SLIDE = {
   type: 'GO_TO_NEXT_SLIDE'
   payload: {
     loop?: boolean
@@ -36,12 +36,14 @@ type GO_TO_NEXT_SLIDE = {
   }
 }
 
+export type Action = GO_TO_PREV_SLIDE
+  | UPDATE_SLIDE
+  | GO_TO_SLIDE_INDEX
+  | GO_TO_NEXT_SLIDE
+
 const reducer = (
   state: SliderState,
-  action: GO_TO_PREV_SLIDE
-    | UPDATE_SLIDE
-    | GO_TO_SLIDE_INDEX
-    | GO_TO_NEXT_SLIDE,
+  action: Action,
 ): SliderState => {
   const newState = { ...state };
 
