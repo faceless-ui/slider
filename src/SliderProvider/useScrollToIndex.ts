@@ -18,10 +18,13 @@ export const useScrollToIndex = (props: ScrollToIndexProps): null => {
     sliderTrackRef
   } = props;
 
+  const animationRef = useRef<number | undefined>();
   const prevScrollIndex = useRef<number | undefined>();
 
   const scrollToIndex = useCallback((incomingSlideIndex: number) => {
     const hasIndex = sliderState.slides[incomingSlideIndex];
+
+    if (animationRef.current) cancelAnimationFrame(animationRef.current);
 
     if (hasIndex && sliderTrackRef.current) {
       const targetSlide = sliderState.slides[incomingSlideIndex];
@@ -29,10 +32,14 @@ export const useScrollToIndex = (props: ScrollToIndexProps): null => {
       if (targetSlideRef) {
         const { offsetLeft } = targetSlideRef;
 
-        sliderTrackRef.current.scrollTo({
-          top: 0,
-          left: (offsetLeft - (scrollOffset || 0)),
-          behavior: 'smooth',
+        animationRef.current = requestAnimationFrame(() => {
+          if (sliderTrackRef.current) {
+            sliderTrackRef.current.scrollTo({
+              top: 0,
+              left: (offsetLeft - (scrollOffset || 0)),
+              behavior: 'smooth',
+            });
+          }
         });
       }
 
@@ -55,6 +62,14 @@ export const useScrollToIndex = (props: ScrollToIndexProps): null => {
     sliderState.scrollIndex,
     scrollToIndex,
   ]);
+
+  useEffect(() => {
+    () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    }
+  }, [])
 
   return null;
 }

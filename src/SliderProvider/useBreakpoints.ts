@@ -8,29 +8,27 @@ export const useBreakpoints = (props: Props): Settings => {
 
   const requestAnimation = useCallback((): void => {
     const { breakpoints } = props;
+    if (animationRef.current) cancelAnimationFrame(animationRef.current);
 
     if (breakpoints) {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-      animationRef.current = requestAnimationFrame(
-        () => {
-          const matchedBreakpoints = Object.keys(breakpoints).map((breakpoint) => {
-            const matches = window.matchMedia(breakpoint).matches;
-            if (matches) return breakpoint;
-            return undefined;
-          }).filter(Boolean) as string[];
+      animationRef.current = requestAnimationFrame(() => {
+        const matchedBreakpoints = Object.keys(breakpoints).map((breakpoint) => {
+          const matches = window.matchMedia(breakpoint).matches;
+          if (matches) return breakpoint;
+          return undefined;
+        }).filter(Boolean) as string[];
 
-          if (matchedBreakpoints.length === 0) {
-            setPropsToShow(props);
-          } else {
-            const lastMatch = matchedBreakpoints[matchedBreakpoints.length - 1];
-            const breakpointProps = breakpoints[lastMatch];
-            setPropsToShow({
-              ...props,
-              ...breakpointProps
-            });
-          }
+        if (matchedBreakpoints.length === 0) {
+          setPropsToShow(props);
+        } else {
+          const lastMatch = matchedBreakpoints[matchedBreakpoints.length - 1];
+          const breakpointProps = breakpoints[lastMatch];
+          setPropsToShow({
+            ...props,
+            ...breakpointProps
+          });
         }
-      );
+      })
     }
   }, [props]);
 
@@ -53,6 +51,14 @@ export const useBreakpoints = (props: Props): Settings => {
     requestAnimation,
     requestThrottledAnimation,
   ]);
+
+  useEffect(() => {
+    () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    }
+  }, [])
 
   return propsToUse;
 }

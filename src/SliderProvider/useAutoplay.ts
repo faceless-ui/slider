@@ -19,24 +19,23 @@ export const useAutoplay = (props: Props): null => {
     dispatchSliderState
   } = props;
 
+  const animationRef = useRef<number | null>(null);
   const autoplayTimer = useRef<ReturnType<typeof setTimeout>>();
 
   const startAutoplay = useCallback(() => {
-    const { current: timerID } = autoplayTimer;
-
     autoplayTimer.current = setInterval(() => {
-      dispatchSliderState({
-        type: 'GO_TO_NEXT_SLIDE',
-        payload: {
-          loop: true,
-          isFullyScrolled,
-        },
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+
+      animationRef.current = requestAnimationFrame(() => {
+        dispatchSliderState({
+          type: 'GO_TO_NEXT_SLIDE',
+          payload: {
+            loop: true,
+            isFullyScrolled,
+          },
+        })
       });
     }, autoplaySpeed);
-
-    return () => {
-      if (timerID) clearInterval(timerID);
-    };
   }, [
     isFullyScrolled,
     autoplaySpeed,
@@ -58,6 +57,18 @@ export const useAutoplay = (props: Props): null => {
     startAutoplay,
     stopAutoplay,
   ]);
+
+  useEffect(() => {
+    () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+
+      if (autoplayTimer.current) {
+        clearTimeout(autoplayTimer.current);
+      }
+    }
+  }, [])
 
   return null;
 }

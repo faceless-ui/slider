@@ -1,4 +1,4 @@
-import { ISliderContext } from "../SliderContext";
+import { ISliderContext } from "../SliderProvider/context";
 
 export const getGhostSlideWidth = (sliderContext: ISliderContext): string => {
   const {

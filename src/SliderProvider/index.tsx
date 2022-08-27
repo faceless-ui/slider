@@ -5,7 +5,7 @@ import React, {
   useState,
 } from 'react';
 import smoothscroll from 'smoothscroll-polyfill';
-import SliderContext, { ISliderContext } from '../SliderContext';
+import SliderContext, { ISliderContext } from './context';
 import reducer from './reducer';
 import useDragScroll from './useDragScroll';
 import { useBreakpoints } from './useBreakpoints';
