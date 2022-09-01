@@ -3,7 +3,7 @@
 
 # React Slider
 
-Read the full documentation [here](https://faceless-ui.com/docs/slider).
+Read the full documentation [here](https://facelessui.com/docs/slider).
 
 ### Installation
 
@@ -13,9 +13,9 @@ $ # or
 $ yarn add @faceless-ui/slider
 ```
 
-## Demo
+## Development
 
-For working examples, spin up the [demo app](./demo/App.demo.js):
+To develop this module locally, spin up the [demo app](./demo/App.demo.js):
 
 ```bash
 $ git clone git@github.com:faceless-ui/slider.git
@@ -23,10 +23,6 @@ $ yarn
 $ yarn dev
 $ open http://localhost:3000
 ```
-
-## Contribution
-
-[Help us,](https://github.com/faceless-ui/.github/blob/master/CONTRIBUTING.md) or let us [help you help us](https://github.com/faceless-ui/.github/blob/master/SUPPORT.md).
 
 ## License
 

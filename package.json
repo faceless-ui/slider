@@ -3,13 +3,25 @@
   "version": "1.1.10",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "homepage:": "https://faceless-ui/docs/slider",
+  "homepage:": "https://facelessui.com/docs/slider",
   "repository": "git@github.com:faceless-ui/slider.git",
   "description": "A React library for building every kind of slider",
-  "author": "Jacob Fletcher <jacobsfletch@gmail.com> (https://jacobsfletch.com)",
-  "contributors": [
-    "TRBL <dev@trbl.design> (https://trbl.design)"
+  "author": {
+    "email": "jacobsfletch@gmail.com",
+    "name": "Jacob Fletcher",
+    "url": "https://jacobsfletch.com"
+  },
+  "bugs": {
+    "url": "https://github.com/faceless-ui/slider/issues",
+    "email": "dev@facelessui.com"
+  },
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://github.com/sponsors/jacobsfletch"
+    }
   ],
+  "contributors": [],
   "license": "MIT",
   "keywords": [
     "react",
