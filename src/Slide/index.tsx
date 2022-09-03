@@ -14,13 +14,13 @@ export interface ISlide {
   isIntersecting: boolean
 }
 
-export interface Props extends HTMLProps<HTMLElement> {
+export interface SlideProps extends HTMLProps<HTMLElement> {
   index: number
   htmlElement?: React.ElementType
   children?: React.ReactNode
 }
 
-const Slide: React.FC<Props> = (props) => {
+const Slide: React.FC<SlideProps> = (props) => {
   const {
     index,
     htmlElement = 'div',

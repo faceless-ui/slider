@@ -1,22 +1,24 @@
 import { useCallback, useEffect, useRef } from "react";
-import { Props } from ".";
+import { SliderProviderProps } from ".";
 import { Action, SliderState } from "./reducer";
 
-type ScrollToIndexProps = {
+type Args = {
   sliderTrackRef: React.MutableRefObject<HTMLDivElement | null>
-  onSlide: Props["onSlide"]
+  onSlide: SliderProviderProps["onSlide"]
   sliderState: SliderState
   dispatchSliderState: (action: Action) => void // eslint-disable-line no-unused-vars
-  scrollOffset: Props["scrollOffset"]
+  scrollOffset: SliderProviderProps["scrollOffset"]
 }
 
-export const useScrollToIndex = (props: ScrollToIndexProps): null => {
+export type UseScrollToIndex = (args: Args) => null // eslint-disable-line no-unused-vars
+
+export const useScrollToIndex: UseScrollToIndex = (args) => {
   const {
     sliderState,
     onSlide,
     scrollOffset,
     sliderTrackRef
-  } = props;
+  } = args;
 
   const animationRef = useRef<number | undefined>();
   const prevScrollIndex = useRef<number | undefined>();

@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Props, Settings } from './';
+import { SliderProviderProps, SliderSettings } from './';
 
-export const useBreakpoints = (props: Props): Settings => {
-  const [propsToUse, setPropsToShow] = useState<Props>(props);
+export type UseBreakpoints = (args: SliderProviderProps) => SliderSettings // eslint-disable-line no-unused-vars
+
+export const useBreakpoints: UseBreakpoints = (props): SliderSettings => {
+  const [propsToUse, setPropsToShow] = useState<SliderProviderProps>(props);
 
   const animationRef = useRef<number | null>(null);
 

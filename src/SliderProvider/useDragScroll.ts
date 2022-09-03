@@ -1,26 +1,21 @@
 import React, { useEffect, useState } from 'react';
 
-type Options = {
+type Args = {
   buttons?: number[]
   scrollYAxis?: boolean
   enable?: boolean
   ref: React.MutableRefObject<HTMLDivElement | null>
 }
 
-type UseDraggable = (options?: Options) => null // eslint-disable-line no-unused-vars
+export type UseDraggable = (args?: Args) => null // eslint-disable-line no-unused-vars
 
-/**
-  * Make an element scrollable by dragging
-  * @param buttons - Buttons user can drag with. See https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
-  * @returns {React.MutableRefObject} -  The ref to be applied to to the element to make it draggable
-  */
-export const useDraggable: UseDraggable = (options) => {
+export const useDraggable: UseDraggable = (args) => {
   const {
-    buttons = [1, 4, 5],
+    buttons = [1, 4, 5], // See https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
     scrollYAxis,
     enable,
     ref
-  } = options || {};
+  } = args || {};
 
   // Position of the mouse on the page on mousedown
   const [startX, setStartX] = useState(0);
