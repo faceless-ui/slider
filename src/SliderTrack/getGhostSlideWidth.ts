@@ -1,6 +1,8 @@
 import { ISliderContext } from "../SliderProvider/context";
 
-export const getGhostSlideWidth = (sliderContext: ISliderContext): string => {
+export type GetGhostSlideWidth = (sliderContext: ISliderContext) => string; // eslint-disable-line no-unused-vars
+
+export const getGhostSlideWidth: GetGhostSlideWidth = (sliderContext) => {
   const {
     alignLastSlide,
     slidesToShow,

@@ -5,7 +5,7 @@
 
 Read the full documentation [here](https://facelessui.com/docs/slider).
 
-### Installation
+## Installation
 
 ```bash
 $ npm i @faceless-ui/slider

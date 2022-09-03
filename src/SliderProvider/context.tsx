@@ -1,9 +1,9 @@
 import { createContext } from 'react';
 import { MutableRefObject } from 'react';
 import { ISlide } from '../Slide';
-import { Props } from '../SliderProvider';
+import { SliderProviderProps } from '../SliderProvider';
 
-export interface ISliderContext extends Omit<Props, 'children'> {
+export interface ISliderContext extends Omit<SliderProviderProps, 'children'> {
   slidesToShow: number // NOTE: this is made required, the provider sets fallback if undefined in incoming props
   scrollOffset: number // NOTE: this is made required, the provider sets fallback if undefined in incoming props
   sliderTrackRef: MutableRefObject<HTMLElement | null>,

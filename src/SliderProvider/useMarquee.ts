@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 
-type Props = {
+type Args = {
   sliderTrackRef: React.MutableRefObject<HTMLDivElement | null>
   isFullyScrolled: boolean
   isPaused: boolean
@@ -8,14 +8,16 @@ type Props = {
   marqueeSpeed?: number
 }
 
-export const useMarquee = (props: Props): null => {
+export type UseMarquee = (args: Args) => null // eslint-disable-line no-unused-vars
+
+export const useMarquee: UseMarquee = (args) => {
   const {
     sliderTrackRef,
     isFullyScrolled,
     enable,
     isPaused,
     marqueeSpeed // NOTE: this is technically a requested frame rate
-  } = props;
+  } = args;
 
   const animationRef = useRef<number | undefined>();
   const prevTimestamp = useRef<number | undefined>();

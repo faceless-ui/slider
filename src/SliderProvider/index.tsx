@@ -15,7 +15,7 @@ import { useScrollToIndex } from './useScrollToIndex';
 
 export type ChildFunction = (context: ISliderContext) => React.ReactNode; // eslint-disable-line no-unused-vars
 
-export type Settings = {
+export type SliderSettings = {
   slidesToShow?: number
   slideOnSelect?: boolean
   scrollable?: boolean
@@ -31,17 +31,17 @@ export type Settings = {
   alignLastSlide?: 'trackLeft' | 'offsetLeft' | string | number
 }
 
-export type Props = Settings & {
+export type SliderProviderProps = SliderSettings & {
   children: React.ReactNode | ChildFunction
   currentSlideIndex?: number
   onSlide?: (index: number) => void // eslint-disable-line no-unused-vars
   pause?: boolean
   breakpoints?: {
-    [key: string]: Omit<Props, "children" | "breakpoints">
+    [key: string]: Omit<SliderProviderProps, "children" | "breakpoints">
   }
 }
 
-const SliderProvider: React.FC<Props> = (props) => {
+const SliderProvider: React.FC<SliderProviderProps> = (props) => {
   const {
     children,
     currentSlideIndex: slideIndexFromProps = 0,

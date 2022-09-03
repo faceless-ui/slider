@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { Action } from "./reducer";
 
-type Props = {
+type Args = {
   sliderTrackRef: React.MutableRefObject<HTMLDivElement | null>
   isFullyScrolled: boolean
   isPaused: boolean
@@ -10,14 +10,16 @@ type Props = {
   dispatchSliderState: (action: Action) => void // eslint-disable-line no-unused-vars
 }
 
-export const useAutoplay = (props: Props): null => {
+export type UseAutoplay = (args: Args) => null // eslint-disable-line no-unused-vars
+
+export const useAutoplay: UseAutoplay = (args) => {
   const {
     isPaused,
     enable,
     isFullyScrolled,
     autoplaySpeed,
     dispatchSliderState
-  } = props;
+  } = args;
 
   const animationRef = useRef<number | null>(null);
   const autoplayTimer = useRef<ReturnType<typeof setTimeout>>();
