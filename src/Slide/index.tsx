@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useEffect,
   useRef,
+  useState,
 } from 'react';
 import useSlider from '../useSlider';
 import useIntersection from './useIntersection';
@@ -25,11 +26,12 @@ const Slide: React.FC<SlideProps> = (props) => {
     index,
     htmlElement = 'div',
     children,
-    style,
+    style: styleFromProps,
     onClick: onClickFromProps,
     ...rest
   } = props;
 
+  const [style, setStyle] = useState<React.CSSProperties | undefined>();
   const slider = useSlider();
   const slideRef = useRef<HTMLElement | null>(null);
 
@@ -68,6 +70,17 @@ const Slide: React.FC<SlideProps> = (props) => {
     index,
   ]);
 
+  useEffect(() => {
+    if (scrollSnap) {
+      setStyle({
+        scrollSnapStop: 'always',
+        scrollSnapAlign: 'start',
+      })
+    } else {
+      setStyle(undefined);
+    }
+  }, [scrollSnap]);
+
   const handleClick = useCallback((e: MouseEvent<HTMLElement>) => {
     if (slideOnSelect) {
       goToSlideIndex(index);
@@ -84,6 +97,12 @@ const Slide: React.FC<SlideProps> = (props) => {
   ]);
 
   const Tag = htmlElement as React.ElementType;
+  const mergedStyle = {
+    flexShrink: 0,
+    width: slideWidth,
+    ...style || {},
+    ...styleFromProps || {},
+  }
 
   return (
     <Tag
@@ -91,13 +110,7 @@ const Slide: React.FC<SlideProps> = (props) => {
         ref: slideRef,
         onClick: handleClick,
         ...rest,
-        style: {
-          flexShrink: 0,
-          width: slideWidth,
-          scrollSnapAlign: scrollSnap ? 'start' : undefined,
-          scrollSnapStop: scrollSnap ? 'always' : undefined,
-          ...style,
-        },
+        style: mergedStyle,
       }}
     >
       {children && children}
