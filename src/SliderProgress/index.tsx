@@ -15,6 +15,11 @@ export interface SliderProgressProps extends HTMLProps<HTMLElement> {
   indicatorType?: 'width' | 'position'
 }
 
+type SegmentStyle = {
+  width?: string
+  left?: string
+}
+
 const SliderProgress: React.FC<SliderProgressProps> = (props) => {
   const {
     htmlElement: Tag = 'div',
@@ -29,10 +34,7 @@ const SliderProgress: React.FC<SliderProgressProps> = (props) => {
     ...rest
   } = props;
 
-  const [segmentStyle, setSegmentStyle] = useState({
-    width: '',
-    left: '',
-  });
+  const [segmentStyle, setSegmentStyle] = useState<SegmentStyle | undefined>(undefined);
 
   const {
     scrollRatio,
@@ -45,14 +47,12 @@ const SliderProgress: React.FC<SliderProgressProps> = (props) => {
   } = useSlider();
 
   useEffect(() => {
-    const newSegmentStyle = {
-      width: '',
-      left: '',
-    };
+    let newSegmentStyle: SegmentStyle | undefined;
 
     const { current: track } = sliderTrackRef;
 
     if (track) {
+      newSegmentStyle = {};
       const trackWidth = track.offsetWidth;
       const scrollOffsetRatio = scrollOffset > 0 ? ((trackWidth / scrollOffset) / 100) : 0;
 
@@ -100,7 +100,7 @@ const SliderProgress: React.FC<SliderProgressProps> = (props) => {
           position: 'absolute',
           top: 0,
           height: '100%',
-          ...segmentStyle,
+          ...segmentStyle || {},
           ...indicatorStyle || {},
         }}
       />
