@@ -28,8 +28,8 @@ const ScrollSnapSliderDemo: React.FC = () => {
       </button>
       <SliderProvider
         slidesToShow={1}
-        autoPlay={autoPlay}
-        dragScroll
+        autoPlay
+        scrollSnap
       >
         <div
           style={{

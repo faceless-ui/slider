@@ -1,8 +1,8 @@
 import React from 'react';
-import MarqueeSliderDemo from './MarqueeSliderDemo';
+// import MarqueeSliderDemo from './MarqueeSliderDemo';
 // import FreeScrollSliderDemo from './FreeScrollSliderDemo';
 // import ThumbnailSliderDemo from './ThumbnailSliderDemo';
-// import ScrollSnapSliderDemo from './ScrollSnapSliderDemo';
+import ScrollSnapSliderDemo from './ScrollSnapSliderDemo';
 
 const App: React.FC = () => (
   <div
@@ -15,18 +15,18 @@ const App: React.FC = () => (
       Free Scroll Slider:
     </h1> */}
     {/* <FreeScrollSliderDemo /> */}
-    {/* <h1>
+    <h1>
       Scroll Snap Slider:
-    </h1> */}
-    {/* <ScrollSnapSliderDemo /> */}
+    </h1>
+    <ScrollSnapSliderDemo />
     {/* <h1>
       Thumbnail Slider Demo:
     </h1>
     <ThumbnailSliderDemo /> */}
-    <h1>
+    {/* <h1>
       Marquee Slider Demo
     </h1>
-    <MarqueeSliderDemo />
+    <MarqueeSliderDemo /> */}
   </div>
 );
 

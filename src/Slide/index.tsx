@@ -26,12 +26,12 @@ const Slide: React.FC<SlideProps> = (props) => {
     index,
     htmlElement = 'div',
     children,
-    style: styleFromProps,
+    style,
     onClick: onClickFromProps,
     ...rest
   } = props;
 
-  const [style, setStyle] = useState<React.CSSProperties | undefined>();
+  const [snapStyles, setSnapStyles] = useState<React.CSSProperties | undefined>();
   const slider = useSlider();
   const slideRef = useRef<HTMLElement | null>(null);
 
@@ -70,14 +70,15 @@ const Slide: React.FC<SlideProps> = (props) => {
     index,
   ]);
 
+  // here
   useEffect(() => {
     if (scrollSnap) {
-      setStyle({
+      setSnapStyles({
         scrollSnapStop: 'always',
         scrollSnapAlign: 'start',
       })
     } else {
-      setStyle(undefined);
+      setSnapStyles(undefined);
     }
   }, [scrollSnap]);
 
@@ -101,7 +102,7 @@ const Slide: React.FC<SlideProps> = (props) => {
     flexShrink: 0,
     width: slideWidth,
     ...style || {},
-    ...styleFromProps || {},
+    ...snapStyles || {},
   }
 
   return (
