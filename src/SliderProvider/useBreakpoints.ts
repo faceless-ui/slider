@@ -32,6 +32,8 @@ export const useBreakpoints: UseBreakpoints = (props): SliderSettings => {
         }
       })
     }
+
+    setPropsToShow(props);
   }, [props]);
 
   const requestThrottledAnimation = useCallback((): void => {
