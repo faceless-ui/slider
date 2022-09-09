@@ -25,7 +25,8 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
     scrollSnap,
     setIsPaused,
     pauseOnHover,
-    alignLastSlide
+    alignLastSlide,
+    isDragging
   } = sliderContext;
 
   const hasAddedScrollListener = useRef(false);
@@ -85,6 +86,7 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
         track.addEventListener('wheel', (e) => { e.preventDefault() })
       }
     }
+
     return () => {
       if (track) {
         track.removeEventListener('scroll', onScroll);
@@ -98,6 +100,11 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
 
   const ghostSlideWidth = getGhostSlideWidth(sliderContext);
 
+  let scrollSnapType;
+  if (scrollSnap && slideWidth) {
+    scrollSnapType = !isDragging ? 'x mandatory' : 'none';
+  }
+
   return (
     <Tag
       {...{
@@ -107,7 +114,8 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
           display: 'flex',
           overflowX: 'scroll', // NOTE: 'WebkitOverflowScrolling: touch' does not work when 'auto'
           WebkitOverflowScrolling: 'touch',
-          scrollSnapType: (scrollSnap && slideWidth) ? 'x mandatory' : undefined, // NOTE: only apply after slide width has populated
+          // NOTE: only apply after slide width has populated and while NOT dragging
+          scrollSnapType,
           ...style,
         },
         ref: sliderTrackRef,

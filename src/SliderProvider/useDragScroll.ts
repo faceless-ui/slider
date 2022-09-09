@@ -5,6 +5,8 @@ type Args = {
   scrollYAxis?: boolean
   enable?: boolean
   ref: React.MutableRefObject<HTMLDivElement | null>
+  onDrag: () => void
+  onDragEnd: () => void
 }
 
 export type UseDraggable = (args?: Args) => null // eslint-disable-line no-unused-vars
@@ -14,7 +16,9 @@ export const useDraggable: UseDraggable = (args) => {
     buttons = [1, 4, 5], // See https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
     scrollYAxis,
     enable,
-    ref
+    ref,
+    onDrag,
+    onDragEnd
   } = args || {};
 
   // Position of the mouse on the page on mousedown
@@ -37,6 +41,9 @@ export const useDraggable: UseDraggable = (args) => {
         setStartY(e.pageY - ref.current.offsetTop);
         setStartScrollLeft(ref.current.scrollLeft);
         setStartScrollTop(ref.current.scrollTop);
+        if (typeof onDrag === 'function') {
+          onDrag();
+        }
       }
     };
 
@@ -57,15 +64,16 @@ export const useDraggable: UseDraggable = (args) => {
         }
 
         e.preventDefault();
+
         // Position of mouse on the page
         const mouseX = e.pageX - ref.current.offsetLeft;
         const mouseY = e.pageY - ref.current.offsetTop;
         // Distance of the mouse from the origin of the last mousedown event
-        const walkX = mouseX - startX;
-        const walkY = mouseY - startY;
-        // Set element scroll
-        ref.current.scrollLeft = startScrollLeft - walkX;
-        const newScrollTop = startScrollTop - walkY;
+        const xDisplacement = mouseX - startX;
+        const yDisplacement = mouseY - startY;
+        // Finally, set the element's scroll
+        ref.current.scrollLeft = startScrollLeft - xDisplacement;
+        const newScrollTop = startScrollTop - yDisplacement;
         if (scrollYAxis !== false) {
           ref.current.scrollTop = newScrollTop;
         }
@@ -80,6 +88,9 @@ export const useDraggable: UseDraggable = (args) => {
           const childAsElement = child as HTMLElement;
           childAsElement.style.removeProperty('pointer-events');
         });
+        if (typeof onDragEnd === 'function') {
+          onDragEnd();
+        }
       }
     };
 
@@ -101,7 +112,9 @@ export const useDraggable: UseDraggable = (args) => {
     startY,
     scrollYAxis,
     enable,
-    ref
+    ref,
+    onDragEnd,
+    onDrag
   ]);
 
   return null;

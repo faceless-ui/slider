@@ -19,6 +19,7 @@ export interface ISliderContext extends Omit<SliderProviderProps, 'children'> {
   slideWidth?: string
   isPaused?: boolean
   setIsPaused: (is: boolean) => void // eslint-disable-line no-unused-vars
+  isDragging: boolean
 }
 
 export const SliderContext = createContext<ISliderContext>({} as ISliderContext);

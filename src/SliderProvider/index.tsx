@@ -79,6 +79,7 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
   const [isPaused, setIsPaused] = useState(false);
   const [isFullyScrolled, setIsFullyScrolled] = useState(false);
   const sliderTrackRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const [sliderState, dispatchSliderState] = useReducer(reducer, {
     currentSlideIndex: slideIndexFromProps,
@@ -89,7 +90,9 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
   useDragScroll({
     ref: sliderTrackRef,
     scrollYAxis: false,
-    enable: dragScroll || (scrollable && dragScroll !== false)
+    enable: dragScroll || (scrollable && dragScroll !== false),
+    onDrag: () => { setIsDragging(true) },
+    onDragEnd: () => { setIsDragging(false) },
   });
 
   useMarquee({
@@ -206,7 +209,8 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
     setIsPaused,
     isPaused,
     pauseOnHover,
-    alignLastSlide
+    alignLastSlide,
+    isDragging
   };
 
   return (
