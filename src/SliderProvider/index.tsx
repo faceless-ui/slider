@@ -12,6 +12,7 @@ import { useBreakpoints } from './useBreakpoints';
 import { useMarquee } from './useMarquee';
 import { useAutoplay } from './useAutoplay';
 import { useScrollToIndex } from './useScrollToIndex';
+import { nanoid } from 'nanoid';
 
 export type ChildFunction = (context: ISliderContext) => React.ReactNode; // eslint-disable-line no-unused-vars
 
@@ -36,6 +37,7 @@ export type SliderProviderProps = SliderSettings & {
   currentSlideIndex?: number
   onSlide?: (index: number) => void // eslint-disable-line no-unused-vars
   pause?: boolean
+  id?: string
   breakpoints?: {
     [key: string]: Omit<SliderProviderProps, "children" | "breakpoints">
   }
@@ -47,7 +49,15 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
     currentSlideIndex: slideIndexFromProps = 0,
     onSlide,
     pause,
+    id: idFromProps
   } = props;
+
+  // NOTE: the 'aria-controls' attribute relies on this matching IDs
+  const [id, setID] = useState(() => idFromProps || nanoid(6));
+
+  useEffect(() => {
+    setID(idFromProps || nanoid(6));
+  }, [idFromProps])
 
   const settings = useBreakpoints(props);
 
@@ -210,7 +220,8 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
     isPaused,
     pauseOnHover,
     alignLastSlide,
-    isDragging
+    isDragging,
+    id
   };
 
   return (

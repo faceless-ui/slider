@@ -23,7 +23,8 @@ const SliderButton: React.FC<SliderButtonProps> = (props) => {
     goToNextSlide,
     setIsPaused,
     pauseOnHover,
-    goToSlideIndex
+    goToSlideIndex,
+    id: idFromContext
   } = useSlider();
 
   const handleClick = useCallback((e: MouseEvent<HTMLElement>) => {
@@ -51,10 +52,16 @@ const SliderButton: React.FC<SliderButtonProps> = (props) => {
     index
   ]);
 
+  let ariaLabel = direction === 'prev' ? 'Go to previous slide' : 'Go to next slide';
+  if (!direction && typeof index === 'number') {
+    ariaLabel = `Go to slide ${index}`;
+  }
+
   return (
     <Tag
       type="button"
-      aria-label={direction === 'prev' ? 'Go to previous slide' : 'Go to next slide'}
+      aria-label={ariaLabel}
+      aria-controls={`slider-track_${idFromContext}`}
       {...rest}
       onClick={handleClick}
       onMouseEnter={() => {
