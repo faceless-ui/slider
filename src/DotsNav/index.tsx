@@ -22,7 +22,8 @@ const DotsNav: React.FC<DotsNavProps> = (props) => {
     slides,
     setIsPaused,
     pauseOnHover,
-    goToSlideIndex
+    goToSlideIndex,
+    id: idFromContext
   } = useSlider();
 
   const dotsArray = Array.from(Array(slides.length || 0).keys());
@@ -42,6 +43,8 @@ const DotsNav: React.FC<DotsNavProps> = (props) => {
 
         return (
           <button
+            aria-label={`Go to previous slide ${index + 1}`}
+            aria-controls={`slider-track_${idFromContext}`}
             key={index}
             {...buttonProps}
             onClick={(e) => {

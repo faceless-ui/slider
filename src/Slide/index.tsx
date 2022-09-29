@@ -43,6 +43,7 @@ const Slide: React.FC<SlideProps> = (props) => {
     slideOnSelect,
     scrollSnap,
     scrollOffset,
+    slides
   } = slider;
 
   const prevIntersection = useRef<boolean | undefined>();
@@ -98,20 +99,22 @@ const Slide: React.FC<SlideProps> = (props) => {
   ]);
 
   const Tag = htmlElement as React.ElementType;
-  const mergedStyle = {
-    flexShrink: 0,
-    width: slideWidth,
-    ...style || {},
-    ...snapStyles || {},
-  }
 
   return (
     <Tag
       {...{
         ref: slideRef,
         onClick: handleClick,
+        role: "group",
+        'aria-roledescription': "slide",
+        'aria-label': `${index + 1} of ${slides?.length || 0}`, // NOTE: do not include the keyword "slide"
         ...rest,
-        style: mergedStyle,
+        style: {
+          flexShrink: 0,
+          width: slideWidth,
+          ...style || {},
+          ...snapStyles || {},
+        },
       }}
     >
       {children && children}

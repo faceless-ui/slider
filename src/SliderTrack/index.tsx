@@ -26,7 +26,9 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
     setIsPaused,
     pauseOnHover,
     alignLastSlide,
-    isDragging
+    isDragging,
+    autoPlay,
+    id: idFromContext,
   } = sliderContext;
 
   const hasAddedScrollListener = useRef(false);
@@ -108,6 +110,9 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
   return (
     <Tag
       {...{
+        // NOTE: the 'aria-controls' attribute of the toggler should match this ID
+        id: `slider-track_${idFromContext}`,
+        'aria-live': autoPlay ? "polite" : "off", // announce slide changes to screen readers when autoplay is enabled
         ...rest,
         style: {
           position: 'relative',
@@ -121,9 +126,11 @@ const SliderTrack: React.FC<SliderTrackProps> = (props) => {
         ref: sliderTrackRef,
         onMouseEnter: () => {
           if (pauseOnHover) setIsPaused(true);
+          // TODO: fire external methods from props, too
         },
         onMouseLeave: () => {
           if (pauseOnHover) setIsPaused(false);
+          // TODO: fire external methods from props, too
         },
       }}
     >

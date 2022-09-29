@@ -44,6 +44,7 @@
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "dependencies": {
+    "nanoid": "^4.0.0",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
