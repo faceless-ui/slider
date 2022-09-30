@@ -36,7 +36,7 @@ const SliderButton: React.FC<SliderButtonProps> = (props) => {
       goToNextSlide();
     }
 
-    if (!direction && index) {
+    if (!direction && index !== undefined) {
       goToSlideIndex(index);
     }
 
@@ -54,7 +54,7 @@ const SliderButton: React.FC<SliderButtonProps> = (props) => {
 
   let ariaLabel = direction === 'prev' ? 'Go to previous slide' : 'Go to next slide';
   if (!direction && typeof index === 'number') {
-    ariaLabel = `Go to slide ${index}`;
+    ariaLabel = `Go to slide ${index + 1}`;
   }
 
   return (
