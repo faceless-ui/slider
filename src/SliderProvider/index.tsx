@@ -12,7 +12,7 @@ import { useBreakpoints } from './useBreakpoints';
 import { useMarquee } from './useMarquee';
 import { useAutoplay } from './useAutoplay';
 import { useScrollToIndex } from './useScrollToIndex';
-import { nanoid } from 'nanoid';
+import { makeID } from '../makeID';
 
 export type ChildFunction = (context: ISliderContext) => React.ReactNode; // eslint-disable-line no-unused-vars
 
@@ -53,10 +53,10 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
   } = props;
 
   // NOTE: the 'aria-controls' attribute relies on this matching IDs
-  const [id, setID] = useState(() => idFromProps || nanoid(6));
+  const [id, setID] = useState(() => idFromProps || makeID(5));
 
   useEffect(() => {
-    setID(idFromProps || nanoid(6));
+    setID(idFromProps || makeID(5));
   }, [idFromProps])
 
   const settings = useBreakpoints(props);
