@@ -1,14 +1,14 @@
 import React, { HTMLProps } from 'react';
 import useSlider from '../useSlider';
 
-export interface DotsNavProps extends HTMLProps<HTMLElement> {
+export interface DotNavProps extends HTMLProps<HTMLElement> {
   htmlElement?: React.ElementType
   dotClassName?: string
   activeDotClassName?: string
   buttonProps?: HTMLProps<HTMLButtonElement>
 }
 
-const DotsNav: React.FC<DotsNavProps> = (props) => {
+const DotNav: React.FC<DotNavProps> = (props) => {
   const {
     htmlElement: Tag = 'div',
     dotClassName,
@@ -66,4 +66,4 @@ const DotsNav: React.FC<DotsNavProps> = (props) => {
   );
 };
 
-export default DotsNav;
+export default DotNav;
