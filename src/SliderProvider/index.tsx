@@ -52,7 +52,7 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
     id: idFromProps
   } = props;
 
-  // NOTE: the 'aria-controls' attribute relies on this matching IDs
+  // NOTE: some ARIA attributes rely on matching IDs
   const uniqueID = useId();
   const id = idFromProps || uniqueID;
 
