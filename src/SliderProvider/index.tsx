@@ -1,6 +1,7 @@
 import React, {
   useEffect,
   useId,
+  useMemo,
   useReducer,
   useRef,
   useState,
@@ -82,7 +83,6 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
   const scrollable = scrollableFromProps === undefined ? useFreeScroll : scrollableFromProps;
 
   const [scrollRatio, setScrollRatio] = useState(0);
-  const [slideWidth, setSlideWidth] = useState<string | undefined>();
   const [isPaused, setIsPaused] = useState(false);
   const [isFullyScrolled, setIsFullyScrolled] = useState(false);
   const sliderTrackRef = useRef<HTMLDivElement>(null);
@@ -93,6 +93,10 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
     selectedSlideIndex: undefined,
     slides: [],
   });
+
+  const memoizedSlideWidth = useMemo(() => {
+    return `${(slidesToShow > 1 ? 1 / slidesToShow : slidesToShow) * 100}%`
+  }, [slidesToShow]);
 
   useDragScroll({
     ref: sliderTrackRef,
@@ -132,13 +136,6 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
   useEffect(() => {
     smoothscroll.polyfill(); // enables scrollTo.behavior: 'smooth' on Safari
   }, []);
-
-  useEffect(() => {
-    const newSlideWidth = `${(slidesToShow > 1 ? 1 / slidesToShow : slidesToShow) * 100}%`;
-    setSlideWidth(newSlideWidth);
-  }, [
-    slidesToShow,
-  ]);
 
   // let user control pause, if they need to
   useEffect(() => {
@@ -206,7 +203,7 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
       });
     },
     autoPlay,
-    slideWidth,
+    slideWidth: memoizedSlideWidth,
     slidesToShow,
     slideOnSelect,
     scrollable,
