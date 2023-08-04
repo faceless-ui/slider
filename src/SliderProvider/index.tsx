@@ -218,6 +218,7 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
     pauseOnHover,
     alignLastSlide,
     isDragging,
+    marquee: Boolean(marquee),
     id
   };
 
