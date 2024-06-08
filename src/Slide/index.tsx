@@ -6,8 +6,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import useSlider from '../useSlider';
-import useIntersection from './useIntersection';
+import { useSlider } from '../useSlider/index.js';
+import { useIntersection } from './useIntersection.js';
 
 export interface ISlide {
   index: number
@@ -21,7 +21,7 @@ export interface SlideProps extends HTMLProps<HTMLElement> {
   children?: React.ReactNode
 }
 
-const Slide: React.FC<SlideProps> = (props) => {
+export const Slide: React.FC<SlideProps> = (props) => {
   const {
     index,
     htmlElement = 'div',
@@ -121,5 +121,3 @@ const Slide: React.FC<SlideProps> = (props) => {
     </Tag>
   );
 };
-
-export default Slide;

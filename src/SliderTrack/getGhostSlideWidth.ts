@@ -1,4 +1,4 @@
-import { ISliderContext } from "../SliderProvider/context";
+import type { ISliderContext } from "../SliderProvider/context.js";
 
 export type GetGhostSlideWidth = (sliderContext: ISliderContext) => string; // eslint-disable-line no-unused-vars
 

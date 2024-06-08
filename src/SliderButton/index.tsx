@@ -1,5 +1,5 @@
 import React, { HTMLProps, MouseEvent, useCallback } from 'react';
-import useSlider from '../useSlider';
+import { useSlider } from '../useSlider/index.js';
 
 export interface SliderButtonProps extends HTMLProps<HTMLElement> {
   htmlElement?: React.ElementType
@@ -8,7 +8,7 @@ export interface SliderButtonProps extends HTMLProps<HTMLElement> {
   direction?: 'prev' | 'next'
 }
 
-const SliderButton: React.FC<SliderButtonProps> = (props) => {
+export const SliderButton: React.FC<SliderButtonProps> = (props) => {
   const {
     htmlElement: Tag = 'button',
     children,
@@ -75,5 +75,3 @@ const SliderButton: React.FC<SliderButtonProps> = (props) => {
     </Tag>
   );
 };
-
-export default SliderButton;

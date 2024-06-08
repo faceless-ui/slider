@@ -5,7 +5,7 @@ import {
   SliderNav,
   SliderProgress,
   SliderTrack,
-} from '../../src'; // swap '../src' for '../dist/build.bundle' to demo production build
+} from '@faceless-ui/slider';
 
 const ThumbnailSliderDemo: React.FC = () => {
   const [index, setIndex] = useState(0);

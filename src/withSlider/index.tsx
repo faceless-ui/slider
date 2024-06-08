@@ -1,7 +1,7 @@
 import React from 'react';
-import useSlider from '../useSlider';
+import { useSlider } from '../useSlider/index.js';
 
-const withSlider = <P extends Record<string, unknown>>(
+export const withSlider = <P extends Record<string, unknown>>(
   PassedComponent: React.ComponentType<P>,
 ): React.FC<P> => {
   const SliderContextWrap: React.FC<P> = (props) => {
@@ -19,5 +19,3 @@ const withSlider = <P extends Record<string, unknown>>(
 
   return SliderContextWrap;
 };
-
-export default withSlider;

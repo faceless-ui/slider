@@ -3,7 +3,7 @@ import {
   SliderProvider,
   Slide,
   SliderTrack,
-} from '../../src'; // swap '../src' for '../dist/build.bundle' to demo production build
+} from '@faceless-ui/slider';
 
 // NOTE: this components test both internal breakpoints and external breakpoints
 

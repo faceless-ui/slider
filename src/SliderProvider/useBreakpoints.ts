@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { SliderProviderProps, SliderSettings } from './';
+import { SliderProviderProps, SliderSettings } from './index.js';
 
 export type UseBreakpoints = (args: SliderProviderProps) => SliderSettings // eslint-disable-line no-unused-vars
 

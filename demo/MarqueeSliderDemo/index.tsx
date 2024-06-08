@@ -3,7 +3,7 @@ import {
   SliderProvider,
   Slide,
   SliderTrack,
-} from '../../src'; // swap '../../src' for '../../dist' to demo production build
+} from '@faceless-ui/slider';
 
 const MarqueeSliderDemo: React.FC = () => (
   <Fragment>
