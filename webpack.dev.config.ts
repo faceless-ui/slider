@@ -1,4 +1,5 @@
 import path from 'path';
+/// <reference path="node_modules/webpack-dev-server/types/lib/Server.d.ts"/>
 import webpack from 'webpack';
 import HtmlWebPackPlugin from 'html-webpack-plugin';
 import { fileURLToPath } from 'node:url'
