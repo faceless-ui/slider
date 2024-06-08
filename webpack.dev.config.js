@@ -23,6 +23,10 @@ export default {
         options: {
           transpileOnly: true,
         },
+        compilerOptions: {
+          module: "ESNext",
+          moduleResolution: "node",
+        }
       }
     ],
   },
