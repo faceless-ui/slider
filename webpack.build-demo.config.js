@@ -1,12 +1,11 @@
 import path from 'path';
-import webpack from 'webpack';
 import HtmlWebPackPlugin from 'html-webpack-plugin';
 import { fileURLToPath } from 'node:url'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const config: webpack.Configuration = {
+const config = {
   devtool: 'source-map',
   mode: 'production',
   entry: path.resolve(dirname, 'demo/index.tsx'),
