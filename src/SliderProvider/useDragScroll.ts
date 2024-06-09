@@ -119,5 +119,3 @@ export const useDraggable: UseDraggable = (args) => {
 
   return null;
 };
-
-export default useDraggable;

@@ -1,6 +1,6 @@
 import React, { HTMLProps, useRef } from 'react';
-import useSlider from '../useSlider';
-import SliderButton, { SliderButtonProps } from '../SliderButton';
+import { useSlider } from '../useSlider/index.js';
+import { SliderButton, SliderButtonProps } from '../SliderButton/index.js';
 
 export interface CounterProps extends HTMLProps<HTMLElement> {
   htmlElement?: React.ElementType
@@ -14,7 +14,7 @@ export interface SliderNavProps extends HTMLProps<HTMLElement> {
   showCounter?: boolean
 }
 
-const SliderNav: React.FC<SliderNavProps> = (props) => {
+export const SliderNav: React.FC<SliderNavProps> = (props) => {
   const {
     htmlElement: Tag = 'div',
     prevButtonProps,
@@ -67,5 +67,3 @@ const SliderNav: React.FC<SliderNavProps> = (props) => {
     </Tag>
   );
 };
-
-export default SliderNav;

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { Action } from "./reducer";
+import { Action } from "./reducer.js";
 
 type Args = {
   sliderTrackRef: React.MutableRefObject<HTMLDivElement | null>

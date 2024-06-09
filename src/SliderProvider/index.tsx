@@ -6,13 +6,13 @@ import React, {
   useState,
 } from 'react';
 import smoothscroll from 'smoothscroll-polyfill';
-import SliderContext, { ISliderContext } from './context';
-import reducer from './reducer';
-import useDragScroll from './useDragScroll';
-import { useBreakpoints } from './useBreakpoints';
-import { useMarquee } from './useMarquee';
-import { useAutoplay } from './useAutoplay';
-import { useScrollToIndex } from './useScrollToIndex';
+import { SliderContext, type ISliderContext } from './context.js';
+import { reducer } from './reducer.js';
+import { useDraggable as useDragScroll } from './useDragScroll.js';
+import { useBreakpoints } from './useBreakpoints.js';
+import { useMarquee } from './useMarquee.js';
+import { useAutoplay } from './useAutoplay.js';
+import { useScrollToIndex } from './useScrollToIndex.js';
 
 export type ChildFunction = (context: ISliderContext) => React.ReactNode; // eslint-disable-line no-unused-vars
 
@@ -43,7 +43,7 @@ export type SliderProviderProps = SliderSettings & {
   }
 }
 
-const SliderProvider: React.FC<SliderProviderProps> = (props) => {
+export const SliderProvider: React.FC<SliderProviderProps> = (props) => {
   const {
     children,
     currentSlideIndex: slideIndexFromProps = 0,
@@ -229,5 +229,3 @@ const SliderProvider: React.FC<SliderProviderProps> = (props) => {
     </SliderContext.Provider>
   );
 };
-
-export default SliderProvider;

@@ -1,5 +1,5 @@
 import React, { HTMLProps } from 'react';
-import useSlider from '../useSlider';
+import { useSlider } from '../useSlider/index.js';
 
 export interface DotNavProps extends HTMLProps<HTMLElement> {
   htmlElement?: React.ElementType
@@ -8,7 +8,7 @@ export interface DotNavProps extends HTMLProps<HTMLElement> {
   buttonProps?: HTMLProps<HTMLButtonElement>
 }
 
-const DotNav: React.FC<DotNavProps> = (props) => {
+export const DotNav: React.FC<DotNavProps> = (props) => {
   const {
     htmlElement: Tag = 'div',
     dotClassName,
@@ -65,5 +65,3 @@ const DotNav: React.FC<DotNavProps> = (props) => {
     </Tag>
   );
 };
-
-export default DotNav;

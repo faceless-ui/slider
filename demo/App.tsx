@@ -1,9 +1,9 @@
 import React from 'react';
-import ResponsiveSlider from './ResponsiveSlider';
-// import MarqueeSliderDemo from './MarqueeSliderDemo';
-// import FreeScrollSliderDemo from './FreeScrollSliderDemo';
-// import ThumbnailSliderDemo from './ThumbnailSliderDemo';
-// import ScrollSnapSliderDemo from './ScrollSnapSliderDemo';
+import ResponsiveSlider from './ResponsiveSlider/index.js';
+// import MarqueeSliderDemo from './MarqueeSliderDemo/index.js';
+// import FreeScrollSliderDemo from './FreeScrollSliderDemo/index.js';
+// import ThumbnailSliderDemo from './ThumbnailSliderDemo/index.js';
+// import ScrollSnapSliderDemo from './ScrollSnapSliderDemo/index.js';
 
 const App: React.FC = () => (
   <div

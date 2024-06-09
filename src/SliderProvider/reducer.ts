@@ -1,4 +1,4 @@
-import { ISlide } from '../Slide';
+import type { ISlide } from '../Slide/index.js';
 
 export type SliderState = {
   currentSlideIndex: number
@@ -41,7 +41,7 @@ export type Action = GO_TO_PREV_SLIDE
   | GO_TO_SLIDE_INDEX
   | GO_TO_NEXT_SLIDE
 
-const reducer = (
+export const reducer = (
   state: SliderState,
   action: Action,
 ): SliderState => {
@@ -141,5 +141,3 @@ const reducer = (
 
   return newState;
 };
-
-export default reducer;

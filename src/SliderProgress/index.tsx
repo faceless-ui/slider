@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import useSlider from '../useSlider';
+import { useSlider } from '../useSlider/index.js';
 
 export interface ProgressIndicatorProps extends HTMLProps<HTMLDivElement> {
   htmlElement?: React.ElementType
@@ -20,7 +20,7 @@ type SegmentStyle = {
   left?: string
 }
 
-const SliderProgress: React.FC<SliderProgressProps> = (props) => {
+export const SliderProgress: React.FC<SliderProgressProps> = (props) => {
   const {
     htmlElement: Tag = 'div',
     style,
@@ -107,5 +107,3 @@ const SliderProgress: React.FC<SliderProgressProps> = (props) => {
     </Tag>
   );
 };
-
-export default SliderProgress;

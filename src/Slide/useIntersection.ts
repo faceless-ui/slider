@@ -6,7 +6,7 @@ type Options = {
   threshold?: number
 }
 
-const useIntersection = (
+export const useIntersection = (
   ref: React.MutableRefObject<HTMLElement | null>,
   options?: Options,
 ): IntersectionObserverEntry => {
@@ -52,5 +52,3 @@ const useIntersection = (
 
   return intersection;
 };
-
-export default useIntersection;

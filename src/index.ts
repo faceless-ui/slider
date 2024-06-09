@@ -1,13 +1,10 @@
-export { default as Slide } from './Slide';
-export { default as SliderProvider } from './SliderProvider';
-export { default as SliderContext } from './SliderProvider/context';
-export { default as SliderButton } from './SliderButton';
-export { default as SliderNav } from './SliderNav';
-export { default as SliderProgress } from './SliderProgress';
-export { default as SliderTrack } from './SliderTrack';
-export { default as useSlider } from './useSlider';
-export { default as withSlider } from './withSlider';
-export {
-  default as DotNav,
-  default as DotsNav // for backward compatibility
-} from './DotNav';
+export { Slide } from './Slide/index.js';
+export { SliderProvider } from './SliderProvider/index.js';
+export { SliderContext } from './SliderProvider/context.js';
+export { SliderButton } from './SliderButton/index.js';
+export { SliderNav } from './SliderNav/index.js';
+export { SliderProgress } from './SliderProgress/index.js';
+export { SliderTrack } from './SliderTrack/index.js';
+export { useSlider } from './useSlider/index.js';
+export { withSlider } from './withSlider/index.js';
+export { DotNav } from './DotNav/index.js';

@@ -6,7 +6,7 @@ import {
   SliderProgress,
   SliderTrack,
   DotNav
-} from '../../src'; // swap '../../src' for '../../dist' to demo production build
+} from '@faceless-ui/slider';
 
 const FreeScrollSliderDemo: React.FC = () => (
   <Fragment>

@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { MutableRefObject } from 'react';
-import { ISlide } from '../Slide';
-import { SliderProviderProps } from '../SliderProvider';
+import type { ISlide } from '../Slide/index.js';
+import type { SliderProviderProps } from '../SliderProvider/index.js';
 
 export interface ISliderContext extends Omit<SliderProviderProps, 'children'> {
   slidesToShow: number // NOTE: this is made required, the provider sets fallback if undefined in incoming props
@@ -23,5 +23,3 @@ export interface ISliderContext extends Omit<SliderProviderProps, 'children'> {
 }
 
 export const SliderContext = createContext<ISliderContext>({} as ISliderContext);
-
-export default SliderContext;

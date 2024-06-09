@@ -1,13 +1,13 @@
 import React, { HTMLProps, useCallback, useEffect, useRef } from 'react';
-import useSlider from '../useSlider';
-import { getGhostSlideWidth } from './getGhostSlideWidth';
+import { useSlider } from '../useSlider/index.js';
+import { getGhostSlideWidth } from './getGhostSlideWidth.js';
 
 export interface SliderTrackProps extends HTMLProps<HTMLElement> {
   htmlElement?: React.ElementType
   children?: React.ReactNode
 }
 
-const SliderTrack: React.FC<SliderTrackProps> = (props) => {
+export const SliderTrack: React.FC<SliderTrackProps> = (props) => {
   const {
     htmlElement: Tag = 'div',
     children,
