@@ -21,12 +21,14 @@ export const SliderTrack: React.FC<SliderTrackProps> = (props) => {
     sliderTrackRef,
     setScrollRatio,
     slideWidth,
+    slidesToShow,
     scrollable,
     scrollSnap,
     setIsPaused,
     pauseOnHover,
     alignLastSlide,
     isDragging,
+    marquee,
     autoPlay,
     id: idFromContext,
   } = sliderContext;
@@ -58,6 +60,34 @@ export const SliderTrack: React.FC<SliderTrackProps> = (props) => {
     sliderTrackRef,
     getScrollRatio,
   ]);
+
+  // NOTE: adds infinite scroll when marquee is enabled
+  useEffect(() => {
+    const track = sliderTrackRef.current;
+    if (marquee && track) {
+      const clones = track?.querySelectorAll('.marquee-clone');
+      clones?.forEach(clone => clone.remove());
+
+      const firstSlide = track.firstElementChild;
+      if (firstSlide) {
+        let selectedSlide = firstSlide
+
+        for (let i = 0; i < slidesToShow; i++) {
+          if (i !== 0) {
+            selectedSlide = selectedSlide.nextSibling as HTMLElement;
+          }
+
+          const clone = selectedSlide.cloneNode(true) as HTMLElement;
+          clone.style.width = `${100 / slidesToShow}%`;
+          clone.classList.add('marquee-clone');
+
+          if (clone) {
+            track.appendChild(clone);
+          }
+        }
+      }
+    }
+  }, [sliderTrackRef, marquee, scrollSnap, slidesToShow]);
 
   // NOTE: handle updates to the track's current scroll, which could originate from either the user or the program
   useEffect(() => {
