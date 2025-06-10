@@ -32,7 +32,7 @@ export const SliderTrack: React.FC<SliderTrackProps> = (props) => {
   } = sliderContext;
 
   const hasAddedScrollListener = useRef(false);
-  const animationFrameID = useRef<number | undefined>();
+  const animationFrameID = useRef<number | undefined>(undefined);
 
   const getScrollRatio = useCallback(() => {
     const track = sliderTrackRef.current;

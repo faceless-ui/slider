@@ -22,7 +22,7 @@ export const useAutoplay: UseAutoplay = (args) => {
   } = args;
 
   const animationRef = useRef<number | null>(null);
-  const autoplayTimer = useRef<ReturnType<typeof setTimeout>>();
+  const autoplayTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const startAutoplay = useCallback(() => {
     autoplayTimer.current = setInterval(() => {

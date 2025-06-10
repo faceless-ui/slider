@@ -19,8 +19,8 @@ export const useMarquee: UseMarquee = (args) => {
     marqueeSpeed // NOTE: this is technically a requested frame rate
   } = args;
 
-  const animationRef = useRef<number | undefined>();
-  const prevTimestamp = useRef<number | undefined>();
+  const animationRef = useRef<number | undefined>(undefined);
+  const prevTimestamp = useRef<number | undefined>(undefined);
   const timeSincePrev = useRef<number>(0);
 
   const scroll = useCallback((timestamp: number) => {

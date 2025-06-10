@@ -20,8 +20,8 @@ export const useScrollToIndex: UseScrollToIndex = (args) => {
     sliderTrackRef
   } = args;
 
-  const animationRef = useRef<number | undefined>();
-  const prevScrollIndex = useRef<number | undefined>();
+  const animationRef = useRef<number | undefined>(undefined);
+  const prevScrollIndex = useRef<number | undefined>(undefined);
 
   const scrollToIndex = useCallback((incomingSlideIndex: number) => {
     const hasIndex = sliderState.slides[incomingSlideIndex];

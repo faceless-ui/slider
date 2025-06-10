@@ -46,7 +46,7 @@ export const Slide: React.FC<SlideProps> = (props) => {
     slides
   } = slider;
 
-  const prevIntersection = useRef<boolean | undefined>();
+  const prevIntersection = useRef<boolean | undefined>(undefined);
 
   const { isIntersecting } = useIntersection(slideRef, {
     root: sliderTrackRef,
